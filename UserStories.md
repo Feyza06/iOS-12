@@ -17,14 +17,15 @@
    9. As a pet owner, I want to be able to communicate with potential adopters through the app so that I can ask questions and get to know them before finalizing the adoption.
    10. As a pet owner, I want to be able to receive feedback from adopters after the adoption so that I can know how my pet is doing in their new home.
 2. Adopters
-   1.	As an adopter, I want to be able to search for pets so that I can find a pet that matches my preferences.
-   2.	As an adopter, I want to be able to adopt a pet so that I can provide a loving home to a pet in need.
-   3.	As an adopter, I want to be able to like my favorite pets so that I can easily return to their profiles later.
-   4.	As an adopter, I want to be able to delete pets from my favorites list so that I can manage my preferred selections.
-   5.	As an adopter, I want to be able to contact pet owners so that I can ask questions or express interest in adopting their pet.
-   6.	As an adopter, I want to be able to view the description of each pet so that I can learn more about their personality, needs, and history.
-   7.	As an adopter, I want to be able to see pictures of the pets so that I can better visualize and connect with them.
-   8.	As an adopter, I want to be able to view a map and see the distance to the pet’s location so that I can plan for travel or logistics.
-   9.	As an adopter, I want to be notified if my favorite pet is adopted so that I can know if they are no longer available.
-   10.	As an adopter, I want to be able to filter my search by distance, pet type, and breed so that I can narrow down my options and find the best match for me.
+   1. As an adopter, I want to be able to create a profile to be able to adopt a pet so that I can provide a loving home to a pet in need.
+   2.	As an adopter, I want to be able to search for pets so that I can find a pet that matches my preferences.
+   3.	As an adopter, I want to be able to filter my search by distance, pet type, and breed so that I can narrow down my options and find the best match for me.
+   4.	As an adopter, I want to be able to like my favorite pets so that I can easily return to their profiles later.
+   5.	As an adopter, I want to be able to delete pets from my favorites list so that I can manage my preferred selections.
+   6.	As an adopter, I want to be able to contact pet owners so that I can ask questions or express interest in adopting their pet.
+   7.	As an adopter, I want to be able to view the description of each pet so that I can learn more about their personality, needs, and history.
+   8.	As an adopter, I want to be able to see pictures of the pets so that I can better visualize and connect with them.
+   9.	As an adopter, I want to be able to view a map and see the distance to the pet’s location so that I can plan for travel or logistics.
+   10.	As an adopter, I want to be notified if my favorite pet is adopted so that I can know if they are no longer available.
+  
 
