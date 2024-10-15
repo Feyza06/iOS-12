@@ -13,12 +13,12 @@
     5. As a pet owner, I want to be able to receive notifications when someone is interested in adopting my pet so that I can respond quickly.
 2. Adopters
     1. I want to be able to search for pets
-    2. adopt a pet
-    3. like my favorite pets
-    4. delete my favorites
-    5. contact the pet owners
-    6. view the description
-    7. see pictures of the pet
-    8. view the map and see the distance
-    9. be notified if my favorite pet is adopted
-    10. filter my search (distance, pet & breed)
+    2. As an adpoter, I want to be able to adopt a pet.
+    3. As an adopter, I want to be able to like my favorite pets, so that I can view the pet later on.
+    4. As an adopter, I want to be able to delete my favorites when I'm no longer interested.
+    5. As an adopter, I want to be able to contact the pet owners, so I can get negotiate informations.
+    6. As an adopter, I want to be able to view the description, so I can learn more about the pet.
+    7. As an adopter, I want to be able to see pictures of the pet.
+    8. As an adopter, I want to be able to view the map and see the distance, so that I know how far the owner is.
+    9. As an adopter, I want to be able to be notified if my favorite pet is adopted, so that I can search for other pets.
+    10. As an adopter, I want to be able to filter my search (distance, pet & breed), so that I can see the desired pets.
