@@ -6,7 +6,7 @@
 ## User Stories
 
 1. Pet Owners
-   1. As a pet owner, I want to be able to create a profile for my pet so that I can find a new home for them.
+   1. As a pet owner, I want to be able to create a profile for myself so that I can create posts.
    2. As a pet owner, I want to be able to upload pictures of my pet so that potential adopters can see them.
    3. As a pet owner, I want to be able to provide a description of my pet so that potential adopters can learn more about them.
    4. As a pet owner, I want to be able to specify the type of home I am looking for my pet so that I can find the right match.
