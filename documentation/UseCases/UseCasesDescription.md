@@ -62,3 +62,21 @@
 | **Result:**                   |  Actor is logged out successfully.      |  
 | **Extension:**                |  None.                 |    
 | **Exception:**                | None.  | 
+
+| **Name:**                     | Upload Post               |
+|-------------------------------|---------------------|
+| **Actor:**                    |  Pet Owner                   |
+| **Description:**              |  Pet Owner creates a posts for his pet.                   |
+| **Pre-condition:**            |  Actor is logged into their account. |
+| **Scenario:**                 |                     |
+|                               | 1. Actor clicks the upload post button. |
+|                               | 2. System promts the Actor to choose an image.   |
+|                               | 3. Actor uploads desired photo of his pet.  |
+|                               | 4. Systems displays field to enter a description of his pet. |
+|                               | 5. Actor enters a description of the pet, including name, age, breed, and personality traits. |
+|                               | 6. System displays field to specify the preferred home for the pet (e.g. houshold type, presence of other pets, activity level.  |
+|                               | 7. Actor clicks on submit buttom.  |
+|                               | 8. System validates the content and uploads post to the feed. |
+| **Result:**                   | Actor has successfully uploaded a post.                    |  
+| **Extension:**                |                     |    
+| **Exception:**                |                     | 
