@@ -49,3 +49,16 @@
 | **Result:**                   |  Actor is logged in successfully.                   |  
 | **Extension:**                |  None.                 |    
 | **Exception:**                |  4a. If credentials are invalid, system disoplays error message and prompts re-entry.  | 
+
+| **Name:**                     | Log out             |
+|-------------------------------|---------------------|
+| **Actor:**                    | Pet Owner & Pet Adopter |
+| **Decription:**               | Actor logs out of their account. |
+| **Pre-condition:**            | Actor is currently logged into their account.|
+| **Scenario:**                 |                     |
+|                               | 1. Actor clicks on "Log out" button.             |
+|                               | 2. System terminates the current session and logs out user.|
+|                               | 3. System redirects user to home page. |
+| **Result:**                   |  Actor is logged out successfully.      |  
+| **Extension:**                |  None.                 |    
+| **Exception:**                | None.  | 
