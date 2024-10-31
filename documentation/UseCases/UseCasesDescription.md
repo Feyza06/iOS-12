@@ -1,4 +1,4 @@
-# Per Owner 
+# Pet Owner 
 
 ## Create an Account 
 
@@ -94,6 +94,20 @@
 | **Extension:**     | 3a. Actor has notifications disabled.                                                  |    
 | **Exception:**     | 2a. Notification fails to send due to connection issue. System retries to send.        | 
 
+   | **Name:**           | Update Pet Profile                                |
+|---------------------|---------------------------------------------------|
+| **Actor:**          | Pet Owner                                         |
+| **Description:**    | The pet owner updates the pet’s profile to keep information accurate and current. |
+| **Pre-condition:**  | The pet owner must have an account, be logged in, and have an existing pet profile created. |
+| **Scenario:**       | 1. The pet owner selects the "Edit Profile" option on the pet's profile page.  |
+|                     | 2. The system displays the current profile information of the pet.            |
+|                     | 3. The pet owner makes updates to the relevant fields (e.g., name, age, breed, medical history). |
+|                     | 4. The pet owner saves the changes.                                            |
+|                     | 5. The system verifies and updates the profile.               |
+|                     | 6. The system confirms the profile update and displays it to the pet owner.  |
+| **Result:**         | The pet owner sees the updated pet profile with all changes applied.         |
+| **Extension:**      | 5a. If required fields are incomplete, the system prompts the pet owner to complete them before saving. |
+| **Exception:**      | none |
 
 
 | **Name:**                     | search for matching pets|
@@ -152,5 +166,6 @@
 | **Result:**                   | The pet owner receives the message from the adopter, and communication can be initiated. |
 | **Extension:**                |  |
 | **Exception:**                | |
+
 
 
