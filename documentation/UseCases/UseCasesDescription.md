@@ -93,3 +93,18 @@
 | **Result:**        | Actor sees Notification.                                                               |  
 | **Extension:**     | 3a. Actor has notifications disabled.                                                  |    
 | **Exception:**     | 2a. Notification fails to send due to connection issue. System retries to send.        | 
+
+
+
+| **Name:**                     | create profile|
+|-------------------------------|---------------------|
+| **Actor:**                    |  Adopter                   |
+| **Decription:**               |    1.  As an adopter, I want to be able to search for pets so that I can find a pet that matches my preferences.                 |
+| **Pre-condition:**            |     be logged in and have an account                |
+| **Scenario:**                 |                     |
+|                               | 1.   User selects his preferences               |
+|                               | 2.  matching pets pop up and the user can select which one he prefers                 |
+|                               | 3.  User can mark pet as favorite or can message the owner instant                 |
+| **Result:**                   |     Adopter finds matching pet                 |  
+| **Extension:**                |                     |    
+| **Exception:**                |                     |    
