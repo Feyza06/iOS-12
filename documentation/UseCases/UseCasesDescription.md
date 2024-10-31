@@ -123,3 +123,19 @@
 | **Result:**                   | The adopter sees a filtered list of available pets that match the chosen criteria. |
 | **Extension:**                | The adopter can apply additional filters or adjust current filters to further narrow down the results. |
 | **Exception:**                | If no pets match the filter criteria, a message appears stating that no matches were found. |
+
+
+
+| **Name:**                     | remove Pet from favorites        |
+|-------------------------------|----------------------------------|
+| **Actor:**                    | Adopter                          |
+| **Description:**              | The adopter wants to delete pets from their favorites list to manage their preferred selections. |
+| **Pre-condition:**            | The adopter has a list of favorite pets and is on the favorites page. |
+| **Scenario:**                 |                                  |
+|                               | 1. The adopter navigates to their favorites list. |
+|                               | 2. The adopter selects a pet they want to remove. |
+|                               | 3. The pet is removed from the favorites list. |
+| **Result:**                   | The adopter’s favorites list updates, showing only the remaining pets. |
+| **Extension:**                | The adopter can undo the removal if they change their mind immediately after. |
+| **Exception:**                | If the pet cannot be removed due to an error, an error message is displayed. |
+
