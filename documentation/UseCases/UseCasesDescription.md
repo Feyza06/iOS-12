@@ -108,3 +108,18 @@
 | **Result:**                   |     Adopter finds matching pet                 |  
 | **Extension:**                |                     |    
 | **Exception:**                |                     |    
+
+
+
+| **Name:**                     | filter my search                |
+|-------------------------------|----------------------------------|
+| **Actor:**                    | Adopter                          |
+| **Description:**              | The adopter wants to filter search results by distance, pet type, and breed to find the best matches. |
+| **Pre-condition:**            | The adopter is on the search page, and filter options for distance, pet type, and breed are available. |
+| **Scenario:**                 |                                  |
+|                               | 1. The adopter opens the search page. |
+|                               | 2. The adopter selects filter options for distance, pet type, and breed. |
+|                               | 3. The search results update according to the selected filters. |
+| **Result:**                   | The adopter sees a filtered list of available pets that match the chosen criteria. |
+| **Extension:**                | The adopter can apply additional filters or adjust current filters to further narrow down the results. |
+| **Exception:**                | If no pets match the filter criteria, a message appears stating that no matches were found. |
