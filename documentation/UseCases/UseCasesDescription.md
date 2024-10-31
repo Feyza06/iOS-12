@@ -80,3 +80,16 @@
 | **Result:**                   | Actor has successfully uploaded a post.                    |  
 | **Extension:**                |                     |    
 | **Exception:**                |                     | 
+
+| **Name:**          | Receive Notifications                                                                  |
+|--------------------|----------------------------------------------------------------------------------------|
+| **Actor:**         | Pet Owner                                                                              |
+| **Description:**   | Pet Owner receives notification for interaction with pet post or private message.      |
+| **Pre-condition:** | Actor has account and is logged in and created pet post.                               |
+| **Scenario:**      |                                                                                        |
+|                    | 1. A profile interacts with Actor's Post (Like, Comment?) or receives private message. |
+|                    | 2. System notices new interaction and sends fitting notification through app or email. |
+|                    | 3. Actor receives notification.                                                        |
+| **Result:**        | Actor sees Notification.                                                               |  
+| **Extension:**     | 3a. Actor has notifications disabled.                                                  |    
+| **Exception:**     | 2a. Notification fails to send due to connection issue. System retries to send.        | 
