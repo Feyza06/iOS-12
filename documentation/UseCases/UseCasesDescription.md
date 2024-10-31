@@ -96,7 +96,7 @@
 
 
 
-| **Name:**                     | create profile|
+| **Name:**                     | search for matching pets|
 |-------------------------------|---------------------|
 | **Actor:**                    |  Adopter                   |
 | **Decription:**               |    1.  As an adopter, I want to be able to search for pets so that I can find a pet that matches my preferences.                 |
