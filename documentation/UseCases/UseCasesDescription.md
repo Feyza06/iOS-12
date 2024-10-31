@@ -139,3 +139,18 @@
 | **Extension:**                | The adopter can undo the removal if they change their mind immediately after. |
 | **Exception:**                | If the pet cannot be removed due to an error, an error message is displayed. |
 
+
+| **Name:**                     | Contact Pet Owner                |
+|-------------------------------|----------------------------------|
+| **Actor:**                    | Adopter                          |
+| **Description:**              | The adopter wants to contact pet owners to ask questions or express interest in adopting their pet. |
+| **Pre-condition:**            | The adopter is viewing the profile of a pet available for adoption, and contact options are available. |
+| **Scenario:**                 |                                  |
+|                               | 1. The adopter views the profile of a pet they are interested in. |
+|                               | 2. The adopter selects the option to contact the pet owner. |
+|                               | 3. A contact form or message option is provided for the adopter to reach out to the owner. |
+| **Result:**                   | The pet owner receives the message from the adopter, and communication can be initiated. |
+| **Extension:**                |  |
+| **Exception:**                | |
+
+
