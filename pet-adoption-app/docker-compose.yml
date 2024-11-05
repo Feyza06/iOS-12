@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    image: amirakostadinova/pet-adoption-app:latest
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_NAME: postgres-db
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: pet_adoption_db
+    ports:
+      - "5432:5432"
