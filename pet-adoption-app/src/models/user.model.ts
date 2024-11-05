@@ -41,7 +41,7 @@ export class User extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   photo: string;
 

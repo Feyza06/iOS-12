@@ -18,6 +18,6 @@ services:
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: pet_adoption_db
+      POSTGRES_DB: postgres-db
     ports:
       - "5432:5432"
