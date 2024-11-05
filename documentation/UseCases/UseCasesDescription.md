@@ -110,6 +110,20 @@
 | **Exception:**      | none |
 
 
+| **Name:**                     | Mark Adoption Inquiry as Completed              |
+|-------------------------------|---------------------|
+| **Actor:**                    | Pet Owner 
+| **Decription:**               | The Pet Owner marks an adoption inquiry as completed after an adoption is finalized or the inqury is no longer active. |
+| **Pre-condition:**            | The Pet Owner is logged in and has one or moreactive adoption inquiries.|
+| **Scenario:**                 |                     |
+|                               | 1. The Actor opens the list of adoption inquiries.                  |
+|                               | 2.The Actor selects an inquiry and marks it as completed.                 |
+|                               | 3. The system updates the status of the inquiry to "completed".|                                                                               
+| **Result:**                   |  The inquiry is successfully marked as completed, and the pet owner's list of inquiries is updated.|  
+| **Extension:**                |  None.                 |    
+| **Exception:**                |  3a. If there is an error while updating the status, an error message is desplayed, and the system allows the pet owner thr retry.  | 
+
+
 | **Name:**                     | search for matching pets|
 |-------------------------------|---------------------|
 | **Actor:**                    |  Adopter                   |
