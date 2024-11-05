@@ -135,7 +135,24 @@
 |                               | 3.  User can mark pet as favorite or can message the owner instant                 |
 | **Result:**                   |     Adopter finds matching pet                 |  
 | **Extension:**                |                     |    
-| **Exception:**                |                     |    
+| **Exception:**                |                     | 
+
+
+
+
+| **Name:**                     | Provide Feedback              |
+|-------------------------------|---------------------|
+| **Actor:**                    |  Pet Adopter |
+| **Decription:**               | The adopter provides feedback on the adoption process and experience with the pet owner. |
+| **Pre-condition:**            | The adoption has been completed, and the adopter has an account.|
+| **Scenario:**                 |                     |
+|                               | 1. The adopter navigates to the feedback section on their profile or the pet profile.              |
+|                               | 2. The adopter enters feedback section on their profile or the pet profile.                 |
+|                               | 3. The adopter submits the feedback.  
+|                               | 4. The system saves and displays the feedback for the pet owner.  |
+| **Result:**                   |  The pet owner receives the adopter's feedback.                   |  
+| **Extension:**                |  None.                 |    
+| **Exception:**                |  4a. if feedback cannot be saved due to a system error, the system displays an error message.  | 
 
 
 
