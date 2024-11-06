@@ -17,6 +17,9 @@
          <Group
             location = "group:Model"
             name = "Model">
+            <FileRef
+               location = "group:Pet.swift">
+            </FileRef>
          </Group>
          <Group
             location = "group:Extension"
