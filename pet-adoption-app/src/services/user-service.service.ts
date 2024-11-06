@@ -28,8 +28,17 @@ export class UserServiceService {
       password: hashedPassword,
     });
     return savedUser;
+  }
 
-
-
+  async login(email: string, password: string) : Promise<User> {
+    const user = await this.userRepository.findOne({where: {email}});
+    if(!user) {
+      throw new HttpErrors.Unauthorized('Invalid credentials.');
+    }
+    const passwordMatched = await bcrypt.compare(password, user.password);
+    if(!passwordMatched) {
+      throw new HttpErrors.Unauthorized('Invalid credentials.');
+    }
+    return user;
   }
 }
