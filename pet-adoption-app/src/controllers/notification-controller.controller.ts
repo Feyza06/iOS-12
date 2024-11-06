@@ -105,7 +105,7 @@ export class NotificationControllerController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.filter(Notification, {exclude: 'where'}) filter?: FilterExcludingWhere<Notification>
   ): Promise<Notification> {
     return this.notificationRepository.findById(id, filter);
@@ -116,7 +116,7 @@ export class NotificationControllerController {
     description: 'Notification PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -134,7 +134,7 @@ export class NotificationControllerController {
     description: 'Notification PUT success',
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody() notification: Notification,
   ): Promise<void> {
     await this.notificationRepository.replaceById(id, notification);
@@ -144,7 +144,7 @@ export class NotificationControllerController {
   @response(204, {
     description: 'Notification DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.notificationRepository.deleteById(id);
   }
 }
