@@ -14,14 +14,18 @@ struct SignUpView: View {
     @State private var username = ""
     @State private var password = ""
     @State private var isPasswordVisible = false
+<<<<<<< Updated upstream
     @State private var registrationSuccess = false
     @State private var showErrorLabel = false
     @State private var errorMessage:String?
+=======
+    @State private var errorMessage: String?
+    @State private var registrationSuccess: Bool = false
+>>>>>>> Stashed changes
     
     var body: some View {
         NavigationView {
             ZStack {
-                
                 Color(red: 0.55, green: 0.27, blue: 0.07)
                     .ignoresSafeArea()
                 
@@ -40,7 +44,6 @@ struct SignUpView: View {
                         .padding()
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
                     
-                   
                     HStack {
                         TextField("Firstname", text: $firstname)
                             .padding()
@@ -57,7 +60,11 @@ struct SignUpView: View {
                             .foregroundColor(.black)
                     }
                     
+<<<<<<< Updated upstream
                     TextField("Username", text: $username)
+=======
+                    TextField("Mobile", text: $username)
+>>>>>>> Stashed changes
                         .padding()
                         .frame(width: 300, height: 50)
                         .background(Color.black.opacity(0.05))
@@ -101,9 +108,15 @@ struct SignUpView: View {
                         .padding(.leading, -185)
                     }
                     
-                  
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    
                     Button("Sign Up") {
                         if email.isEmpty || firstname.isEmpty || lastName.isEmpty || username.isEmpty || password.isEmpty {
+<<<<<<< Updated upstream
                             //showErrorLabel = true
                             errorMessage = "Please fill out all fields correctly."
                             
@@ -111,6 +124,11 @@ struct SignUpView: View {
                             //howErrorLabel = false
                             registerUser()
                             // Registrierung erfolgreich
+=======
+                            errorMessage = "Please fill out all fields correctly!"
+                        } else {
+                            registerUser()
+>>>>>>> Stashed changes
                         }
                     }
                     .foregroundColor(.white)
@@ -118,6 +136,7 @@ struct SignUpView: View {
                     .background(Color(red: 0.55, green: 0.27, blue: 0.07))
                     .cornerRadius(10)
                     
+<<<<<<< Updated upstream
                   
                     if let errorMessage = errorMessage {
                         Text(errorMessage)
@@ -132,6 +151,8 @@ struct SignUpView: View {
                     }
                     
                     // Link zur Login-Ansicht
+=======
+>>>>>>> Stashed changes
                     HStack {
                         Text("Already have an account?")
                             .fontWeight(.bold)
@@ -151,6 +172,7 @@ struct SignUpView: View {
         }
     }
     
+<<<<<<< Updated upstream
     private func registerUser() {
            let userData: [String: Any] = [
                "firstname": firstname,
@@ -218,9 +240,65 @@ struct SignUpView: View {
 
 
 
+=======
+    func registerUser() {
+        let userData: [String: Any] = [
+            "firstname": firstname,
+            "lastname": lastName,
+            "username": username,
+            "email": email,
+            "password": password
+        ]
+        
+        guard let url = URL(string: "https://localhost:3000/users") else {
+            errorMessage = "Invalid URL"
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: userData, options: [])
+        } catch {
+            errorMessage = "Error serializing JSON: \(error.localizedDescription)"
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    errorMessage = "Network error: \(error.localizedDescription)"
+                }
+                return
+            }
+            
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    errorMessage = "No data received."
+                }
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                DispatchQueue.main.async {
+                    registrationSuccess = true
+                    errorMessage = nil
+                }
+            } else {
+                DispatchQueue.main.async {
+                    errorMessage = "Registration failed. Please try again."
+                }
+            }
+        }.resume()
+    }
+}
+>>>>>>> Stashed changes
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         SignUpView()
     }
 }
+
