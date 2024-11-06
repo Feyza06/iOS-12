@@ -57,7 +57,7 @@ struct LoginView: View {
                     .background(Color(red:0.55, green:0.27, blue: 0.07))
                     .cornerRadius(10)
                     
-                    NavigationLink(destination: Text("You are logged in @\(username)"), isActive: $showingLoginScreen) {
+                    NavigationLink(destination: Text("You are NOT logged in @\(username)"), isActive: $showingLoginScreen) {
                         EmptyView()
                     }
                 }

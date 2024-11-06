@@ -105,7 +105,7 @@ export class MessageControllerController {
     },
   })
   async findById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @param.filter(Message, {exclude: 'where'}) filter?: FilterExcludingWhere<Message>
   ): Promise<Message> {
     return this.messageRepository.findById(id, filter);
@@ -116,7 +116,7 @@ export class MessageControllerController {
     description: 'Message PATCH success',
   })
   async updateById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody({
       content: {
         'application/json': {
@@ -134,7 +134,7 @@ export class MessageControllerController {
     description: 'Message PUT success',
   })
   async replaceById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody() message: Message,
   ): Promise<void> {
     await this.messageRepository.replaceById(id, message);
@@ -144,7 +144,7 @@ export class MessageControllerController {
   @response(204, {
     description: 'Message DELETE success',
   })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
+  async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.messageRepository.deleteById(id);
   }
 }
