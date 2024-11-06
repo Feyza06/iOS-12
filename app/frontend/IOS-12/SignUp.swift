@@ -139,8 +139,8 @@ struct SignUpView: View {
 
     private func registerUser() {
         let userData: [String: Any] = [
-            "firstname": firstname,
-            "lastname": lastName,
+            "firstName": firstname,
+            "lastName": lastName,
             "username": username,
             "email": email,
             "password": password
@@ -181,8 +181,19 @@ struct SignUpView: View {
                 if httpResponse.statusCode == 200 {
                     registrationSuccess = true
                     errorMessage = nil
+                    email = ""
+                    firstname = ""
+                    lastName = ""
+                    username = ""
+                    password = ""
                 } else {
-                    errorMessage = "Registration failed. Server responded with status code: \(httpResponse.statusCode)"
+                    if let data = data,
+                       let responseMessage = try? JSONDecoder().decode([String: String].self, from: data),
+                       let serverMessage = responseMessage["message"] {
+                        errorMessage = "Registration failed: \(serverMessage)"
+                    } else {
+                        errorMessage = "Registration failed. Server responded with status code: \(httpResponse.statusCode)"
+                    }
                 }
             }
         }.resume()
