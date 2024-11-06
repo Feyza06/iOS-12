@@ -13,7 +13,7 @@ struct LoginView: View {
     @State private var wrongUsername: Float = 0
     @State private var wrongPassword: Float  = 0
     @State private var showingLoginScreen = false
-    
+    @State private var errorMessage: String? = nil
     
     var body: some View {
         NavigationView {
@@ -26,13 +26,13 @@ struct LoginView: View {
                 Circle()
                     .scale(1.35)
                     .foregroundColor(Color(red: 1.0, green: 0.89, blue: 0.77))
+                
                 VStack {
                     Text("Login")
                         .font(.largeTitle)
                         .bold()
                         .padding()
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
-                        
                     
                     TextField("Username", text: $username)
                         .padding()
@@ -40,7 +40,6 @@ struct LoginView: View {
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
                         .border(.red, width: CGFloat(wrongUsername))
-                        
                     
                     SecureField("Password", text: $password)
                         .padding()
@@ -49,34 +48,87 @@ struct LoginView: View {
                         .cornerRadius(10)
                         .border(.red, width: CGFloat(wrongPassword))
                     
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    
                     Button("Login") {
-                        authenticateUser(username: username, password: password)
-                        }
+                        loginUser()
+                    }
                     .foregroundColor(.white)
                     .frame(width: 300, height: 50)
                     .background(Color(red:0.55, green:0.27, blue: 0.07))
                     .cornerRadius(10)
                     
-                    NavigationLink(destination: Text("You are logged in @\(username)"), isActive: $showingLoginScreen) {
+                    NavigationLink(destination: Text("You are logged in as \(username)"), isActive: $showingLoginScreen) {
                         EmptyView()
                     }
                 }
-            }.navigationBarHidden(true)
+            }
+            .navigationBarHidden(true)
         }
     }
     
-    func authenticateUser(username: String, password: String) {
-        if username.lowercased() == "mario2021" {
-            wrongUsername = 0
-            if password.lowercased() == "abc123" {
-                wrongPassword = 0
-                showingLoginScreen = true
-            } else {
-                wrongPassword = 2
-            }
-        } else {
-            wrongUsername = 2
+    // MARK: - Login Function
+    private func loginUser() {
+        // Clear previous error messages
+        errorMessage = nil
+        wrongUsername = 0
+        wrongPassword = 0
+        
+        guard let url = URL(string: "http://127.0.0.1:3000/users/login") else {
+            errorMessage = "Invalid URL"
+            return
         }
+        
+        let loginData: [String: Any] = [
+            "email": username, // Adjust if backend expects 'username' or 'email'
+            "password": password
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: loginData, options: [])
+        } catch {
+            errorMessage = "Failed to encode login data."
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    errorMessage = "Network error: \(error.localizedDescription)"
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                DispatchQueue.main.async {
+                    errorMessage = "Invalid server response."
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if httpResponse.statusCode == 200 {
+                    // Login successful, navigate to next screen
+                    showingLoginScreen = true
+                } else if httpResponse.statusCode == 401 {
+                    // Invalid credentials
+                    errorMessage = "Invalid username or password."
+                    wrongUsername = 2
+                    wrongPassword = 2
+                } else {
+                    // Handle other potential server errors
+                    errorMessage = "Login failed with status code: \(httpResponse.statusCode)"
+                }
+            }
+        }.resume()
     }
 }
 
@@ -84,6 +136,7 @@ struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
     }
-
-
 }
+
+
+// Test!
