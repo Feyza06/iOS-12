@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:app/frontend"
+      name = "frontend">
+      <Group
+         location = "group:IOS-12Tests"
+         name = "IOS-12Tests">
+         <FileRef
+            location = "group:IOS_12Tests.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:IOS-12"
+         name = "IOS-12">
+         <FileRef
+            location = "group:Login.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Assets.xcassets">
+         </FileRef>
+         <FileRef
+            location = "group:HomeView.swift">
+         </FileRef>
+         <Group
+            location = "group:Preview Content"
+            name = "Preview Content">
+            <FileRef
+               location = "group:Preview Assets.xcassets">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:SignUp.swift">
+         </FileRef>
+         <FileRef
+            location = "group:ContentView.swift">
+         </FileRef>
+         <FileRef
+            location = "group:IOS_12App.swift">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:IOS-12.xcodeproj">
+      </FileRef>
+      <Group
+         location = "group:IOS-12UITests"
+         name = "IOS-12UITests">
+         <FileRef
+            location = "group:IOS_12UITestsLaunchTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:IOS_12UITests.swift">
+         </FileRef>
+      </Group>
+   </Group>
+</Workspace>
