@@ -1,13 +1,6 @@
-//
-//  ContentView.swift
-//  IOS-12
-//
-//  Created by Feyza Serin on 29.10.24.
-//
-
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
@@ -75,6 +68,7 @@ struct ContentView: View {
         }
     }
 
+
 #Preview {
-    ContentView()
+    HomeView()
 }

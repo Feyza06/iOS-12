@@ -105,7 +105,7 @@ export class LikeControllerController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.filter(Like, {exclude: 'where'}) filter?: FilterExcludingWhere<Like>
   ): Promise<Like> {
     return this.likeRepository.findById(id, filter);
@@ -116,7 +116,7 @@ export class LikeControllerController {
     description: 'Like PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -134,7 +134,7 @@ export class LikeControllerController {
     description: 'Like PUT success',
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody() like: Like,
   ): Promise<void> {
     await this.likeRepository.replaceById(id, like);
@@ -144,7 +144,7 @@ export class LikeControllerController {
   @response(204, {
     description: 'Like DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.likeRepository.deleteById(id);
   }
 }

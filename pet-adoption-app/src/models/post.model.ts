@@ -4,16 +4,11 @@ import {User} from './user.model';
 @model({settings: {strict: false}})
 export class Post extends Entity {
   @property({
-    type: 'string',
+    type: 'number',
     id: true,
     generated: true,
   })
-  id?: string;
-
-
-
-
-
+  id: number;
 
   @property({
     type: 'string',

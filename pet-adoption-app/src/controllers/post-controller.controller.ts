@@ -105,7 +105,7 @@ export class PostControllerController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.filter(Post, {exclude: 'where'}) filter?: FilterExcludingWhere<Post>
   ): Promise<Post> {
     return this.postRepository.findById(id, filter);
@@ -116,7 +116,7 @@ export class PostControllerController {
     description: 'Post PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -134,7 +134,7 @@ export class PostControllerController {
     description: 'Post PUT success',
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody() post: Post,
   ): Promise<void> {
     await this.postRepository.replaceById(id, post);
@@ -144,7 +144,7 @@ export class PostControllerController {
   @response(204, {
     description: 'Post DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.postRepository.deleteById(id);
   }
 }
