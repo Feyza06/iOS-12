@@ -24,15 +24,18 @@
          <Group
             location = "group:Extension"
             name = "Extension">
+            <FileRef
+               location = "group:HomeView.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ContentView.swift">
+            </FileRef>
+            <FileRef
+               location = "group:IOS_12App.swift">
+            </FileRef>
          </Group>
          <FileRef
-            location = "group:Login.swift">
-         </FileRef>
-         <FileRef
             location = "group:Assets.xcassets">
-         </FileRef>
-         <FileRef
-            location = "group:HomeView.swift">
          </FileRef>
          <Group
             location = "group:Preview Content"
@@ -40,16 +43,13 @@
             <FileRef
                location = "group:Preview Assets.xcassets">
             </FileRef>
+            <FileRef
+               location = "group:SignUp.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Login.swift">
+            </FileRef>
          </Group>
-         <FileRef
-            location = "group:SignUp.swift">
-         </FileRef>
-         <FileRef
-            location = "group:ContentView.swift">
-         </FileRef>
-         <FileRef
-            location = "group:IOS_12App.swift">
-         </FileRef>
       </Group>
       <FileRef
          location = "group:IOS-12.xcodeproj">
