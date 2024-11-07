@@ -123,6 +123,7 @@
 | **Extension:**                |  None.                 |    
 | **Exception:**                |  3a. If there is an error while updating the status, an error message is desplayed, and the system allows the pet owner thr retry.  | 
 
+# Pet Adopter
 
 | **Name:**                     | search for matching pets|
 |-------------------------------|---------------------|
@@ -214,4 +215,18 @@
 | **Result:**                   |  Actor is logged in successfully.                   |  
 | **Extension:**                |  None.                 |    
 | **Exception:**                |  4a. If credentials are invalid, system disoplays error message and prompts re-entry.  | 
+
+
+| **Name:**                     | Map distance to pet location             
+|-------------------------------|---------------------|
+| **Actor:**                    |  Pet Adopter |
+| **Decription:**               | Adopter views a map showing the pet's location to assess distance. |
+| **Pre-condition:**            | Adopter is viewing the pet profile, and location data is available.|
+| **Scenario:**                 |                     |
+|                               | 1. Adopter opens the pet's location on the map.                 |
+|                               | 2. System displays a map showing the pet's approximate location and distance from the adopter.   |            |                             
+| **Result:**                   |  Adopter sees the pet's location on the map.                   |  
+| **Extension:**                |  2a. Adopter can get directions or stimate travel time.                 |    
+| **Exception:**                |  4a. If map data is unavailable, the systemdisplays an error message.  | 
+
 
