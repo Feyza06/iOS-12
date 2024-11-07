@@ -61,6 +61,7 @@ struct SignUpView: View {
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
                         .foregroundColor(.black)
+                        .autocapitalization(.none)
 
                     TextField("E-Mail", text: $email)
                         .padding()
@@ -68,6 +69,8 @@ struct SignUpView: View {
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
                         .foregroundColor(.black)
+                        .autocapitalization(.none)
+                        .padding(.bottom, 5)
 
                     ZStack {
                         if isPasswordVisible {
@@ -77,6 +80,7 @@ struct SignUpView: View {
                                 .background(Color.black.opacity(0.05))
                                 .cornerRadius(10)
                                 .foregroundColor(.black)
+                                .autocapitalization(.none)
                         } else {
                             SecureField("Password", text: $password)
                                 .padding()
@@ -84,6 +88,8 @@ struct SignUpView: View {
                                 .background(Color.black.opacity(0.05))
                                 .cornerRadius(10)
                                 .foregroundColor(.black)
+                                .autocapitalization(.none)
+                            
                         }
 
                         Button(action: {
@@ -112,11 +118,13 @@ struct SignUpView: View {
                         } else {
                             registerUser()
                         }
+                        
                     }
                     .foregroundColor(.white)
                     .frame(width: 300, height: 50)
                     .background(Color(red: 0.55, green: 0.27, blue: 0.07))
                     .cornerRadius(10)
+                    .padding(.top, 5)
 
                     HStack {
                         Text("Already have an account?")
