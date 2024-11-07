@@ -76,7 +76,7 @@ struct Pet: Identifiable {
         Pet(name: "Reach", age: 24, type: .cats, gender: .male, images: ["bth"], breed: CatBreed.britishShortHair, weight: 3),
         Pet(name: "Haru", age: 7, type: .cats, gender: .female, images: ["scottish-fold"], breed: CatBreed.scottishFold, weight: 1.2),
         Pet(name: "Pok", age: 18, type: .cats, gender: .female, images: ["sc"], breed: CatBreed.siameseCat, weight: 3),
-        Pet(name: "King", age: 22, type: .cats, gender: .male, images: ["pc"], breed: CatBreed.persianCat, weight: 3)
+        Pet(name: "King hsdggfgjf", age: 22, type: .cats, gender: .male, images: ["pc"], breed: CatBreed.persianCat, weight: 3)
     ]
 
 }
@@ -110,3 +110,4 @@ enum DogBreed: String, Breed {
     case malamute
     
 }
+
