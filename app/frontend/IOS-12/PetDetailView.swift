@@ -27,26 +27,23 @@ struct PetDetailView: View {
     
     var body: some View {
         VStack {
-            ScrollView (.vertical) {
+            ScrollView(.vertical) {
                 ZStack(alignment: Alignment.bottom) {
- //                   PagingView(index: $currentIndex, maxIndex: pet.images.count - 1) {
-                        ForEach(pet.images, id:\.self) { image in
-                            Image(image)
-                                .resizable()
-    //                            .clipShape(RoundedCorner(radius: 32, corners: [.bottomLeft, .bottomRight]))
-                       // }
+                    // PagingView mit den Bildern des Haustiers
+                    ForEach(pet.images, id: \.self) { image in
+                        Image(image)
+                            .resizable()
                     }
                     HStack(spacing: 8) {
                         ForEach(0...(pet.images.count - 1), id: \.self) { index in
                             Circle()
-                                .fill(currentIndex == index ? Color.primaryColor : Color.primaryDark)
-                                .frame(width: currentIndex == index ? 12 : 8, height:  currentIndex == index ? 12 : 8)
-                                
+                                .fill(currentIndex == index ? Color.primaryColor : Color.primaryLight)
+                                .frame(width: currentIndex == index ? 12 : 8, height: currentIndex == index ? 12 : 8)
                         }
                     }
                     .padding(.bottom, 10)
-                
-                }.frame(height: 355, alignment: .center)
+                }
+                .frame(height: 355, alignment: .center)
                 
                 HStack(spacing: 20) {
                     BoxDetailView(title: "Age", description: "\(pet.age) Months")
@@ -64,7 +61,6 @@ struct PetDetailView: View {
                             .font(.system(size: 18, weight: .regular))
                     }
                     .padding(.top)
-                    
                     
                     HStack {
                         Image("location")
@@ -103,7 +99,7 @@ struct PetDetailView: View {
                     Image(systemName: "phone.fill")
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
-                        .background(Color.primaryDark)
+                        .background(Color.primaryLight)
                         .cornerRadius(15)
                 }
             }
@@ -143,5 +139,5 @@ struct PetDetailPreview: PreviewProvider {
             PetDetailView(pet: Pet.dogs.first!)
         }
     }
-    
 }
+
