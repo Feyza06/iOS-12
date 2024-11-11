@@ -19,11 +19,15 @@ import {
 } from '@loopback/rest';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
+import {UserServiceService} from '../services'; // Import UserServiceService
+import {inject} from '@loopback/core';
 
 export class UserControllerController {
   constructor(
-    @repository(UserRepository)
-    public userRepository : UserRepository,
+      @repository(UserRepository)
+      public userRepository: UserRepository,
+      @inject('services.UserServiceService') // Inject UserServiceService
+      private userService: UserServiceService,
   ) {}
 
   @post('/users')
@@ -32,19 +36,45 @@ export class UserControllerController {
     content: {'application/json': {schema: getModelSchemaRef(User)}},
   })
   async create(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(User, {
-            title: 'NewUser',
-            exclude: ['id'],
-          }),
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(User, {
+              title: 'NewUser',
+              exclude: ['id'],
+            }),
+          },
         },
-      },
-    })
-    user: Omit<User, 'id'>,
+      })
+          user: Omit<User, 'id'>,
   ): Promise<User> {
-    return this.userRepository.create(user);
+    // Use userService.register instead of directly creating the user in the repository
+    return this.userService.register(user);
+  }
+
+  @post('/login')
+  @response(200, {
+    description: 'User login',
+    content: {'application/json': {schema: getModelSchemaRef(User)}},
+  })
+  async login(
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                email: {type: 'string'},
+                password: {type: 'string'},
+              },
+              required: ['email', 'password'],
+            },
+          },
+        },
+      })
+          credentials: {email: string; password: string},
+  ): Promise<User> {
+    return this.userService.login(credentials.email, credentials.password);
   }
 
   @get('/users/count')

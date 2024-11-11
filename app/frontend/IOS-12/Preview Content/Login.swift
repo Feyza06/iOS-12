@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-
 struct LoginView: View {
-    @State private var username = ""
+    @State private var email = ""
     @State private var password = ""
-    @State private var wrongUsername: Float = 0
+    @State private var wrongEmail: Float = 0
     @State private var wrongPassword: Float  = 0
     @State private var showingLoginScreen = false
     @State private var errorMessage: String? = nil
@@ -34,12 +33,12 @@ struct LoginView: View {
                         .padding()
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
                     
-                    TextField("Username", text: $username)
+                    TextField("Email", text: $email)
                         .padding()
                         .frame(width: 300, height: 50)
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
-                        .border(.red, width: CGFloat(wrongUsername))
+                        .border(.red, width: CGFloat(wrongEmail))
                     
                     SecureField("Password", text: $password)
                         .padding()
@@ -62,7 +61,7 @@ struct LoginView: View {
                     .background(Color(red:0.55, green:0.27, blue: 0.07))
                     .cornerRadius(10)
                     
-                    NavigationLink(destination: Text("You are logged in as \(username)"), isActive: $showingLoginScreen) {
+                    NavigationLink(destination: Text("You are logged in as \(email)"), isActive: $showingLoginScreen) {
                         EmptyView()
                     }
                 }
@@ -75,16 +74,16 @@ struct LoginView: View {
     private func loginUser() {
         // Clear previous error messages
         errorMessage = nil
-        wrongUsername = 0
+        wrongEmail = 0
         wrongPassword = 0
         
-        guard let url = URL(string: "http://127.0.0.1:3000/users/login") else {
+        guard let url = URL(string: "http://127.0.0.1:3000/login") else {
             errorMessage = "Invalid URL"
             return
         }
         
         let loginData: [String: Any] = [
-            "email": username, // Adjust if backend expects 'username' or 'email'
+            "email": email,
             "password": password
         ]
         
@@ -120,8 +119,8 @@ struct LoginView: View {
                     showingLoginScreen = true
                 } else if httpResponse.statusCode == 401 {
                     // Invalid credentials
-                    errorMessage = "Invalid username or password."
-                    wrongUsername = 2
+                    errorMessage = "Invalid Email or Password."
+                    wrongEmail = 2
                     wrongPassword = 2
                 } else {
                     // Handle other potential server errors
