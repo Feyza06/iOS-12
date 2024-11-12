@@ -18,7 +18,7 @@ struct PostPetView: View {
     @State private var description = ""
     
     // Lost details
-    @State private var losingDate = Date()
+    @State private var birthday = Date()
     @State private var location = ""
     
     // Image handling
@@ -59,17 +59,17 @@ struct PostPetView: View {
                             .cornerRadius(10)
                             .shadow(radius: 5)
                         
-                        DatePicker("Birthday", selection: $losingDate, in: ...Date(), displayedComponents: .date)
+                        DatePicker("Birthday", selection: $birthday, in: ...Date(), displayedComponents: .date)
                             .padding()
                             .background(Color.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
                     }
                     
-                    // Description Section
+                    
                     Section(header: Text("Description")
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) { // Braun für Überschrift
+                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
                         TextEditor(text: $description)
                             .padding()
                             .frame(height: 100)
@@ -78,13 +78,13 @@ struct PostPetView: View {
                             .shadow(radius: 5)
                     }
                     
-                    // Photo Section
+                    
                     Section(header: Text("Pet Photo")
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) { // Braun für Überschrift
+                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(white: 0.9)) // Light brown color
+                                .fill(Color(white: 0.9))
                                 .frame(height: 200)
                             if let picture = picture {
                                 picture
@@ -104,7 +104,7 @@ struct PostPetView: View {
                         .padding()
                     }
                     
-                    // Submit Button
+                    
                     Button(action: {
                         // Submit action goes here
                     }) {
@@ -120,7 +120,7 @@ struct PostPetView: View {
                     .padding(.top, 20)
                 }
                 .padding()
-                .background(Color(hex: "#FFE3C4")) // Set the background color here
+                .background(Color(hex: "#FFE3C4")) 
                 .navigationTitle("Post Pet")
             
                 .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
@@ -128,7 +128,7 @@ struct PostPetView: View {
                         
                 }
             }
-            .background(Color(hex: "#FFE3C4")) // Set the background color for the whole screen
+            .background(Color(hex: "#FFE3C4")) 
         }
     }
     
@@ -137,6 +137,68 @@ struct PostPetView: View {
         picture = Image(uiImage: inputImage)
     }
 }
+
+/*private func registerUser() {
+    let postData: [String: Any] = [
+        "petName": petName,
+        "petType": petType,
+        "breed": breed,
+        "gender": gender,
+        "description": description
+    ]
+
+    guard let url = URL(string: "http://127.0.0.1:3000/posts") else {
+        errorMessage = "Invalid URL"
+        return
+    }
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    do {
+        request.httpBody = try JSONSerialization.data(withJSONObject: userData, options: [])
+    } catch {
+        errorMessage = "Error serializing JSON: \(error.localizedDescription)"
+        return
+    }
+
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        if let error = error {
+            DispatchQueue.main.async {
+                errorMessage = "Network error: \(error.localizedDescription)"
+            }
+            return
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            DispatchQueue.main.async {
+                errorMessage = "Invalid response."
+            }
+            return
+        }
+
+        DispatchQueue.main.async {
+            if httpResponse.statusCode == 200 {
+                registrationSuccess = true
+                errorMessage = nil
+                email = ""
+                firstname = ""
+                lastName = ""
+                username = ""
+                password = ""
+            } else {
+                if let data = data,
+                   let responseMessage = try? JSONDecoder().decode([String: String].self, from: data),
+                   let serverMessage = responseMessage["message"] {
+                    errorMessage = "Registration failed: \(serverMessage)"
+                } else {
+                    errorMessage = "Registration failed. Server responded with status code: \(httpResponse.statusCode)"
+                }
+            }
+        }
+    }.resume()
+}
+*/
 
 struct PostPetView_Previews: PreviewProvider {
     static var previews: some View {

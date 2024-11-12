@@ -136,6 +136,7 @@ struct PetView: View {
             destination: PetDetailView(pet: pet)){
                 VStack {
                     ZStack(alignment: .topTrailing) {
+                        
                         Image(pet.images.first!)
                             .resizable()
                             .frame(height: 160)
