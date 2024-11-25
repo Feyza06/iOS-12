@@ -38,6 +38,7 @@ struct LoginView: View {
                         .frame(width: 300, height: 50)
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
+                        .autocapitalization(.none)
                         .border(.red, width: CGFloat(wrongEmail))
                     
                     SecureField("Password", text: $password)
@@ -45,6 +46,7 @@ struct LoginView: View {
                         .frame(width: 300, height: 50)
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
+                        .autocapitalization(.none)
                         .border(.red, width: CGFloat(wrongPassword))
                     
                     if let errorMessage = errorMessage {
