@@ -136,6 +136,7 @@ struct PetView: View {
             destination: PetDetailView(pet: pet)){
                 VStack {
                     ZStack(alignment: .topTrailing) {
+                        
                         Image(pet.images.first!)
                             .resizable()
                             .frame(height: 160)
@@ -182,15 +183,27 @@ struct PetView: View {
             }
     }
     
+}
+
+extension Color {
+    static let primaryColor = Color(hex: "#5B220D")
+    static let primaryLight = Color(hex: "#FFB977")
+    static let darkText = Color.black
+    static let lightGrey = Color.gray
+    static let secondaryColor = Color.orange
+    static let secondaryDark = Color.brown
+    static let primaryYellow = Color.yellow
+    static let secondaryYellow = Color.orange
+}
+    
+struct MainViewPreviewProvider: PreviewProvider {
+        
+    static var previews: some View {
+        NavigationView {
+            MainView()
+        }
     }
     
-    struct MainViewPreviewProvider: PreviewProvider {
-        
-        static var previews: some View {
-            NavigationView {
-                MainView()
-            }
-        }
-        
-    }
+}
+
 
