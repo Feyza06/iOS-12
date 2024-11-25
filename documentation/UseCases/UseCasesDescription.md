@@ -170,7 +170,18 @@
 | **Extension:**                | The adopter can apply additional filters or adjust current filters to further narrow down the results. |
 | **Exception:**                | If no pets match the filter criteria, a message appears stating that no matches were found. |
 
-
+| **Name:**                     | Add Pet to Favorites              |
+|-------------------------------|---------------------|
+| **Actor:**                    | Pet Adopter |
+| **Decription:**               | The adopter wants to add pets to their favorites list to keep track of pets they are intrested in. |
+| **Pre-condition:**            | The adopter has access to a list of pets and is browsing the list or viewing a pet's details.|
+| **Scenario:**                 |                     |
+|                               | 1. The adopter navigates to a list of pets or the details of a specific pet.                 |
+|                               | 2. The adopter selects the option to add a pet to their favorites.                 |
+|                               | 3. The pet is added the adopter's favorites list.  |                              
+| **Result:**                   |  The adopter's favorites list updates, showing the newly added pet.                   |  
+| **Extension:**                |  None.                 |    
+| **Exception:**                |  2a. If the pet cannot be added to the favorites list due to an error, an error message is displayed.  | 
 
 | **Name:**                     | remove Pet from favorites        |
 |-------------------------------|----------------------------------|
