@@ -17,7 +17,6 @@ struct MessageView: View {
                 HStack {
                     Text(message.text)
                         .padding()
-                        .frame(maxHeight: 80)
                         .frame(maxWidth: 220, alignment: .leading)
                         .background(Color(red:0.55, green:0.27, blue: 0.07))
                         .cornerRadius(25)
@@ -41,7 +40,6 @@ struct MessageView: View {
                     
                     Text(message.text)
                         .padding()
-                        .frame(maxHeight: 80)
                         .frame(maxWidth: 220, alignment: .leading)
                         .background(Color(red: 0.85, green: 0.70, blue: 0.50))
                         .cornerRadius(25)
@@ -55,7 +53,7 @@ struct MessageView: View {
     struct MessageView_Preview: PreviewProvider {
         static var previews: some View {
             
-            MessageView(message:Message(id:"123", text: "hello from the other side", received:false, photoURL: "", timestap: Date()))
+            MessageView(message:Message(id:"123", text: "hello from the other side i must have called a thousand times to tell you i am sorry", received:false, photoURL: "", timestap: Date()))
             
             
         }

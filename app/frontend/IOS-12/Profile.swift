@@ -10,9 +10,7 @@ import SwiftUI
 
 
 struct Profile: View {
-    var imageUrl = URL(string: "https://images.unsplash.com/photo-1463453091185-61582044d556?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-    
-   
+    var imageUrl = URL(string: "https://drive.google.com/uc?export=view&id=1K2_vBti-gyPMracSZHa7uZylxwHwlslz")
     
     var name = "noah fabian"
     
@@ -29,12 +27,16 @@ struct Profile: View {
            Text(name)
                 .font(.title).bold()
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
     }
+       
 }
 
 
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
         Profile()
+            .background(Color(.gray))
     }
 }

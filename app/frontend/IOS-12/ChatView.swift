@@ -21,6 +21,7 @@ class ChatViewModel: ObservableObject {
         Message(id:"7", text:"at least I can say that I've tried", received:false, photoURL: "", timestap: Date()),
         Message(id:"8", text: "to tell you I'm sorry", received:true, photoURL: "", timestap: Date()),
         Message(id:"9", text:"for breaking your heart", received:false, photoURL: "", timestap: Date()),
+        Message(id:"10", text: "but it don't matter it clearly doesn't tear you apart anymore", received:true, photoURL: "", timestap: Date()),
     ]
     
     
@@ -36,20 +37,24 @@ struct ChatView: View {
     @StateObject var chatViewModel = ChatViewModel()
     
     var body: some View {
-        ZStack {
-            Color(red: 1.0, green: 0.89, blue: 0.77)
-                .ignoresSafeArea()
-           
-            VStack {
-                Profile()
+        GeometryReader { geometry in
+            ZStack {
+                Color(red: 1.0, green: 0.89, blue: 0.77)
+                    .ignoresSafeArea()
                 
-                
-            ScrollView {
-                    ForEach(chatViewModel.mockData) { message in
-                        MessageView(message: message)
+                VStack {
+                    Profile()
+                        .padding(.bottom, 4)
+                        .padding(.top, -30)
+                    
+                    ScrollView {
+                        ForEach(chatViewModel.mockData) { message in
+                            MessageView(message: message)
+                        }
                     }
+                    MessageField()
+                        .padding(.bottom, -15)
                 }
-                MessageField()
             }
         }
     }

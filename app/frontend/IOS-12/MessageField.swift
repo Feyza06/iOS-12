@@ -12,7 +12,19 @@ struct MessageField: View {
     
     var body: some View {
         HStack {
+            
+            Button {
+                print("select file")
+                message = ""
+            } label: {
+                Image(systemName: "folder")
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(Color(red:0.55, green:0.27, blue: 0.07))
+                    .cornerRadius(50)
+            }
             CustomTextField(placeholder: Text("your message"), text: $message)
+                .frame(height: 70)
             
             Button {
                 print("message sent")
@@ -23,13 +35,21 @@ struct MessageField: View {
                     .padding(10)
                     .background(Color(red:0.55, green:0.27, blue: 0.07))
                     .cornerRadius(50)
-                    .padding()
+                    
+                
             }
+            
+                         
         }
+        .frame(maxWidth: 330)
         .padding(.horizontal)
         .background(Color(.gray).opacity(0.5))
-        .cornerRadius(25)
-        .padding()
+        .cornerRadius(35)
+        .ignoresSafeArea(edges: .bottom)
+        
+       
+        
+        
     }
 }
 
