@@ -10,6 +10,9 @@ import CoreLocation
 import Photos
 
 struct PostPetView: View {
+    
+    @StateObject private var viewModel = PostUploadModelView()
+    
     // Pet details
     @State private var petName = ""
     @State private var petType = ""
@@ -107,6 +110,9 @@ struct PostPetView: View {
                     
                     Button(action: {
                         // Submit action goes here
+                        
+                        viewModel.uploadPost()
+                        
                     }) {
                         Text("Post")
                             .fontWeight(.bold)
@@ -138,67 +144,7 @@ struct PostPetView: View {
     }
 }
 
-/*private func registerUser() {
-    let postData: [String: Any] = [
-        "petName": petName,
-        "petType": petType,
-        "breed": breed,
-        "gender": gender,
-        "description": description
-    ]
 
-    guard let url = URL(string: "http://127.0.0.1:3000/posts") else {
-        errorMessage = "Invalid URL"
-        return
-    }
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-    do {
-        request.httpBody = try JSONSerialization.data(withJSONObject: userData, options: [])
-    } catch {
-        errorMessage = "Error serializing JSON: \(error.localizedDescription)"
-        return
-    }
-
-    URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            DispatchQueue.main.async {
-                errorMessage = "Network error: \(error.localizedDescription)"
-            }
-            return
-        }
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            DispatchQueue.main.async {
-                errorMessage = "Invalid response."
-            }
-            return
-        }
-
-        DispatchQueue.main.async {
-            if httpResponse.statusCode == 200 {
-                registrationSuccess = true
-                errorMessage = nil
-                email = ""
-                firstname = ""
-                lastName = ""
-                username = ""
-                password = ""
-            } else {
-                if let data = data,
-                   let responseMessage = try? JSONDecoder().decode([String: String].self, from: data),
-                   let serverMessage = responseMessage["message"] {
-                    errorMessage = "Registration failed: \(serverMessage)"
-                } else {
-                    errorMessage = "Registration failed. Server responded with status code: \(httpResponse.statusCode)"
-                }
-            }
-        }
-    }.resume()
-}
-*/
 
 struct PostPetView_Previews: PreviewProvider {
     static var previews: some View {
