@@ -21,6 +21,7 @@ import {User} from '../models';
 import {UserRepository} from '../repositories';
 import {UserServiceService} from '../services'; // Import UserServiceService
 import {inject} from '@loopback/core';
+import {authenticate} from "@loopback/authentication";
 
 export class UserControllerController {
   constructor(
@@ -55,7 +56,17 @@ export class UserControllerController {
   @post('/login')
   @response(200, {
     description: 'User login',
-    content: {'application/json': {schema: getModelSchemaRef(User)}},
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            token: {type: 'string'},
+            user: getModelSchemaRef(User),
+          },
+        },
+      },
+    },
   })
   async login(
       @requestBody({
@@ -73,7 +84,7 @@ export class UserControllerController {
         },
       })
           credentials: {email: string; password: string},
-  ): Promise<User> {
+  ): Promise<{ token: string; user: User }> {
     return this.userService.login(credentials.email, credentials.password);
   }
 
@@ -125,6 +136,7 @@ export class UserControllerController {
     return this.userRepository.updateAll(user, where);
   }
 
+  @authenticate('jwt')
   @get('/users/{id}')
   @response(200, {
     description: 'User model instance',

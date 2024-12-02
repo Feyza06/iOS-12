@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @EnvironmentObject var appState: AppState
+    
     @State private var email = ""
-    @State private var firstname = ""
+    @State private var firstName = ""
     @State private var lastName = ""
     @State private var username = ""
     @State private var password = ""
     @State private var isPasswordVisible = false
     @State private var registrationSuccess = false
-    @State private var showErrorLabel = false
     @State private var errorMessage: String?
+    @State private var isLoading = false  // For activity indicator
 
     var body: some View {
         NavigationView {
@@ -33,27 +35,28 @@ struct SignUpView: View {
                     .foregroundColor(Color(red: 1.0, green: 0.89, blue: 0.77))
 
                 VStack {
-                    Text("Sign-Up")
+                    Text("Sign Up")
                         .font(.largeTitle)
                         .bold()
                         .padding()
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
 
                     HStack {
-                        TextField("Firstname", text: $firstname)
+                        TextField("First Name", text: $firstName)
                             .padding()
-                            .frame(width: 140, height: 50)
+                            .frame(height: 50)
                             .background(Color.black.opacity(0.05))
                             .cornerRadius(10)
                             .foregroundColor(.black)
 
-                        TextField("Lastname", text: $lastName)
+                        TextField("Last Name", text: $lastName)
                             .padding()
-                            .frame(width: 140, height: 50)
+                            .frame(height: 50)
                             .background(Color.black.opacity(0.05))
                             .cornerRadius(10)
                             .foregroundColor(.black)
                     }
+                    .frame(width: 300)
 
                     TextField("Username", text: $username)
                         .padding()
@@ -63,34 +66,30 @@ struct SignUpView: View {
                         .foregroundColor(.black)
                         .autocapitalization(.none)
 
-                    TextField("E-Mail", text: $email)
+                    TextField("Email", text: $email)
                         .padding()
                         .frame(width: 300, height: 50)
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
                         .foregroundColor(.black)
                         .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
                         .padding(.bottom, 5)
 
-                    ZStack {
-                        if isPasswordVisible {
-                            TextField("Password", text: $password)
-                                .padding()
-                                .frame(width: 300, height: 50)
-                                .background(Color.black.opacity(0.05))
-                                .cornerRadius(10)
-                                .foregroundColor(.black)
-                                .autocapitalization(.none)
-                        } else {
-                            SecureField("Password", text: $password)
-                                .padding()
-                                .frame(width: 300, height: 50)
-                                .background(Color.black.opacity(0.05))
-                                .cornerRadius(10)
-                                .foregroundColor(.black)
-                                .autocapitalization(.none)
-                            
+                    HStack {
+                        Group {
+                            if isPasswordVisible {
+                                TextField("Password", text: $password)
+                            } else {
+                                SecureField("Password", text: $password)
+                            }
                         }
+                        .padding()
+                        .frame(height: 50)
+                        .background(Color.black.opacity(0.05))
+                        .cornerRadius(10)
+                        .foregroundColor(.black)
+                        .autocapitalization(.none)
 
                         Button(action: {
                             isPasswordVisible.toggle()
@@ -98,8 +97,8 @@ struct SignUpView: View {
                             Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
                                 .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
                         }
-                        .padding(.leading, -185)
                     }
+                    .frame(width: 300)
 
                     if let errorMessage = errorMessage {
                         Text(errorMessage)
@@ -112,13 +111,13 @@ struct SignUpView: View {
                             .bold()
                     }
 
+                    if isLoading {
+                        ProgressView()
+                            .padding()
+                    }
+
                     Button("Sign Up") {
-                        if email.isEmpty || firstname.isEmpty || lastName.isEmpty || username.isEmpty || password.isEmpty {
-                            errorMessage = "Please fill out all fields correctly."
-                        } else {
-                            registerUser()
-                        }
-                        
+                        registerUser()
                     }
                     .foregroundColor(.white)
                     .frame(width: 300, height: 50)
@@ -140,14 +139,45 @@ struct SignUpView: View {
                     .padding(.top, 10)
                 }
                 .padding()
+                .onTapGesture {
+                    hideKeyboard()
+                }
             }
             .navigationBarHidden(true)
         }
     }
 
     private func registerUser() {
+        // Clear previous messages
+        errorMessage = nil
+        registrationSuccess = false
+        isLoading = true
+
+        // Input validation
+        guard !firstName.isEmpty,
+              !lastName.isEmpty,
+              !username.isEmpty,
+              !email.isEmpty,
+              !password.isEmpty else {
+            errorMessage = "Please fill out all fields."
+            isLoading = false
+            return
+        }
+
+        guard isValidEmail(email) else {
+            errorMessage = "Please enter a valid email address."
+            isLoading = false
+            return
+        }
+
+        guard password.count >= 8 else {
+            errorMessage = "Password must be at least 8 characters."
+            isLoading = false
+            return
+        }
+
         let userData: [String: Any] = [
-            "firstName": firstname,
+            "firstName": firstName,
             "lastName": lastName,
             "username": username,
             "email": email,
@@ -156,6 +186,7 @@ struct SignUpView: View {
 
         guard let url = URL(string: "http://127.0.0.1:3000/users") else {
             errorMessage = "Invalid URL"
+            isLoading = false
             return
         }
 
@@ -167,10 +198,15 @@ struct SignUpView: View {
             request.httpBody = try JSONSerialization.data(withJSONObject: userData, options: [])
         } catch {
             errorMessage = "Error serializing JSON: \(error.localizedDescription)"
+            isLoading = false
             return
         }
 
         URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                self.isLoading = false
+            }
+
             if let error = error {
                 DispatchQueue.main.async {
                     errorMessage = "Network error: \(error.localizedDescription)"
@@ -189,11 +225,7 @@ struct SignUpView: View {
                 if httpResponse.statusCode == 200 {
                     registrationSuccess = true
                     errorMessage = nil
-                    email = ""
-                    firstname = ""
-                    lastName = ""
-                    username = ""
-                    password = ""
+                    // Optionally, navigate to LoginView or log in automatically
                 } else {
                     if let data = data,
                        let responseMessage = try? JSONDecoder().decode([String: String].self, from: data),
@@ -205,6 +237,12 @@ struct SignUpView: View {
                 }
             }
         }.resume()
+    }
+
+    // Email validation function
+    private func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "(?:[A-Z0-9a-z._%+-]+)@(?:[A-Za-z0-9.-]+)\\.[A-Za-z]{2,}"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegEx).evaluate(with: email)
     }
 }
 

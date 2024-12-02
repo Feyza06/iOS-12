@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello again")
-        }
-        .padding()
-    }
-}
-//
+    @EnvironmentObject var appState: AppState
 
-#Preview {
-    ContentView()
+    var body: some View {
+        Group {
+            if appState.isLoggedIn {
+                NavigationView {
+                    MainView()
+                        .environmentObject(appState)
+                }
+            } else {
+                HomeView()
+                    .environmentObject(appState)
+            }
+        }
+    }
 }
