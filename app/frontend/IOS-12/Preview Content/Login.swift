@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var appState: AppState  // Use AppState for shared login status
+    @EnvironmentObject var appState: AppState
+    var onBack: () -> Void
+    var onRegister: () -> Void
+    
     @State private var email = ""
     @State private var password = ""
     @State private var errorMessage: String? = nil
@@ -89,12 +92,15 @@ struct LoginView: View {
                     .cornerRadius(10)
                     .padding(.top, 5)
 
+                    Button("Back", action: onBack)
+                        .padding()
+                    
                     HStack {
                         Text("Don't have an account?")
                             .fontWeight(.bold)
                             .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
-
-                        NavigationLink(destination: SignUpView()) {
+                        
+                        Button(action: onRegister) {
                             Text("Sign Up")
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
@@ -232,7 +238,10 @@ struct User: Codable {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(
+            onBack: {},
+            onRegister: {}
+        )
             .environmentObject(AppState())
     }
 }

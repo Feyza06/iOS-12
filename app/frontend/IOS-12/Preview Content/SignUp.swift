@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SignUpView: View {
     @EnvironmentObject var appState: AppState
+    var onBack: () -> Void
+    var onLogin: () -> Void
     
     @State private var email = ""
     @State private var firstName = ""
@@ -125,12 +127,15 @@ struct SignUpView: View {
                     .cornerRadius(10)
                     .padding(.top, 5)
 
+                    Button("Back", action: onBack)
+                        .padding()
+                    
                     HStack {
                         Text("Already have an account?")
                             .fontWeight(.bold)
                             .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
-
-                        NavigationLink(destination: LoginView()) {
+                        
+                        Button(action: onLogin) {
                             Text("LOGIN")
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
@@ -248,6 +253,10 @@ struct SignUpView: View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView()
+        SignUpView(
+            onBack: {},
+            onLogin: {}
+        )
+        .environmentObject(AppState())
     }
 }
