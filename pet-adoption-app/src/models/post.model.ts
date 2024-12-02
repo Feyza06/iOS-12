@@ -20,6 +20,24 @@ export class Post extends Entity {
     type: 'string',
     required: true,
   })
+  petType: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  petBreed: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  gender: boolean;
+
+  @property({
+    type: 'boolean',
+    required: true,
+  })
   photo: string;
 
   @property({
