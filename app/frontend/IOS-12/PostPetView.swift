@@ -152,12 +152,12 @@ struct PostPetView: View {
                                     .shadow(radius: 5)
                             }
                             .padding(.top, 10)
-                            .frame(height: 40) // Making the button thinner
+                            .frame(height: 40) 
                         }
                     }
                     
                     Button(action: {
-                        // Submit action goes here
+                        
                     }) {
                         Text("Post")
                             .fontWeight(.bold)
