@@ -9,6 +9,10 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
+import {JWTAuthenticationStrategy} from './authentication-strategies/jwt-strategy';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export {ApplicationConfig};
 
@@ -29,6 +33,16 @@ export class PetAdoptionAppApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
+
+    // Bind authentication component
+    this.component(AuthenticationComponent);
+
+    // Register JWT authentication strategy
+    registerAuthenticationStrategy(this, JWTAuthenticationStrategy);
+
+    // Bind JWT secret key
+    this.bind('authentication.jwt.secret').to(process.env.JWT_SECRET || 'best_pet_adoption_app_secret');
+
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
