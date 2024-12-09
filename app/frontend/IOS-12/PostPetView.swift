@@ -12,20 +12,18 @@ import CoreLocation
 struct PostPetView: View {
     // Pet details
     @State private var petName = ""
-    @State private var petType = ""
-    @State private var breed = ""
     @State private var gender = true // true = Male, false = Female
-    @State private var description = ""
-    
-    // Lost details
+    @State private var fee = ""
+    let petTypes = ["Dog", "Cat", "Bird", "Fish", "Other"]
+    @State private var selectedPetType = ""
+    @State private var breed = ""
     @State private var birthday = Date()
-    @State private var location = ""
-
+    
     // Image handling
     @State private var picture: Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
-
+    
     // Map handling
     @State private var addressString = ""
     @State private var region = MKCoordinateRegion(
@@ -33,131 +31,109 @@ struct PostPetView: View {
         span: MKCoordinateSpan(latitudeDelta: 0.06, longitudeDelta: 0.06)
     )
     @State private var selectedCoordinate = CLLocationCoordinate2D(latitude: 51.3704, longitude: 6.1724)
+    @State private var description = ""
     
     private let geocoder = CLGeocoder()
-
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 25) {
-                    // Pet Details Section
-                    Section(header: Text("Pet Information")
-                        .font(.headline)
-                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
-                        TextField("Pet Name", text: $petName)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                        
-                        Picker("Gender", selection: $gender) {
-                            Text("Male").tag(true)
-                            Text("Female").tag(false)
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .padding(.bottom, 10)
-                        
-                        TextField("Type", text: $petType)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                        
-                        TextField("Breed", text: $breed)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                        
-                        DatePicker("Birthday", selection: $birthday, in: ...Date(), displayedComponents: .date)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                    }
                     
+                    // Pet Information Section
+                    PetInformationView(
+                        petName: $petName,
+                        gender: $gender,
+                        fee: $fee,
+                        petTypes: petTypes,
+                        selectedPetType: $selectedPetType,
+                        breed: $breed,
+                        birthday: $birthday
+                    )
+                    
+                    // Description Section
                     Section(header: Text("Description")
                         .font(.headline)
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
-                        TextEditor(text: $description)
-                            .padding()
-                            .frame(height: 100)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                    }
+                            TextEditor(text: $description)
+                                .padding()
+                                .frame(height: 100)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                        }
                     
+                    // Pet Photo Section
                     Section(header: Text("Pet Photo")
                         .font(.headline)
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(white: 0.9))
-                                .frame(height: 200)
-                            if let picture = picture {
-                                picture
-                                    .resizable()
-                                    .scaledToFit()
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color(white: 0.9))
                                     .frame(height: 200)
-                                    .cornerRadius(15)
-                                    .shadow(radius: 5)
-                            } else {
-                                Text("Upload a picture")
-                                    .foregroundColor(.gray)
-                                    .onTapGesture {
-                                        showingImagePicker = true
-                                    }
+                                if let picture = picture {
+                                    picture
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 200)
+                                        .cornerRadius(15)
+                                        .shadow(radius: 5)
+                                } else {
+                                    Text("Upload a picture")
+                                        .foregroundColor(.gray)
+                                        .onTapGesture {
+                                            showingImagePicker = true
+                                        }
+                                }
                             }
+                            .padding()
                         }
-                        .padding()
-                    }
                     
                     // Map Section
                     Section(header: Text("Enter Address")
                         .font(.headline)
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
-                        VStack {
-                            TextField("Enter address", text: $addressString)
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                .shadow(radius: 5)
-                                .onChange(of: addressString) { newValue in
-                                    lookupAddress(for: newValue)
-                                }
-                            
-                            ZStack {
-                                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
-                                    .frame(height: 300)
-                                    .cornerRadius(15)
-                                    .shadow(radius: 5)
-                                
-                                Image(systemName: "mappin.circle.fill")
-                                    .foregroundColor(.red)
-                                    .font(.largeTitle)
-                                    .offset(y: -15)
-                            }
-                            
-                            Button(action: {
-                                location = addressString
-                                print("Selected location: \(selectedCoordinate), Address: \(addressString)")
-                            }) {
-                                Text("Set Location")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 8)
-                                    .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                            VStack {
+                                TextField("Enter address", text: $addressString)
+                                    .padding()
+                                    .background(Color.white)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
+                                    .onChange(of: addressString) { newValue in
+                                        lookupAddress(for: newValue)
+                                    }
+                                
+                                ZStack {
+                                    Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
+                                        .frame(height: 300)
+                                        .cornerRadius(15)
+                                        .shadow(radius: 5)
+                                    
+                                    Image(systemName: "mappin.circle.fill")
+                                        .foregroundColor(.red)
+                                        .font(.largeTitle)
+                                        .offset(y: -15)
+                                }
+                                
+                                Button(action: {
+                                    print("Selected location: \(selectedCoordinate), Address: \(addressString)")
+                                }) {
+                                    Text("Set Location")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 8)
+                                        .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                                        .cornerRadius(10)
+                                        .shadow(radius: 5)
+                                }
+                                .padding(.top, 10)
                             }
-                            .padding(.top, 10)
-                            .frame(height: 40) 
                         }
-                    }
                     
+                    // Post Button
                     Button(action: {
-                        
+                        print("Post button pressed")
                     }) {
                         Text("Post")
                             .fontWeight(.bold)
@@ -201,12 +177,7 @@ struct PostPetView: View {
         }
     }
 }
-
-struct VenloAnnotation: Identifiable {
-    let id: UUID
-    let coordinate: CLLocationCoordinate2D
-}
-
+    
 struct PostPetView_Previews: PreviewProvider {
     static var previews: some View {
         PostPetView()
