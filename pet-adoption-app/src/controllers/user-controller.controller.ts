@@ -1,3 +1,4 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -19,8 +20,7 @@ import {
 } from '@loopback/rest';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
-import {UserServiceService} from '../services'; 
-import {inject} from '@loopback/core';
+import {UserServiceService} from '../services';
 
 export class UserControllerController {
   constructor(
@@ -55,7 +55,17 @@ export class UserControllerController {
   @post('/login')
   @response(200, {
     description: 'User login',
-    content: {'application/json': {schema: getModelSchemaRef(User)}},
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            token: {type: 'string'},
+            user: getModelSchemaRef(User, {includeRelations: true}),
+          },
+        },
+      },
+    },
   })
   async login(
       @requestBody({
@@ -73,7 +83,7 @@ export class UserControllerController {
         },
       })
           credentials: {email: string; password: string},
-  ): Promise<User> {
+  ): Promise<{user:User}> {
     return this.userService.login(credentials.email, credentials.password);
   }
 
