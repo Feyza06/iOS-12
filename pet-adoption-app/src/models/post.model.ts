@@ -17,6 +17,18 @@ export class Post extends Entity {
   petName: string;
 
   @property({
+    type: 'number',
+    required: true
+  })
+  fee: number;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  gender: string;
+
+  @property({
     type: 'string',
     required: true,
   })
@@ -29,16 +41,17 @@ export class Post extends Entity {
   petBreed: string;
 
   @property({
+    type: 'date',
+    required: true,
+  })
+  birthday: string;
+
+  @property({
     type: 'string',
     required: true,
   })
-  gender: boolean;
+  size: string;
 
-  @property({
-    type: 'boolean',
-    required: true,
-  })
-  photo: string;
 
   @property({
     type: 'string',
@@ -51,6 +64,18 @@ export class Post extends Entity {
     required: true,
   })
   preferredHome: string;
+
+  @property({
+    type: 'date',
+    required: true,
+  })
+  location: string;
+
+  @property({
+    type: 'boolean',
+    required: true,
+  })
+  photo: string;
 
   @property({
     type: 'string',

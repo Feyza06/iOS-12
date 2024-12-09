@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -37,12 +37,12 @@ export class PostControllerController {
         'application/json': {
           schema: getModelSchemaRef(Post, {
             title: 'NewPost',
-            exclude: ['id'],
+            exclude: ['id', 'status', 'createdAt'],
           }),
         },
       },
     })
-    post: Omit<Post, 'id'>,
+    post: Omit<Post, 'id' | 'status' | 'createdAt'>,
   ): Promise<Post> {
     return this.postRepository.create(post);
   }

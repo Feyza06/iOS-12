@@ -1,4 +1,11 @@
 //
+//  CHANGE.swift
+//  IOS-12
+//
+//  Created by Amira Kostadinova on 9.12.24.
+//
+
+//
 //  PostPetView.swift
 //  IOS-12
 //
@@ -198,7 +205,7 @@ struct PostPetView: View {
                     .padding(.top, 20)
                 }
                 .padding()
-                .background(Color(hex: "#FFE3C4")) 
+                .background(Color(hex: "#FFE3C4"))
                 .navigationTitle("Post Pet")
             
                 .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
@@ -206,7 +213,7 @@ struct PostPetView: View {
                         
                 }
             }
-            .background(Color(hex: "#FFE3C4")) 
+            .background(Color(hex: "#FFE3C4"))
         }
     }
     

@@ -6,14 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		295B23322CF73E700069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23312CF73E700069D408 /* OpenAPIClient */; };
-		295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23372CF740AA0069D408 /* OpenAPIClient */; };
-		295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23402CF76FFD0069D408 /* OpenAPIClient */; };
-		295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23452CF770FF0069D408 /* OpenAPIClient */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
+		29AAB2662CFE11B600FAA679 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DF94EEB2CD1006800CF6393 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DF94EF22CD1006800CF6393;
+			remoteInfo = "IOS-12";
+		};
 		6DF94F042CD1006B00CF6393 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6DF94EEB2CD1006800CF6393 /* Project object */;
@@ -31,20 +31,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		29AAB2622CFE11B600FAA679 /* IOS-12Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12Test.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94EF32CD1006800CF6393 /* IOS-12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-12.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F032CD1006B00CF6393 /* IOS-12Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		29AAB2632CFE11B600FAA679 /* IOS-12Test */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "IOS-12Test";
+			sourceTree = "<group>";
+		};
 		6DF94EF52CD1006800CF6393 /* IOS-12 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "IOS-12";
-			sourceTree = "<group>";
-		};
-		6DF94F062CD1006B00CF6393 /* IOS-12Tests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "IOS-12Tests";
 			sourceTree = "<group>";
 		};
 		6DF94F102CD1006B00CF6393 /* IOS-12UITests */ = {
@@ -55,14 +56,17 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		29AAB25F2CFE11B600FAA679 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6DF94EF02CD1006800CF6393 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */,
-				295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */,
-				295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */,
-				295B23322CF73E700069D408 /* OpenAPIClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,8 +90,8 @@
 		6DF94EEA2CD1006800CF6393 = {
 			isa = PBXGroup;
 			children = (
-				6DF94F062CD1006B00CF6393 /* IOS-12Tests */,
 				6DF94F102CD1006B00CF6393 /* IOS-12UITests */,
+				29AAB2632CFE11B600FAA679 /* IOS-12Test */,
 				6DF94EF42CD1006800CF6393 /* Products */,
 				6DF94EF52CD1006800CF6393 /* IOS-12 */,
 			);
@@ -99,6 +103,7 @@
 				6DF94EF32CD1006800CF6393 /* IOS-12.app */,
 				6DF94F032CD1006B00CF6393 /* IOS-12Tests.xctest */,
 				6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */,
+				29AAB2622CFE11B600FAA679 /* IOS-12Test.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,6 +111,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		29AAB2612CFE11B600FAA679 /* IOS-12Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 29AAB2682CFE11B600FAA679 /* Build configuration list for PBXNativeTarget "IOS-12Test" */;
+			buildPhases = (
+				29AAB25E2CFE11B600FAA679 /* Sources */,
+				29AAB25F2CFE11B600FAA679 /* Frameworks */,
+				29AAB2602CFE11B600FAA679 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				29AAB2672CFE11B600FAA679 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				29AAB2632CFE11B600FAA679 /* IOS-12Test */,
+			);
+			name = "IOS-12Test";
+			packageProductDependencies = (
+			);
+			productName = "IOS-12Test";
+			productReference = 29AAB2622CFE11B600FAA679 /* IOS-12Test.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6DF94EF22CD1006800CF6393 /* IOS-12 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DF94F172CD1006B00CF6393 /* Build configuration list for PBXNativeTarget "IOS-12" */;
@@ -123,10 +151,6 @@
 			);
 			name = "IOS-12";
 			packageProductDependencies = (
-				295B23312CF73E700069D408 /* OpenAPIClient */,
-				295B23372CF740AA0069D408 /* OpenAPIClient */,
-				295B23402CF76FFD0069D408 /* OpenAPIClient */,
-				295B23452CF770FF0069D408 /* OpenAPIClient */,
 			);
 			productName = "IOS-12";
 			productReference = 6DF94EF32CD1006800CF6393 /* IOS-12.app */;
@@ -144,9 +168,6 @@
 			);
 			dependencies = (
 				6DF94F052CD1006B00CF6393 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				6DF94F062CD1006B00CF6393 /* IOS-12Tests */,
 			);
 			name = "IOS-12Tests";
 			packageProductDependencies = (
@@ -185,9 +206,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					29AAB2612CFE11B600FAA679 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 6DF94EF22CD1006800CF6393;
+					};
 					6DF94EF22CD1006800CF6393 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -211,7 +236,6 @@
 			mainGroup = 6DF94EEA2CD1006800CF6393;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				295B23442CF770FF0069D408 /* XCLocalSwiftPackageReference "IOS-12/GeneratedClient" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6DF94EF42CD1006800CF6393 /* Products */;
@@ -221,11 +245,19 @@
 				6DF94EF22CD1006800CF6393 /* IOS-12 */,
 				6DF94F022CD1006B00CF6393 /* IOS-12Tests */,
 				6DF94F0C2CD1006B00CF6393 /* IOS-12UITests */,
+				29AAB2612CFE11B600FAA679 /* IOS-12Test */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		29AAB2602CFE11B600FAA679 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6DF94EF12CD1006800CF6393 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +282,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		29AAB25E2CFE11B600FAA679 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6DF94EEF2CD1006800CF6393 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -274,6 +313,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		29AAB2672CFE11B600FAA679 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DF94EF22CD1006800CF6393 /* IOS-12 */;
+			targetProxy = 29AAB2662CFE11B600FAA679 /* PBXContainerItemProxy */;
+		};
 		6DF94F052CD1006B00CF6393 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6DF94EF22CD1006800CF6393 /* IOS-12 */;
@@ -287,6 +331,44 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		29AAB2692CFE11B600FAA679 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V4DL5JAARY;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.friends.IOS-12Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IOS-12.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IOS-12";
+			};
+			name = Debug;
+		};
+		29AAB26A2CFE11B600FAA679 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V4DL5JAARY;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.friends.IOS-12Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IOS-12.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IOS-12";
+			};
+			name = Release;
+		};
 		6DF94F152CD1006B00CF6393 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -426,7 +508,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.IOS-12App.identifier";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.restart.IOS-12";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -454,7 +536,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.IOS-12App.identifier";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.restart.IOS-12";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -533,6 +615,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		29AAB2682CFE11B600FAA679 /* Build configuration list for PBXNativeTarget "IOS-12Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				29AAB2692CFE11B600FAA679 /* Debug */,
+				29AAB26A2CFE11B600FAA679 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6DF94EEE2CD1006800CF6393 /* Build configuration list for PBXProject "IOS-12" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -570,32 +661,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		295B23442CF770FF0069D408 /* XCLocalSwiftPackageReference "IOS-12/GeneratedClient" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "IOS-12/GeneratedClient";
-		};
-/* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		295B23312CF73E700069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23372CF740AA0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23402CF76FFD0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23452CF770FF0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6DF94EEB2CD1006800CF6393 /* Project object */;
 }
