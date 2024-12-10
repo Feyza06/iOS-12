@@ -147,4 +147,37 @@ export class MessageControllerController {
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.messageRepository.deleteById(id);
   }
+
+
+
+
+@get('/messages/between')
+@response(200, {
+  description: 'Array of Message instances exchanged between two users',
+  content: {
+    'application/json': {
+      schema: {
+        type: 'array',
+        items: getModelSchemaRef(Message),
+      },
+    },
+  },
+})
+async findMessagesBetweenUsers(
+  @param.query.string('senderId') senderId: string,
+  @param.query.string('recipientId') recipientId: string,
+): Promise<Message[]> {
+  return this.messageRepository.find({
+    where: {
+      or: [
+        {and: [{senderId}, {recipientId}]},
+        {and: [{senderId: recipientId}, {recipientId: senderId}]},
+      ],
+    },
+    order: ['createdAt ASC'], 
+  });
 }
+}
+
+
+

@@ -12,7 +12,7 @@ import SwiftUI
 struct Profile: View {
     var imageUrl = URL(string: "https://drive.google.com/uc?export=view&id=1K2_vBti-gyPMracSZHa7uZylxwHwlslz")
     
-    var name = "noah fabian"
+    var name = "adele"
     
     var body: some View {
         HStack{

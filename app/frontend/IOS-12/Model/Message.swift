@@ -12,7 +12,7 @@ struct Message: Identifiable, Codable {
     var text: String
     var received: Bool
     var photoURL: String
-    var timestap: Date
+    var timestamp: Date 
 }
-    
+
 
