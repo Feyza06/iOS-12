@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import JWTDecode
 
 /// A global state manager for the app that tracks and handles high-level states, such as the user's login status.
 /// This class is an `ObservableObject`, which allows SwiftUI views to automatically update when the state changes.
@@ -13,6 +14,10 @@ class AppState: ObservableObject {
     /// A `@Published` property that tracks if the user is logged in.
     /// Views observing this property will automatically refresh when its value changes.
     @Published var isLoggedIn: Bool = false
+    @Published var currentUser: User?
+    @Published var userId: Int?
+    @Published var userEmail: String?
+
 
     // MARK: - Initializer
 
@@ -21,6 +26,16 @@ class AppState: ObservableObject {
     /// starts with the correct login state.
     init() {
         checkLoginStatus()
+    }
+    
+    func isTokenExpired(token: String) -> Bool {
+        do {
+            let jwt = try decode(jwt: token)
+            return jwt.expired
+        } catch {
+            print("Failed to decode JWT: \(error)")
+            return true
+        }
     }
 
     // MARK: - Login Status Management
@@ -34,17 +49,46 @@ class AppState: ObservableObject {
     /// 2. Decodes the token (if it exists) to verify its validity.
     /// 3. Updates the `isLoggedIn` property based on whether the token is valid.
     func checkLoginStatus() {
-        // Attempt to retrieve the authentication token from the Keychain.
         if let tokenData = KeychainHelper.standard.read(
             service: KeychainKeys.service,
             account: KeychainKeys.authToken
         ),
-        let _ = String(data: tokenData, encoding: .utf8) {
-            // Token exists and is valid; set the user as logged in.
-            self.isLoggedIn = true
+        let token = String(data: tokenData, encoding: .utf8),
+        !isTokenExpired(token: token) {
+            do {
+                let jwt = try decode(jwt: token)
+                // Extract claims (assuming 'id' and 'email' are included in the token payload)
+                if let userId = jwt.claim(name: "id").integer,
+                   let userEmail = jwt.claim(name: "email").string {
+                    self.userId = userId
+                    self.userEmail = userEmail
+                }
+
+                // Optionally, fetch and set the currentUser from the server to get the full user object
+                fetchCurrentUser(token: token)
+            } catch {
+                print("Failed to decode JWT: \(error)")
+                isLoggedIn = false
+            }
         } else {
-            // Token does not exist or is invalid; set the user as logged out.
-            self.isLoggedIn = false
+            isLoggedIn = false
+            KeychainHelper.standard.delete(service: KeychainKeys.service, account: KeychainKeys.authToken)
+        }
+    }
+    
+    
+    func fetchCurrentUser(token: String) {
+        APIService.shared.getCurrentUser { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let user):
+                    self.currentUser = user
+                    self.isLoggedIn = true
+                case .failure(let error):
+                    print("Failed to fetch current user: \(error.localizedDescription)")
+                    self.isLoggedIn = false
+                }
+            }
         }
     }
 
@@ -61,7 +105,10 @@ class AppState: ObservableObject {
             account: KeychainKeys.authToken
         )
         // Update the state to reflect that the user is logged out.
-        self.isLoggedIn = false
+        DispatchQueue.main.async {
+            self.isLoggedIn = false
+            self.currentUser = nil
+        }
     }
 }
 

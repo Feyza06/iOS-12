@@ -223,19 +223,6 @@ struct LoginView: View {
     }
 }
 
-// Define the response structures
-struct LoginResponse: Codable {
-    let token: String
-    let user: User
-}
-
-struct User: Codable {
-    let id: Int
-    let email: String
-    let username: String
-    // Include other properties as needed
-}
-
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(

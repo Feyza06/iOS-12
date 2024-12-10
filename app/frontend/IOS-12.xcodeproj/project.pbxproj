@@ -11,6 +11,7 @@
 		295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23372CF740AA0069D408 /* OpenAPIClient */; };
 		295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23402CF76FFD0069D408 /* OpenAPIClient */; };
 		295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23452CF770FF0069D408 /* OpenAPIClient */; };
+		DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = DE85E1482CFF68DE00DB4787 /* JWTDecode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 				295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */,
 				295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */,
 				295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */,
+				DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */,
 				295B23322CF73E700069D408 /* OpenAPIClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +92,7 @@
 				6DF94F102CD1006B00CF6393 /* IOS-12UITests */,
 				6DF94EF42CD1006800CF6393 /* Products */,
 				6DF94EF52CD1006800CF6393 /* IOS-12 */,
+				DE85E1472CFF68DE00DB4787 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +104,13 @@
 				6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DE85E1472CFF68DE00DB4787 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,6 +137,7 @@
 				295B23372CF740AA0069D408 /* OpenAPIClient */,
 				295B23402CF76FFD0069D408 /* OpenAPIClient */,
 				295B23452CF770FF0069D408 /* OpenAPIClient */,
+				DE85E1482CFF68DE00DB4787 /* JWTDecode */,
 			);
 			productName = "IOS-12";
 			productReference = 6DF94EF32CD1006800CF6393 /* IOS-12.app */;
@@ -212,6 +223,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				295B23442CF770FF0069D408 /* XCLocalSwiftPackageReference "IOS-12/GeneratedClient" */,
+				DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6DF94EF42CD1006800CF6393 /* Products */;
@@ -578,6 +590,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		295B23312CF73E700069D408 /* OpenAPIClient */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -594,6 +617,11 @@
 		295B23452CF770FF0069D408 /* OpenAPIClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OpenAPIClient;
+		};
+		DE85E1482CFF68DE00DB4787 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

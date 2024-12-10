@@ -37,9 +37,14 @@ export class UserServiceService {
 
   async register(userData: Partial<User>): Promise<User> {
     // Ensure required fields are present
-    const { username, email, password, firstName, lastName } = userData;
+    const { username, email, password, firstName, lastName, photo } = userData;
+
     if (!username || !email || !password || !firstName || !lastName) {
       throw new HttpErrors.BadRequest('Missing required user fields');
+    }
+
+    if (photo && typeof photo !== 'string') {
+      throw new HttpErrors.BadRequest('Invalid photo URL.');
     }
 
     // Normalize email to lowercase
