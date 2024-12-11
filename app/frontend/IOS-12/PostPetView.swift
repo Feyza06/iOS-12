@@ -35,6 +35,8 @@ struct PostPetView: View {
     
     private let geocoder = CLGeocoder()
     
+    @StateObject private var viewModel = PostViewModel()
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -133,7 +135,9 @@ struct PostPetView: View {
                     
                     // Post Button
                     Button(action: {
-                        print("Post button pressed")
+                        // trigger the upload
+                        let postRequest = PostRequest (petName: petName, fee: Double(fee) ?? 0.0, gender: gender ? "Male" : "Female", petType: selectedPetType, petBreed: breed, birthday: birthday, description: description, location: addressString, photo: inputImage!=nil)
+                        viewModel.uploadPost(petRequest: postRequest)
                     }) {
                         Text("Post")
                             .fontWeight(.bold)

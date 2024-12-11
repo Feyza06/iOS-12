@@ -7,11 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		295B23322CF73E700069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23312CF73E700069D408 /* OpenAPIClient */; };
-		295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23372CF740AA0069D408 /* OpenAPIClient */; };
-		295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23402CF76FFD0069D408 /* OpenAPIClient */; };
-		295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23452CF770FF0069D408 /* OpenAPIClient */; };
-		DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = DE85E1482CFF68DE00DB4787 /* JWTDecode */; };
+		6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950F972D07355A00CFDB3D /* PetInformationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D950F972D07355A00CFDB3D /* PetInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetInformationView.swift; sourceTree = "<group>"; };
 		6DF94EF32CD1006800CF6393 /* IOS-12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-12.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F032CD1006B00CF6393 /* IOS-12Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,11 +57,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */,
-				295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */,
-				295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */,
-				DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */,
-				295B23322CF73E700069D408 /* OpenAPIClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,11 +80,11 @@
 		6DF94EEA2CD1006800CF6393 = {
 			isa = PBXGroup;
 			children = (
+				6D950F972D07355A00CFDB3D /* PetInformationView.swift */,
+				6DF94EF52CD1006800CF6393 /* IOS-12 */,
 				6DF94F062CD1006B00CF6393 /* IOS-12Tests */,
 				6DF94F102CD1006B00CF6393 /* IOS-12UITests */,
 				6DF94EF42CD1006800CF6393 /* Products */,
-				6DF94EF52CD1006800CF6393 /* IOS-12 */,
-				DE85E1472CFF68DE00DB4787 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,13 +96,6 @@
 				6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		DE85E1472CFF68DE00DB4787 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,11 +118,6 @@
 			);
 			name = "IOS-12";
 			packageProductDependencies = (
-				295B23312CF73E700069D408 /* OpenAPIClient */,
-				295B23372CF740AA0069D408 /* OpenAPIClient */,
-				295B23402CF76FFD0069D408 /* OpenAPIClient */,
-				295B23452CF770FF0069D408 /* OpenAPIClient */,
-				DE85E1482CFF68DE00DB4787 /* JWTDecode */,
 			);
 			productName = "IOS-12";
 			productReference = 6DF94EF32CD1006800CF6393 /* IOS-12.app */;
@@ -221,10 +201,6 @@
 			);
 			mainGroup = 6DF94EEA2CD1006800CF6393;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (
-				295B23442CF770FF0069D408 /* XCLocalSwiftPackageReference "IOS-12/GeneratedClient" */,
-				DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */,
-			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6DF94EF42CD1006800CF6393 /* Products */;
 			projectDirPath = "";
@@ -266,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +415,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.IOS-12App.identifier";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.restart.IOS-12";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -466,7 +443,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.IOS-12App.identifier";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.restart.IOS-12";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -582,48 +559,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		295B23442CF770FF0069D408 /* XCLocalSwiftPackageReference "IOS-12/GeneratedClient" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "IOS-12/GeneratedClient";
-		};
-/* End XCLocalSwiftPackageReference section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		295B23312CF73E700069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23372CF740AA0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23402CF76FFD0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23452CF770FF0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		DE85E1482CFF68DE00DB4787 /* JWTDecode */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */;
-			productName = JWTDecode;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6DF94EEB2CD1006800CF6393 /* Project object */;
 }
