@@ -71,8 +71,15 @@ struct ProfileEdit: View {
 
                     // userinfo
                     VStack(spacing: 20) {
-                        TextField("Username", text: $profileData.username)
-                            .styledTextField()
+                        HStack {
+                            TextField("Username", text: $profileData.username)
+                                .styledTextField()
+                            Button(action: {
+
+                            }) {
+                                Image(systemName: "pencil")
+                            }
+                        }
 
                         TextField("Firstname", text: $profileData.firstname)
                             .styledTextField()
@@ -99,6 +106,12 @@ struct ProfileEdit: View {
                         presentationMode.wrappedValue.dismiss()  // Schließt die Ansicht und speichert die Daten
                     }
                     .foregroundColor(.blue)
+
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        presentationMode.wrappedValue.dismiss()  // View schließen
+                    }
                 }
             }
             .sheet(isPresented: $isImagePickerPresented) {
@@ -132,4 +145,3 @@ extension View {
                 username: "Username", firstname: "Firstname",
                 lastname: "Lastname")))
 }
- 

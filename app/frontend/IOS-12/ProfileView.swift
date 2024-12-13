@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var isMenuVisible = false
+  
     @State private var showEditProfile = false
-    @State private var isImagePickerPresented = false
     @State private var profileData = UserProfileData(
         username: "Username",
         firstname: "Firstname",
@@ -53,15 +52,6 @@ struct ProfileView: View {
                                     }
                                 }
                             }
-                        /* Button(action: {
-                         withAnimation {
-                         isMenuVisible.toggle()
-                         }
-                         }) {
-                         Image(systemName: "line.3.horizontal")
-                         .font(.title2)
-                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
-                         }*/
                     }
                     .padding()
                     //profilepicture + userinfo
@@ -133,43 +123,6 @@ struct ProfileView: View {
                     }
                     Spacer()
                 }
-
-                //menubar
-                /*  if isMenuVisible{
-                 Color.black.opacity(0.5)
-                 .edgesIgnoringSafeArea(.all)
-                 .onTapGesture {
-                 withAnimation{
-                 isMenuVisible.toggle()
-                 }
-                 }
-                 VStack{
-                 HStack{
-                 Spacer()
-
-                 VStack(alignment: .leading){
-                 Button(action: {
-                 withAnimation {
-                 isMenuVisible.toggle()
-                 }
-                 showEditProfile = true
-                 }) {
-                 Text("Edit Profile")
-                 .font(.headline)
-                 .padding()
-                 .foregroundColor(.blue)
-                 }
-                 Spacer()
-                 }
-                 .frame(width: UIScreen.main.bounds.width * 0.5) // 50% od the displaywidth
-                 .background(Color.white)
-                 .cornerRadius(10)
-                 .shadow(radius: 5)
-                 .padding(.top, 50)
-                 .transition(.move(edge: .trailing))
-                 }
-                 }
-                 }*/
             }
             .sheet(isPresented: $showEditProfile) {
                 ProfileEdit(profileData: $profileData)
