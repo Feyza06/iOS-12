@@ -7,7 +7,7 @@
 
 
 struct UploadPostEndpoint: APIEndpointType {
-    var baseURL: String {"http://localhost:3000"}
+    var baseURL: String {"http://127.0.0.1:3000"}
     var path: String {"/posts"}
     var method: HTTPMethod {.POST}
     var body: Encodable? {postRequest}

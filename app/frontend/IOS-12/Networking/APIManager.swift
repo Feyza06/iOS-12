@@ -14,7 +14,7 @@ final class APIManager {
     private let networkHandler: NetworkHandler
     private let responseHandler: ResponseHandler
     
-    private init(networkHandler: NetworkHandler = NetworkHandler(),
+    init(networkHandler: NetworkHandler = NetworkHandler(),
                  responseHandler: ResponseHandler = ResponseHandler()){
         self.networkHandler = networkHandler
         self.responseHandler = responseHandler

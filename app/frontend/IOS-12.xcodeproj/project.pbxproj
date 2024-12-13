@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		297254A42D09C41C00E5C5E2 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 297254A32D09C41C00E5C5E2 /* JWTDecode */; };
 		6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950F972D07355A00CFDB3D /* PetInformationView.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,9 +35,30 @@
 		6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		297254AD2D09E2BF00E5C5E2 /* Exceptions for "IOS-12" folder in "IOS-12Tests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/PostRequest.swift,
+				Models/PostResponse.swift,
+				Networking/APIEndpointType.swift,
+				Networking/APIManager.swift,
+				Networking/HTTPMethod.swift,
+				Networking/NetworkError.swift,
+				Networking/NetworkHandler.swift,
+				Networking/PostEndpoints.swift,
+				Networking/ResponseHandler.swift,
+			);
+			target = 6DF94F022CD1006B00CF6393 /* IOS-12Tests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6DF94EF52CD1006800CF6393 /* IOS-12 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				297254AD2D09E2BF00E5C5E2 /* Exceptions for "IOS-12" folder in "IOS-12Tests" target */,
+			);
 			path = "IOS-12";
 			sourceTree = "<group>";
 		};
@@ -57,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				297254A42D09C41C00E5C5E2 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +141,7 @@
 			);
 			name = "IOS-12";
 			packageProductDependencies = (
+				297254A32D09C41C00E5C5E2 /* JWTDecode */,
 			);
 			productName = "IOS-12";
 			productReference = 6DF94EF32CD1006800CF6393 /* IOS-12.app */;
@@ -201,6 +225,9 @@
 			);
 			mainGroup = 6DF94EEA2CD1006800CF6393;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				297254A22D09C41C00E5C5E2 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6DF94EF42CD1006800CF6393 /* Products */;
 			projectDirPath = "";
@@ -559,6 +586,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		297254A22D09C41C00E5C5E2 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		297254A32D09C41C00E5C5E2 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 297254A22D09C41C00E5C5E2 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6DF94EEB2CD1006800CF6393 /* Project object */;
 }

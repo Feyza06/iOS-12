@@ -35,7 +35,19 @@ struct PostPetView: View {
     
     private let geocoder = CLGeocoder()
     
-    @StateObject private var viewModel = PostViewModel()
+    // View Model
+    @ObservedObject private var viewModel = PostViewModel()
+    
+    
+    // Message
+    @State private var statusMessage: String?
+    @State private var isSuccess: Bool?
+    
+//    
+//      init(viewModel: PostViewModel) {
+//          _viewModel = ObservedObject(wrappedValue: viewModel)
+//      }
+    
     
     var body: some View {
         NavigationView {
@@ -50,21 +62,11 @@ struct PostPetView: View {
                         petTypes: petTypes,
                         selectedPetType: $selectedPetType,
                         breed: $breed,
-                        birthday: $birthday
+                        birthday: $birthday,
+                        description: $description
                     )
                     
-                    // Description Section
-                    Section(header: Text("Description")
-                        .font(.headline)
-                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
-                            TextEditor(text: $description)
-                                .padding()
-                                .frame(height: 100)
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                .shadow(radius: 5)
-                        }
-                    
+                   
                     // Pet Photo Section
                     Section(header: Text("Pet Photo")
                         .font(.headline)
@@ -135,9 +137,19 @@ struct PostPetView: View {
                     
                     // Post Button
                     Button(action: {
+                        
                         // trigger the upload
-                        let postRequest = PostRequest (petName: petName, fee: Double(fee) ?? 0.0, gender: gender ? "Male" : "Female", petType: selectedPetType, petBreed: breed, birthday: birthday, description: description, location: addressString, photo: inputImage!=nil)
-                        viewModel.uploadPost(petRequest: postRequest)
+                        let postRequest = PostRequest (petName: petName, fee: Double(fee) ?? 0.0, gender: gender ? "Male" : "Female", petType: selectedPetType, petBreed: breed, birthday: birthday, description: description, location: addressString, photo: (inputImage != nil))
+                        
+                        viewModel.uploadPost(postRequest: postRequest) { result in
+                            switch result {
+                            case .success(let response):
+                                statusMessage = "Post uploaded successfully!"
+                                isSuccess = true
+                            case .failure(let error):
+                                statusMessage = "Failed to upload post: \(error.localizedDescription)"
+                                isSuccess  = false
+                            }}
                     }) {
                         Text("Post")
                             .fontWeight(.bold)
@@ -149,6 +161,13 @@ struct PostPetView: View {
                             .shadow(radius: 5)
                     }
                     .padding(.top, 20)
+                    
+                    if let statusMessage = statusMessage {
+                        Text(statusMessage)
+                            .fontWeight(.bold)
+                            .foregroundColor(isSuccess == true ? .green : .red)
+                            .padding()
+                    }
                 }
                 .padding()
                 .background(Color(hex: "#FFE3C4"))
@@ -160,6 +179,9 @@ struct PostPetView: View {
             .background(Color(hex: "#FFE3C4"))
         }
     }
+    
+    // MARK: - Helper functions
+    
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
@@ -181,11 +203,17 @@ struct PostPetView: View {
         }
     }
 }
-    
-struct PostPetView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostPetView()
-    }
-}
 
 
+
+
+
+
+//    
+//struct PostPetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostPetView(viewModel: MockPostViewModel())
+//    }
+//}
+//
+//

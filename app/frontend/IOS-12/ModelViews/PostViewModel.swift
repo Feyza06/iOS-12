@@ -12,7 +12,7 @@ class PostViewModel: ObservableObject {
     @Published var uploadSuccess: Bool = false
     @Published var errorMessage: String?
 
-    func uploadPost(postRequest: PostRequest) {
+    func uploadPost(postRequest: PostRequest, completion: @escaping (Result<PostResponse, Error>) -> Void) {
         // Initialize the endpoint
         let endpoint = UploadPostEndpoint(postRequest: postRequest)
 
@@ -33,9 +33,11 @@ class PostViewModel: ObservableObject {
                 case .success(let response):
                     print("Upload successful: \(response)")
                     self?.uploadSuccess = true
+                    completion(.success(response))
                 case .failure(let error):
                     print("Error uploading post: \(error)")
                     self?.errorMessage = error.localizedDescription
+                    completion(.failure(error))
                 }
             }
         }

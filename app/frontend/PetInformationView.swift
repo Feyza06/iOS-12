@@ -15,6 +15,7 @@ struct PetInformationView: View {
     @Binding var selectedPetType: String
     @Binding var breed: String
     @Binding var birthday: Date
+    @Binding var description: String
 
     var body: some View {
         Section(header: Text("Pet Information")
@@ -89,6 +90,19 @@ struct PetInformationView: View {
                 .background(Color.white)
                 .cornerRadius(10)
                 .shadow(radius: 5)
+                
+            // Description
+            Text("Description")
+                    .font(.headline)
+                                .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
+                                .padding(.top, 10)
+                            TextEditor(text: $description)
+                                .padding()
+                                .frame(height: 120)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+            
         }
     }
 }
@@ -102,7 +116,8 @@ struct PetInformationView_Previews: PreviewProvider {
             petTypes: ["Dog", "Cat", "Bird", "Fish", "Other"],
             selectedPetType: .constant("Dog"),
             breed: .constant("Golden Retriever"),
-            birthday: .constant(Date())
+            birthday: .constant(Date()),
+            description: .constant("A playful and energetic dog.")
         )
     }
 }
