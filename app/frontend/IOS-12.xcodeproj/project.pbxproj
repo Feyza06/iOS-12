@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		295B23322CF73E700069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23312CF73E700069D408 /* OpenAPIClient */; };
-		295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23372CF740AA0069D408 /* OpenAPIClient */; };
-		295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23402CF76FFD0069D408 /* OpenAPIClient */; };
-		295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 295B23452CF770FF0069D408 /* OpenAPIClient */; };
 		DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = DE85E1482CFF68DE00DB4787 /* JWTDecode */; };
 /* End PBXBuildFile section */
 
@@ -60,11 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				295B23462CF770FF0069D408 /* OpenAPIClient in Frameworks */,
-				295B23412CF76FFD0069D408 /* OpenAPIClient in Frameworks */,
-				295B23382CF740AA0069D408 /* OpenAPIClient in Frameworks */,
 				DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */,
-				295B23322CF73E700069D408 /* OpenAPIClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,10 +125,6 @@
 			);
 			name = "IOS-12";
 			packageProductDependencies = (
-				295B23312CF73E700069D408 /* OpenAPIClient */,
-				295B23372CF740AA0069D408 /* OpenAPIClient */,
-				295B23402CF76FFD0069D408 /* OpenAPIClient */,
-				295B23452CF770FF0069D408 /* OpenAPIClient */,
 				DE85E1482CFF68DE00DB4787 /* JWTDecode */,
 			);
 			productName = "IOS-12";
@@ -602,22 +590,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		295B23312CF73E700069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23372CF740AA0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23402CF76FFD0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
-		295B23452CF770FF0069D408 /* OpenAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OpenAPIClient;
-		};
 		DE85E1482CFF68DE00DB4787 /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */;
