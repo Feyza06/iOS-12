@@ -26,6 +26,7 @@ import {promisify} from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
 import multer from 'multer';
+import {processSingleFileUpload} from '../utils/file-upload.helper';
 
 const writeFile = promisify(fs.writeFile);
 
@@ -65,53 +66,36 @@ export class UserControllerController {
       }) request: Request,
       @inject(RestBindings.Http.RESPONSE) response: Response,
   ): Promise<User> {
-    const storage = multer.memoryStorage();
-    const upload = multer({storage});
-
-    return new Promise<User>((resolve, reject) => {
-      upload.single('photo')(request, response, async (err: any) => {
-        if (err) return reject(err);
-
-        const { firstName, lastName, username, email, password } = request.body;
-
-        // Validate after Multer processes the request
-        if (!firstName || !lastName || !username || !email || !password) {
-          return reject(new Error('Missing required fields'));
-        }
-
-        // Save the uploaded file if present
-        let photoUrl: string | undefined;
-        if (request.file) {
-          const ext = path.extname(request.file.originalname);
-          const filename = `${Date.now()}-${username}${ext}`;
-          const filePath = path.join(__dirname, '../../uploads', filename);
-
-          try {
-            await writeFile(filePath, request.file.buffer);
-            // Use a relative URL, or a full URL if your frontend expects it
-            photoUrl = `/uploads/${filename}`;
-          } catch (error) {
-            console.error('Error writing file:', error);
-            // You could reject here if the image is critical, or just proceed without a photo.
-          }
-        }
-
-        // Call the userService to register the user with the photo URL
-        try {
-          const newUser = await this.userService.register({
-            firstName,
-            lastName,
-            username,
-            email,
-            password,
-            photo: photoUrl,
-          });
-          resolve(newUser);
-        } catch (error) {
-          reject(error);
-        }
+    try {
+      // Process file upload (if any)
+      const photoUrl = await processSingleFileUpload(request, response, {
+        fieldName: 'photo',
+        uploadFolder: '../../uploads',
+        filenamePrefix: 'userphoto',
       });
-    });
+
+      const { firstName, lastName, username, email, password } = request.body;
+
+      // Validate required fields
+      if (!firstName || !lastName || !username || !email || !password) {
+        throw new Error('Missing required fields');
+      }
+
+      // Now register the user with the optional photoUrl
+      const newUser = await this.userService.register({
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        photo: photoUrl,
+      });
+
+      return newUser;
+    } catch (error) {
+      // Handle errors as appropriate
+      throw error;
+    }
   }
 
   @post('/login')
