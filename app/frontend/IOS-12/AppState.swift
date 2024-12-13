@@ -8,6 +8,7 @@
 import SwiftUI
 import JWTDecode
 
+
 /// A global state manager for the app that tracks and handles high-level states, such as the user's login status.
 /// This class is an `ObservableObject`, which allows SwiftUI views to automatically update when the state changes.
 class AppState: ObservableObject {
