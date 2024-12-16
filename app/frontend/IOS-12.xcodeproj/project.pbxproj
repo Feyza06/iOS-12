@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950F972D07355A00CFDB3D /* PetInformationView.swift */; };
+		6D950FAB2D0C7DA900CFDB3D /* ErrorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950FAA2D0C7D9500CFDB3D /* ErrorOverlay.swift */; };
+		6D9510042D0C87CB00CFDB3D /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 6D9510032D0C87CB00CFDB3D /* JWTDecode */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		6DF94F042CD1006B00CF6393 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D950F972D07355A00CFDB3D /* PetInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetInformationView.swift; sourceTree = "<group>"; };
+		6D950FA72D0C768100CFDB3D /* DistanceCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceCalculator.swift; sourceTree = "<group>"; };
+		6D950FAA2D0C7D9500CFDB3D /* ErrorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorOverlay.swift; sourceTree = "<group>"; };
 		6DF94EF32CD1006800CF6393 /* IOS-12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-12.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F032CD1006B00CF6393 /* IOS-12Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D9510042D0C87CB00CFDB3D /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +82,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D950FA62D0C767900CFDB3D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6D950FA72D0C768100CFDB3D /* DistanceCalculator.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		6D9510022D0C87C400CFDB3D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6DF94EEA2CD1006800CF6393 = {
 			isa = PBXGroup;
 			children = (
+				6D950FAA2D0C7D9500CFDB3D /* ErrorOverlay.swift */,
+				6D950FA62D0C767900CFDB3D /* Helpers */,
+				6D950F972D07355A00CFDB3D /* PetInformationView.swift */,
 				6DF94EF52CD1006800CF6393 /* IOS-12 */,
 				6DF94F062CD1006B00CF6393 /* IOS-12Tests */,
 				6DF94F102CD1006B00CF6393 /* IOS-12UITests */,
+				6D9510022D0C87C400CFDB3D /* Frameworks */,
 				6DF94EF42CD1006800CF6393 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +141,7 @@
 			);
 			name = "IOS-12";
 			packageProductDependencies = (
+				6D9510032D0C87CB00CFDB3D /* JWTDecode */,
 			);
 			productName = "IOS-12";
 			productReference = 6DF94EF32CD1006800CF6393 /* IOS-12.app */;
@@ -195,6 +225,9 @@
 			);
 			mainGroup = 6DF94EEA2CD1006800CF6393;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				6D950FB22D0C804C00CFDB3D /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6DF94EF42CD1006800CF6393 /* Products */;
 			projectDirPath = "";
@@ -236,6 +269,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D950FAB2D0C7DA900CFDB3D /* ErrorOverlay.swift in Sources */,
+				6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +587,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6D950FB22D0C804C00CFDB3D /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6D9510032D0C87CB00CFDB3D /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D950FB22D0C804C00CFDB3D /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6DF94EEB2CD1006800CF6393 /* Project object */;
 }

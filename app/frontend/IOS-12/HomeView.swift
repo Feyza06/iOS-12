@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    var onLogin: () -> Void
+    var onRegister: () -> Void
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -34,31 +37,26 @@ struct HomeView: View {
                     Spacer() // Space between button & text
                     
                     // register-button
-                    Button(action: {
-                        // Aktion für den Button
-                    }) {
-                        NavigationLink(destination: SignUpView()) {
-                            Text("REGISTER")
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(width: 300)
-                                .background(Color(red: 0.55, green: 0.27, blue: 0.07))
-                                .cornerRadius(10)
-                                .padding(.horizontal, 40)
-                        }
-                        }
-                        Button(action: {
-                            print("Already have an account?")
-                        }) {
-                            // Link für bestehenden Account
-                            NavigationLink(destination: LoginView()){
-                                Text("Already have an account? LOGIN")
-                                    .font(.footnote)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
-                            }
-                        }
+                    // Register Button
+                    Button(action: onRegister) {
+                        Text("REGISTER")
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 300)
+                            .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                            .cornerRadius(10)
+                            .padding(.horizontal, 40)
+                    }
+                    
+                    // Login Button
+                    Button(action: onLogin) {
+                        Text("Already have an account? LOGIN")
+                            .font(.footnote)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))
+                    }
+      
                         
                         Spacer()
                     }
@@ -70,5 +68,8 @@ struct HomeView: View {
 
 
 #Preview {
-    HomeView()
+    HomeView(
+        onLogin: {},
+        onRegister: {}
+    )
 }

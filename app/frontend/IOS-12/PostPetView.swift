@@ -6,129 +6,168 @@
 //
 
 import SwiftUI
+import MapKit
 import CoreLocation
-import Photos
 
 struct PostPetView: View {
     // Pet details
     @State private var petName = ""
-    @State private var petType = ""
-    @State private var breed = ""
     @State private var gender = true // true = Male, false = Female
-    @State private var description = ""
-    
-    // Lost details
+    @State private var fee = ""
+    let petTypes = ["Dog", "Cat", "Bird", "Fish", "Other"]
+    @State private var selectedPetType = ""
+    @State private var breed = ""
     @State private var birthday = Date()
-    @State private var location = ""
     
     // Image handling
     @State private var picture: Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     
+    // Map handling
+    @State private var addressString = ""
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 51.3704, longitude: 6.1724),
+        span: MKCoordinateSpan(latitudeDelta: 0.06, longitudeDelta: 0.06)
+    )
+    @State private var selectedCoordinate = CLLocationCoordinate2D(latitude: 51.3704, longitude: 6.1724)
+    @State private var description = ""
+    
+    // Error handling
+    @State private var showError = false
+    @State private var errorMessage = "Something went wrong"
+    
+    private let geocoder = CLGeocoder()
+    
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 25) {
-                    // Pet Details Section
-                    Section(header: Text("Pet Information")
-                        .font(.headline)
-                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) { // Braun für Überschrift
-                        TextField("Pet Name", text: $petName)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
+            ZStack {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 25) {
+                        // Pet Information Section
+                        PetInformationView(
+                            petName: $petName,
+                            gender: $gender,
+                            fee: $fee,
+                            petTypes: petTypes,
+                            selectedPetType: $selectedPetType,
+                            breed: $breed,
+                            birthday: $birthday
+                        )
                         
-                        Picker("Gender", selection: $gender) {
-                            Text("Male").tag(true)
-                            Text("Female").tag(false)
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .padding(.bottom, 10)
-                        
-                        TextField("Type", text: $petType)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                        
-                        TextField("Breed", text: $breed)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                        
-                        DatePicker("Birthday", selection: $birthday, in: ...Date(), displayedComponents: .date)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                    }
-                    
-                    
-                    Section(header: Text("Description")
-                        .font(.headline)
-                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
-                        TextEditor(text: $description)
-                            .padding()
-                            .frame(height: 100)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                    }
-                    
-                    
-                    Section(header: Text("Pet Photo")
-                        .font(.headline)
-                        .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(white: 0.9))
-                                .frame(height: 200)
-                            if let picture = picture {
-                                picture
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 200)
-                                    .cornerRadius(15)
+                        // Description Section
+                        Section(header: Text("Description")
+                            .font(.headline)
+                            .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
+                                TextEditor(text: $description)
+                                    .padding()
+                                    .frame(height: 100)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
                                     .shadow(radius: 5)
-                            } else {
-                                Text("Upload a picture")
-                                    .foregroundColor(.gray)
-                                    .onTapGesture {
-                                        showingImagePicker = true
-                                    }
                             }
+                        
+                        // Pet Photo Section
+                        Section(header: Text("Pet Photo")
+                            .font(.headline)
+                            .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color(white: 0.9))
+                                        .frame(height: 200)
+                                    if let picture = picture {
+                                        picture
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 200)
+                                            .cornerRadius(15)
+                                            .shadow(radius: 5)
+                                    } else {
+                                        Text("Upload a picture")
+                                            .foregroundColor(.gray)
+                                            .onTapGesture {
+                                                showingImagePicker = true
+                                            }
+                                    }
+                                }
+                                .padding()
+                            }
+                        
+                        // Map Section
+                        Section(header: Text("Enter Address")
+                            .font(.headline)
+                            .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
+                                VStack {
+                                    TextField("Enter address", text: $addressString)
+                                        .padding()
+                                        .background(Color.white)
+                                        .cornerRadius(10)
+                                        .shadow(radius: 5)
+                                        .onChange(of: addressString) { newValue in
+                                            lookupAddress(for: newValue)
+                                        }
+                                    
+                                    ZStack {
+                                        Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
+                                            .frame(height: 300)
+                                            .cornerRadius(15)
+                                            .shadow(radius: 5)
+                                        
+                                        Image(systemName: "mappin.circle.fill")
+                                            .foregroundColor(.red)
+                                            .font(.largeTitle)
+                                            .offset(y: -15)
+                                    }
+                                    
+                                    Button(action: {
+                                        print("Selected location: \(selectedCoordinate), Address: \(addressString)")
+                                    }) {
+                                        Text("Set Location")
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 8)
+                                            .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                                            .cornerRadius(10)
+                                            .shadow(radius: 5)
+                                    }
+                                    .padding(.top, 10)
+                                }
+                            }
+                        
+                        // Post Button
+                        Button(action: validateFields) {
+                            Text("Post")
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                                .cornerRadius(15)
+                                .shadow(radius: 5)
                         }
-                        .padding()
+                        .padding(.top, 20)
                     }
-                    
-                    
-                    Button(action: {
-                        // Submit action goes here
-                    }) {
-                        Text("Post")
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(red: 0.55, green: 0.27, blue: 0.07)) // Braun für Button
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
-                    }
-                    .padding(.top, 20)
+                    .padding()
                 }
-                .padding()
-                .background(Color(hex: "#FFE3C4")) 
+                .background(Color(hex: "#FFE3C4"))
                 .navigationTitle("Post Pet")
-            
                 .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
                     ImagePicker(image: $inputImage)
-                        
                 }
+                
+                // Error Overlay
+                ErrorOverlay(isVisible: $showError, message: errorMessage)
             }
-            .background(Color(hex: "#FFE3C4")) 
+        }
+    }
+    
+    func validateFields() {
+        if fee.isEmpty {
+            errorMessage = "Please enter a valid fee."
+            withAnimation {
+                showError = true
+            }
         }
     }
     
@@ -136,75 +175,26 @@ struct PostPetView: View {
         guard let inputImage = inputImage else { return }
         picture = Image(uiImage: inputImage)
     }
-}
-
-/*private func registerUser() {
-    let postData: [String: Any] = [
-        "petName": petName,
-        "petType": petType,
-        "breed": breed,
-        "gender": gender,
-        "description": description
-    ]
-
-    guard let url = URL(string: "http://127.0.0.1:3000/posts") else {
-        errorMessage = "Invalid URL"
-        return
+    
+    func lookupAddress(for address: String) {
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if let error = error {
+                print("Geocoding failed: \(error)")
+                self.addressString = "Unknown"
+            } else if let placemarks = placemarks, let placemark = placemarks.first {
+                self.selectedCoordinate = placemark.location?.coordinate ?? CLLocationCoordinate2D(latitude: 51.3704, longitude: 6.1724)
+                self.region.center = self.selectedCoordinate
+                self.addressString = [placemark.thoroughfare, placemark.subThoroughfare, placemark.locality, placemark.administrativeArea, placemark.postalCode, placemark.country]
+                    .compactMap { $0 }
+                    .joined(separator: ", ")
+            }
+        }
     }
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-    do {
-        request.httpBody = try JSONSerialization.data(withJSONObject: userData, options: [])
-    } catch {
-        errorMessage = "Error serializing JSON: \(error.localizedDescription)"
-        return
-    }
-
-    URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            DispatchQueue.main.async {
-                errorMessage = "Network error: \(error.localizedDescription)"
-            }
-            return
-        }
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            DispatchQueue.main.async {
-                errorMessage = "Invalid response."
-            }
-            return
-        }
-
-        DispatchQueue.main.async {
-            if httpResponse.statusCode == 200 {
-                registrationSuccess = true
-                errorMessage = nil
-                email = ""
-                firstname = ""
-                lastName = ""
-                username = ""
-                password = ""
-            } else {
-                if let data = data,
-                   let responseMessage = try? JSONDecoder().decode([String: String].self, from: data),
-                   let serverMessage = responseMessage["message"] {
-                    errorMessage = "Registration failed: \(serverMessage)"
-                } else {
-                    errorMessage = "Registration failed. Server responded with status code: \(httpResponse.statusCode)"
-                }
-            }
-        }
-    }.resume()
 }
-*/
-
+    
 struct PostPetView_Previews: PreviewProvider {
     static var previews: some View {
         PostPetView()
     }
 }
-
-
 

@@ -4,8 +4,16 @@ import { HttpErrors } from '@loopback/rest';
 import * as bcrypt from 'bcrypt';
 import { User } from '../models';
 import { UserRepository } from '../repositories';
+import * as jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-// Optional: Basic email and password validation
+const JWT_SECRET = process.env.JWT_SECRET || 'best_pet_adoption_app_secret';
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET is not defined in environment variables.');
+}
+const JWT_EXPIRES_IN = '7d'; // Token expires in 7 days
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 8;
 
@@ -29,9 +37,14 @@ export class UserServiceService {
 
   async register(userData: Partial<User>): Promise<User> {
     // Ensure required fields are present
-    const { username, email, password, firstName, lastName } = userData;
+    const { username, email, password, firstName, lastName, photo } = userData;
+
     if (!username || !email || !password || !firstName || !lastName) {
       throw new HttpErrors.BadRequest('Missing required user fields');
+    }
+
+    if (photo && typeof photo !== 'string') {
+      throw new HttpErrors.BadRequest('Invalid photo URL.');
     }
 
     // Normalize email to lowercase
@@ -63,8 +76,7 @@ export class UserServiceService {
     return userWithoutPassword as User;
   }
 
-  async login(email: string, password: string): Promise<User> {
-    // Normalize email to lowercase
+  async login(email: string, password: string): Promise<{ token: string; user: User }> {    // Normalize email to lowercase
     const normalizedEmail = email.toLowerCase();
 
     // Validate email format
@@ -86,10 +98,22 @@ export class UserServiceService {
       throw new HttpErrors.Unauthorized('Invalid email or password.');
     }
 
-    // Optionally, generate and return a token here (e.g., JWT)
+// Generate JWT token
+    const token = jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          // Include other necessary user info
+        },
+        JWT_SECRET,
+        {
+          expiresIn: JWT_EXPIRES_IN,
+        }
+    );
 
-    // Remove password from user object before returning
-    const {password: _, ...userWithoutPassword} = user;
-    return userWithoutPassword as User;
+// Remove password from user object before returning
+    const { password: _password, ...userWithoutPassword } = user;
+    return { token, user: userWithoutPassword as User };
   }
 }
