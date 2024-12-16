@@ -1,73 +1,53 @@
-//
-//  FavouritesView.swift
-//  IOS-12
-//
-//  Created by Lisa Mustafa on 02.12.24.
-//
-
 import SwiftUI
 
 struct FavoriteAnimalView: View {
-    @State private var favorites: [String] = ["British shorthair"]
-    @State private var newFavorite: String = ""
-
+    // MARK: - Properties
+    @State private var favorites: [String] = ["British Shorthair", "Golden Retriever", "Maine Coon", "Persian Cat"]
+    
     var body: some View {
         NavigationView {
             VStack {
-                // Eingabefeld zum Hinzufügen neuer Favoriten
-                HStack {
-                    TextField("Add new pet", text: $newFavorite)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                // MARK: - Favoritenliste
+                if favorites.isEmpty {
+                    // Anzeige, wenn keine Favoriten vorhanden sind
+                    Text("No favorites yet.")
+                        .foregroundColor(.gray)
+                        .font(.title3)
                         .padding()
-                    
-                    Button(action: {
-                        addFavorite()
-                    }) {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.green)
-                    }
-                    .padding(.trailing)
-                }
-                
-                // Liste der Favoriten
-                List {
-                    ForEach(favorites, id: \.self) { favorite in
-                        HStack {
-                            Circle()
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.brown.opacity(0.5)) // Kreis für Bildplatzhalter
-                            
-                            Text(favorite)
-                                .font(.headline)
-                                .foregroundColor(.brown)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                removeFavorite(favorite)
-                            }) {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
+                } else {
+                    List {
+                        ForEach(favorites, id: \.self) { favorite in
+                            HStack {
+                                // Kreis-Icon als Bildplatzhalter
+                                Circle()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(.brown.opacity(0.5))
+                                
+                                Text(favorite)
+                                    .font(.headline)
+                                    .foregroundColor(.brown)
+                                
+                                Spacer()
+                                
+                                // Löschen-Button
+                                Button(action: {
+                                    removeFavorite(favorite)
+                                }) {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.red)
+                                }
                             }
+                            .padding(.vertical, 5)
                         }
-                        .padding(.vertical, 5)
                     }
+                    .listStyle(PlainListStyle())
                 }
-                .listStyle(PlainListStyle())
             }
-            .navigationTitle("Favori")
+            .navigationTitle("Favorites")
         }
     }
-
-    // Funktion zum Hinzufügen neuer Favoriten
-    private func addFavorite() {
-        guard !newFavorite.isEmpty else { return }
-        favorites.append(newFavorite)
-        newFavorite = ""
-    }
-
-    // Funktion zum Entfernen eines Favoriten
+    
+    // MARK: - Funktion zum Entfernen eines Favoriten
     private func removeFavorite(_ favorite: String) {
         if let index = favorites.firstIndex(of: favorite) {
             favorites.remove(at: index)
@@ -75,18 +55,7 @@ struct FavoriteAnimalView: View {
     }
 }
 
-struct FavouritesView: View {
-    var body: some View {
-        FavoriteAnimalView() // Einbindung der View
-    }
+// MARK: - Vorschau
+#Preview {
+    FavoriteAnimalView()
 }
-
-struct FavouritesView_Previews: PreviewProvider {
-    static var previews: some View {
-        FavouritesView()
-    }
-}
-
-
-
-
