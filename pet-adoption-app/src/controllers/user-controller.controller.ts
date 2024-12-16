@@ -13,14 +13,21 @@ import {
   param,
   patch,
   post,
-  put,
-  requestBody,
-  response,
+  put, Request,
+  requestBody, Response,
+  response, RestBindings,
 } from '@loopback/rest';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 import {UserServiceService} from '../services'; // Import UserServiceService
 import {inject} from '@loopback/core';
+import {authenticate} from "@loopback/authentication";
+import {promisify} from 'util';
+import * as fs from 'fs';
+import * as path from 'path';
+import multer from 'multer';
+
+const writeFile = promisify(fs.writeFile);
 
 export class UserControllerController {
   constructor(
@@ -37,25 +44,90 @@ export class UserControllerController {
   })
   async create(
       @requestBody({
+        description: 'User registration',
+        required: true,
         content: {
-          'application/json': {
-            schema: getModelSchemaRef(User, {
-              title: 'NewUser',
-              exclude: ['id'],
-            }),
+          'multipart/form-data': {
+            'x-parser': 'stream',
+            schema: {
+              type: 'object',
+              properties: {
+                firstName: {type: 'string'},
+                lastName: {type: 'string'},
+                username: {type: 'string'},
+                email: {type: 'string'},
+                password: {type: 'string'},
+                photo: {type: 'string', format: 'binary'},
+              },
+            },
           },
         },
-      })
-          user: Omit<User, 'id'>,
+      }) request: Request,
+      @inject(RestBindings.Http.RESPONSE) response: Response,
   ): Promise<User> {
-    // Use userService.register instead of directly creating the user in the repository
-    return this.userService.register(user);
+    const storage = multer.memoryStorage();
+    const upload = multer({storage});
+
+    return new Promise<User>((resolve, reject) => {
+      upload.single('photo')(request, response, async (err: any) => {
+        if (err) return reject(err);
+
+        const { firstName, lastName, username, email, password } = request.body;
+
+        // Validate after Multer processes the request
+        if (!firstName || !lastName || !username || !email || !password) {
+          return reject(new Error('Missing required fields'));
+        }
+
+        // Save the uploaded file if present
+        let photoUrl: string | undefined;
+        if (request.file) {
+          const ext = path.extname(request.file.originalname);
+          const filename = `${Date.now()}-${username}${ext}`;
+          const filePath = path.join(__dirname, '../../uploads', filename);
+
+          try {
+            await writeFile(filePath, request.file.buffer);
+            // Use a relative URL, or a full URL if your frontend expects it
+            photoUrl = `/uploads/${filename}`;
+          } catch (error) {
+            console.error('Error writing file:', error);
+            // You could reject here if the image is critical, or just proceed without a photo.
+          }
+        }
+
+        // Call the userService to register the user with the photo URL
+        try {
+          const newUser = await this.userService.register({
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+            photo: photoUrl,
+          });
+          resolve(newUser);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
   }
 
   @post('/login')
   @response(200, {
     description: 'User login',
-    content: {'application/json': {schema: getModelSchemaRef(User)}},
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            token: {type: 'string'},
+            user: getModelSchemaRef(User),
+          },
+        },
+      },
+    },
   })
   async login(
       @requestBody({
@@ -73,7 +145,7 @@ export class UserControllerController {
         },
       })
           credentials: {email: string; password: string},
-  ): Promise<User> {
+  ): Promise<{ token: string; user: User }> {
     return this.userService.login(credentials.email, credentials.password);
   }
 
@@ -125,6 +197,7 @@ export class UserControllerController {
     return this.userRepository.updateAll(user, where);
   }
 
+  @authenticate('jwt')
   @get('/users/{id}')
   @response(200, {
     description: 'User model instance',

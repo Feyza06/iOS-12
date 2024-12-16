@@ -12,9 +12,12 @@ struct PetDetailView: View {
     @State var isFavorite: Bool = false
     @State var currentIndex: Int = 0
     
+    @State private var isFullScreen: Bool = false
+    @State private var selectedImage: String = ""
+    
     let pet: Pet
     
-    private var _trailingView: some View {
+    private var trailingView: some View {
         Image(systemName: isFavorite ? "heart.fill" : "heart")
             .foregroundColor(.primaryColor)
             .frame(width: 36, height: 36)
@@ -29,25 +32,28 @@ struct PetDetailView: View {
         VStack {
             ScrollView(.vertical) {
                 ZStack(alignment: Alignment.bottom) {
-                    // PagingView mit den Bildern des Haustiers
-                    ForEach(pet.images, id: \.self) { image in
-                        Image(image)
-                            .resizable()
-                    }
-                    HStack(spacing: 8) {
-                        ForEach(0...(pet.images.count - 1), id: \.self) { index in
-                            Circle()
-                                .fill(currentIndex == index ? Color.primaryColor : Color.primaryLight)
-                                .frame(width: currentIndex == index ? 12 : 8, height: currentIndex == index ? 12 : 8)
+                    // Image Carousel with Tap to View Full-Screen
+                    TabView(selection: $currentIndex) {
+                        ForEach(0..<pet.images.count, id: \.self) { index in
+                            Image(pet.images[index])
+                                .resizable()
+                                .scaledToFill()
+                                .onTapGesture {
+                                    selectedImage = pet.images[index]
+                                    isFullScreen = true
+                                }
+                                .tag(index)
                         }
                     }
-                    .padding(.bottom, 10)
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                    .frame(height: 355)
                 }
                 .frame(height: 355, alignment: .center)
                 
+                // Pet Details Section
                 HStack(spacing: 20) {
                     BoxDetailView(title: "Age", description: "\(pet.age) Months")
-                    BoxDetailView(title: "Weight", description: "\(pet.weight) kg")
+                    BoxDetailView(title: "Weight", description: String(format: "%.1f kg", pet.weight))
                     BoxDetailView(title: "Sex", description: pet.gender.rawValue.capitalized)
                 }
                 .padding(.top, 10)
@@ -57,7 +63,7 @@ struct PetDetailView: View {
                         Text(pet.name)
                             .font(.system(size: 18, weight: .medium))
                         Spacer()
-                        Text(pet.breed.description)
+                        Text(pet.breed.name)
                             .font(.system(size: 18, weight: .regular))
                     }
                     .padding(.top)
@@ -69,9 +75,11 @@ struct PetDetailView: View {
                             .foregroundColor(.gray)
                         Spacer()
                     }
-                    Spacer().frame(height: 8)
+                    .padding(.top, 5)
+                    
                     Text("About")
                         .font(.system(size: 18, weight: .medium))
+                        .padding(.top, 10)
                     
                     Text(pet.description)
                         .font(.system(size: 16, weight: .regular))
@@ -109,8 +117,12 @@ struct PetDetailView: View {
         }
         .edgesIgnoringSafeArea(.top)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing: _trailingView)
+        .navigationBarItems(trailing: trailingView)
+        .fullScreenCover(isPresented: $isFullScreen) {
+            FullScreenImageView(imageName: selectedImage, isPresented: $isFullScreen)
+        }
     }
+    
     
 }
 
@@ -136,8 +148,11 @@ struct PetDetailPreview: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            PetDetailView(pet: Pet.dogs.first!)
+            if let pet = PetData.dogs.first {
+                PetDetailView(pet: pet)
+            } else {
+                Text("No pets available")
+            }
         }
     }
 }
-
