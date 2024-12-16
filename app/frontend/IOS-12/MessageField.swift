@@ -39,6 +39,7 @@ struct MessageField: View {
         .background(Color(.gray).opacity(0.5))
         .cornerRadius(35)
         .ignoresSafeArea(edges: .bottom)
+        .padding(.bottom, -10)
     }
 }
 
