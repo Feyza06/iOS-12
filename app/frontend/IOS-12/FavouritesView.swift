@@ -4,6 +4,8 @@ struct FavoriteAnimalView: View {
     // MARK: - Properties
     @State private var favorites: [String] = ["British Shorthair", "Golden Retriever", "Maine Coon", "Persian Cat"]
     
+    @StateObject var viewModel = FavoritesViewModel()
+    
     var body: some View {
         NavigationView {
             VStack {
