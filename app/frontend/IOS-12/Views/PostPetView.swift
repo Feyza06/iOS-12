@@ -10,6 +10,11 @@ import MapKit
 import CoreLocation
 
 struct PostPetView: View {
+
+    
+    @StateObject private var appState = AppState()
+    
+
     // Pet details
     @State private var petName = ""
     @State private var gender = true // true = Male, false = Female

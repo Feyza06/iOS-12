@@ -39,7 +39,6 @@
 		297254AD2D09E2BF00E5C5E2 /* Exceptions for "IOS-12" folder in "IOS-12Tests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Models/PostRequest.swift,
 				Models/PostResponse.swift,
 				Networking/APIEndpointType.swift,
 				Networking/APIManager.swift,

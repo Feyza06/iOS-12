@@ -1,7 +1,7 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {User} from './user.model';
 
-@model({settings: {strict: false}})
+@model({settings: {strict: true}})
 export class Post extends Entity {
   @property({
     type: 'number',
@@ -17,6 +17,18 @@ export class Post extends Entity {
   petName: string;
 
   @property({
+    type: 'number',
+    required: true,
+  })
+  fee: number;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  gender: string;
+
+  @property({
     type: 'string',
     required: true,
   })
@@ -29,16 +41,10 @@ export class Post extends Entity {
   petBreed: string;
 
   @property({
-    type: 'string',
+    type: 'date',
     required: true,
   })
-  gender: boolean;
-
-  @property({
-    type: 'boolean',
-    required: true,
-  })
-  photo: string;
+  birthday: string;
 
   @property({
     type: 'string',
@@ -50,28 +56,33 @@ export class Post extends Entity {
     type: 'string',
     required: true,
   })
-  preferredHome: string;
+  location: string;
+
+  @property({
+    type: 'boolean',
+    required: true,
+  })
+  photo: boolean;
 
   @property({
     type: 'string',
     required: true,
+    default: 'available'
   })
   status: string;
 
   @property({
     type: 'date',
-    required: true,
+    default: () => new Date(),
+    required: false
   })
-  createdAt: string;
+  createdAt: Date;
 
   @belongsTo(() => User) // This indicates that each Post belongs to a User
   userId: string;
 
   // Define well-known properties here
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any;
 
   constructor(data?: Partial<Post>) {
     super(data);
