@@ -1,5 +1,3 @@
-import {authenticate} from '@loopback/authentication';
-import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -9,77 +7,45 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  del,
+  post,
+  param,
   get,
   getModelSchemaRef,
-  param,
   patch,
-  post,
   put,
+  del,
   requestBody,
   response,
 } from '@loopback/rest';
-import {SecurityBindings, UserProfile} from '@loopback/security';
 import {Post} from '../models';
 import {PostRepository} from '../repositories';
-
-
 
 export class PostControllerController {
   constructor(
     @repository(PostRepository)
     public postRepository : PostRepository,
-    @inject(SecurityBindings.USER)
-    private currentUser: UserProfile
   ) {}
 
-  @authenticate('jwt')
   @post('/posts')
   @response(200, {
     description: 'Post model instance',
-    content: {'application/json': {schema: {'x-ts-type': Post}}},
+    content: {'application/json': {schema: getModelSchemaRef(Post)}},
   })
   async create(
     @requestBody({
       content: {
         'application/json': {
-          schema: {
-            type: 'object',
-            properties: {
-              petName: {type: 'string'},
-              fee: {type: 'number'},
-              gender: {type: 'string'},
-              petType: {type: 'string'},
-              petBreed: {type: 'string'},
-              birthday: {type: 'string', format: 'date'},
-              description: {type: 'string'},
-              location: {type: 'string'},
-              photo: {type: 'boolean'},
-            },
-            required: ['petName', 'fee', 'gender', 'petType', 'petBreed', 'birthday', 'description', 'location', 'photo'],
-          },
+          schema: getModelSchemaRef(Post, {
+            title: 'NewPost',
+            exclude: ['id'],
+          }),
         },
       },
     })
-    post: Omit<Post, 'id' | 'userId' | 'createdAt' | 'status'>,
+    post: Omit<Post, 'id'>,
   ): Promise<Post> {
-    // automatically assign fields
-    const userId = this.currentUser.id;
-    const createdAt = new Date();
-    const status = 'available';
-
-    const newPost = new Post({
-      ...post,
-      userId,
-      createdAt,
-      status,
-    }
-
-    )
-    return this.postRepository.create(newPost);
+    return this.postRepository.create(post);
   }
-
-
 
   @get('/posts/count')
   @response(200, {
@@ -89,13 +55,6 @@ export class PostControllerController {
   async count(
     @param.where(Post) where?: Where<Post>,
   ): Promise<Count> {
-    // Populate excluded fields
-  const populatedPost = {
-    ...post,
-    userId: this.currentUser.id, // Example function to fetch the logged-in user
-    createdAt: new Date().toISOString(),
-    status: 'pending', // Default status
-  };
     return this.postRepository.count(where);
   }
 
