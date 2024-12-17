@@ -15,3 +15,4 @@ struct User: Codable {
     let lastName: String?
     let photo: String?
 }
+
