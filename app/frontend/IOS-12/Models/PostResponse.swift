@@ -10,9 +10,10 @@
 import Foundation
 
 
+
 struct PostResponse: Codable {
 
-struct PostResponse: Codable, Identifiable  {
+
 
     let id: Int
     let petName: String
@@ -23,22 +24,22 @@ struct PostResponse: Codable, Identifiable  {
 
     let birthday: Date
 
-    let birthday: String // date
-
+  
     let description: String
     let location: String
     let photo: Bool
     let status: String
 
+
     let createdAt: Date
     let userId: String
     
+
 
     let createdAt: String // date
     let userId: String
     
     
 
-}
 
 

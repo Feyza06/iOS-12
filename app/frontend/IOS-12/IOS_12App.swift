@@ -25,6 +25,7 @@ struct IOS_12App: App {
             // The root view of the app, which dynamically displays
             // either the authentication flow or the main content based on the user's login status.
 
+
 //            ContentView()
 //                .environmentObject(appState) // Injects the global state into the app's view hierarchy.
             PostPetView()
@@ -32,6 +33,7 @@ struct IOS_12App: App {
 
             ContentView()
                 .environmentObject(appState) // Injects the global state into the app's view hierarchy.
+
 
             AuthenticationView()
                 .environmentObject(appState)

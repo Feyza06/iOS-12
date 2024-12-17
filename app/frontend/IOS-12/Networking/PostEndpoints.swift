@@ -15,6 +15,7 @@ struct UploadPostEndpoint: APIEndpointType {
     var headers: [String: String]? { ["Content-Type": "application/json"] }
     
 
+
     
     var headers: [String: String]? {
           var defaultHeaders = ["Content-Type": "application/json"]
@@ -63,4 +64,3 @@ struct FetchPostsEndpoint: APIEndpointType {
    
     
 }
-

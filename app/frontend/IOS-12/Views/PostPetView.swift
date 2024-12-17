@@ -38,6 +38,13 @@ struct PostPetView: View {
     @State private var selectedCoordinate = CLLocationCoordinate2D(latitude: 51.3704, longitude: 6.1724)
     @State private var description = ""
     
+    // Error handling
+    @State private var showError = false
+    @State private var errorMessage = "Something went wrong"
+    
+    
+    @Environment(\.dismiss) var dismiss
+    
     private let geocoder = CLGeocoder()
     
     // View Model
@@ -56,6 +63,7 @@ struct PostPetView: View {
     
     var body: some View {
         NavigationView {
+
             ScrollView {
                 VStack(alignment: .leading, spacing: 25) {
                     
@@ -104,42 +112,113 @@ struct PostPetView: View {
                         .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
                             VStack {
                                 TextField("Enter address", text: $addressString)
+
+            ZStack {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 25) {
+                        // Pet Information Section
+                        PetInformationView(
+                            petName: $petName,
+                            gender: $gender,
+                            fee: $fee,
+                            petTypes: petTypes,
+                            selectedPetType: $selectedPetType,
+                            breed: $breed,
+                            birthday: $birthday
+                        )
+                        
+                        // Description Section
+                        Section(header: Text("Description")
+                            .font(.headline)
+                            .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
+                                TextEditor(text: $description)
                                     .padding()
+                                    .frame(height: 100)
                                     .background(Color.white)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
-                                    .onChange(of: addressString) { newValue in
-                                        lookupAddress(for: newValue)
-                                    }
-                                
+                            }
+                        
+                        // Pet Photo Section
+                        Section(header: Text("Pet Photo")
+                            .font(.headline)
+                            .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
                                 ZStack {
-                                    Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
-                                        .frame(height: 300)
-                                        .cornerRadius(15)
-                                        .shadow(radius: 5)
-                                    
-                                    Image(systemName: "mappin.circle.fill")
-                                        .foregroundColor(.red)
-                                        .font(.largeTitle)
-                                        .offset(y: -15)
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color(white: 0.9))
+                                        .frame(height: 200)
+                                    if let picture = picture {
+                                        picture
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 200)
+                                            .cornerRadius(15)
+                                            .shadow(radius: 5)
+                                    } else {
+                                        Text("Upload a picture")
+                                            .foregroundColor(.gray)
+                                            .onTapGesture {
+                                                showingImagePicker = true
+                                            }
+                                    }
                                 }
-                                
-                                Button(action: {
-                                    print("Selected location: \(selectedCoordinate), Address: \(addressString)")
-                                }) {
-                                    Text("Set Location")
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 8)
-                                        .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                                .padding()
+                            }
+                        
+                        // Map Section
+                        Section(header: Text("Enter Address")
+                            .font(.headline)
+                            .foregroundColor(Color(red: 0.55, green: 0.27, blue: 0.07))) {
+                                VStack {
+                                    TextField("Enter address", text: $addressString)
+                                        .padding()
+                                        .background(Color.white)
                                         .cornerRadius(10)
                                         .shadow(radius: 5)
+                                        .onChange(of: addressString) { newValue in
+                                            lookupAddress(for: newValue)
+                                        }
+                                    
+                                    ZStack {
+                                        Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
+                                            .frame(height: 300)
+                                            .cornerRadius(15)
+                                            .shadow(radius: 5)
+                                        
+                                        Image(systemName: "mappin.circle.fill")
+                                            .foregroundColor(.red)
+                                            .font(.largeTitle)
+                                            .offset(y: -15)
+                                    }
+                                    
+                                    Button(action: {
+                                        print("Selected location: \(selectedCoordinate), Address: \(addressString)")
+                                    }) {
+                                        Text("Set Location")
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 8)
+                                            .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                                            .cornerRadius(10)
+                                            .shadow(radius: 5)
+                                    }
+                                    .padding(.top, 10)
                                 }
-                                .padding(.top, 10)
                             }
+                        
+                        // Post Button
+                        Button(action: validateFields) {
+                            Text("Post")
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(red: 0.55, green: 0.27, blue: 0.07))
+                                .cornerRadius(15)
+                                .shadow(radius: 5)
                         }
-                    
+      
                     // Post Button
                     Button(action: {
                         
@@ -179,9 +258,42 @@ struct PostPetView: View {
                 .navigationTitle("Post Pet")
                 .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
                     ImagePicker(image: $inputImage)
+
+                        .padding(.top, 20)
+                    }
+                    
+                    .padding()
+                    
+
                 }
+                            .background(Color(hex: "#FFE3C4"))
+                            .navigationTitle("Post Pet")
+                            .navigationBarTitleDisplayMode(.inline)
+                            .navigationBarItems(leading: Button(action: {
+                                dismiss() // Zurück zur vorherigen View
+                            }) {
+                                HStack {
+                                    Image(systemName: "chevron.left") // Pfeil-Symbol
+                                        .foregroundColor(.blue)
+                                    Text("Back")
+                                        .foregroundColor(.blue)
+                                }
+                            })
+                            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                                ImagePicker(image: $inputImage)
+                            }
+                // Error Overlay
+                ErrorOverlay(isVisible: $showError, message: errorMessage)
             }
-            .background(Color(hex: "#FFE3C4"))
+        }
+    }
+    
+    func validateFields() {
+        if fee.isEmpty {
+            errorMessage = "Please enter a valid fee."
+            withAnimation {
+                showError = true
+            }
         }
     }
     
@@ -214,6 +326,7 @@ struct PostPetView: View {
 
 
 
+
 //    
 //struct PostPetView_Previews: PreviewProvider {
 //    static var previews: some View {
@@ -222,3 +335,13 @@ struct PostPetView: View {
 //}
 //
 //
+
+
+    
+struct PostPetView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostPetView()
+    }
+}
+
+
