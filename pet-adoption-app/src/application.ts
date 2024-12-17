@@ -17,7 +17,7 @@ dotenv.config();
 export {ApplicationConfig};
 
 export class PetAdoptionAppApplication extends BootMixin(
-  ServiceMixin(RepositoryMixin(RestApplication)),
+    ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
@@ -28,7 +28,11 @@ export class PetAdoptionAppApplication extends BootMixin(
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
-    // Customize @loopback/rest-explorer configuration here
+    // Serve the 'uploads' directory at the '/uploads' path
+    // Files placed in '../uploads' will be accessible at 'http://localhost:3000/uploads/...'
+    this.static('/uploads', path.join(__dirname, '../uploads'));
+
+    // Configure the REST Explorer
     this.configure(RestExplorerBindings.COMPONENT).to({
       path: '/explorer',
     });
@@ -42,7 +46,6 @@ export class PetAdoptionAppApplication extends BootMixin(
 
     // Bind JWT secret key
     this.bind('authentication.jwt.secret').to(process.env.JWT_SECRET || 'best_pet_adoption_app_secret');
-
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
