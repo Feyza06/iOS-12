@@ -19,7 +19,7 @@ struct AddFavoritesEndpoint: APIEndpointType {
 
     let favourite: Favourite // Favoriten-Datenmodell
 
-    // Initialisierung des Endpunkts mit einem Favoriten
+    // Initialisierung des Endpoints mit einem Favoriten
     init(favourite: Favourite) {
         self.favourite = favourite
     }
