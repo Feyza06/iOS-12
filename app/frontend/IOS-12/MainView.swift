@@ -14,6 +14,7 @@ struct MainView: View {
     @State private var locationSearchText: String = "Düsseldorf"
     @State private var selectedSpecies: Species = .dog
     @State private var selectedTab: CustomTabBar.Tab = .home
+    @State private var showPostPetView: Bool = false
     
     var body: some View {
         VStack {
@@ -45,19 +46,22 @@ struct MainView: View {
             Spacer()
             
             // CustomTabBar integration
-            CustomTabBar(selectedTab: $selectedTab)
-        }
-        .background(Color.white)
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarItems(
-            leading: locationSearchBar,
-            trailing: HStack(spacing: 16) {
-                profileView
-                logoutButton
+            CustomTabBar(selectedTab: $selectedTab, showPostPetView: $showPostPetView)
+                    }
+                    .background(Color.white)
+                    .navigationBarTitle("", displayMode: .inline)
+                    .navigationBarItems(
+                        leading: locationSearchBar,
+                        trailing: HStack(spacing: 16) {
+                            profileView
+                            logoutButton
+                        }
+                    )
+                    .fullScreenCover(isPresented: $showPostPetView) {
+                        PostPetView()
+                    }
+                }
             }
-        )
-    }
-}
 
 extension MainView {
     var profileView: some View {
@@ -100,7 +104,7 @@ extension MainView {
     }
 }
 
-struct CustomTabBar: View {
+/*struct CustomTabBar: View {
     @Binding var selectedTab: Tab
 
     enum Tab: CaseIterable {
@@ -153,7 +157,7 @@ struct CustomTabBar: View {
         .padding(.horizontal)
     }
 }
-
+*/
 private extension Species {
     var pets: [Pet] {
         switch self {
@@ -258,6 +262,7 @@ struct PetView: View {
                 .padding(.leading)
                 .padding(.bottom, 10)
             }
+                
             .background(RoundedRectangle(cornerRadius: 15).stroke(Color.lightGrey, lineWidth: 1))
             .padding(.leading)
             .padding(.trailing)
