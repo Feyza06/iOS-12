@@ -34,17 +34,17 @@ final class APIManager {
         // Build a URLRequest
         var request = URLRequest(url: url)
         request.httpMethod = type.method.rawValue
-        request.allHTTPHeaderFields = type.headers
 
         if let parameters = type.body {
             do{
                 request.httpBody = try JSONEncoder().encode(parameters)
             } catch {
                 completion(.failure(.decoding(error)))
-                return
             }
         }
-    
+        
+        // add headers to the request
+        request.allHTTPHeaderFields = type.headers
 
         // perform network request
         networkHandler.requestDataAPI(url: request) { result in
