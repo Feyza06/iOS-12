@@ -9,11 +9,14 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var appState: AppState
+    @StateObject private var postViewModel = PostViewModel()
     
     @State private var searchText: String = ""
     @State private var locationSearchText: String = "Düsseldorf"
     @State private var selectedSpecies: Species = .dog
-
+    @State private var selectedTab: CustomTabBar.Tab = .home
+    @State private var showPostPetView: Bool = false
+    
     var body: some View {
         VStack {
             HStack {
@@ -30,7 +33,32 @@ struct MainView: View {
             .frame(height: 40)
             .background(RoundedRectangle(cornerRadius: 10).stroke(Color.lightGrey, lineWidth: 1))
             .padding()
+            
             PetTypeView(selectedSpecies: $selectedSpecies)
+            
+            if let uploadedPost = postViewModel.uploadedPost {
+                VStack{
+                    Text("Uploaded Post")
+                        .font(.headline)
+                        .padding()
+                    
+                    
+                    Text("Pet Name: \(uploadedPost.petName)")
+                    Text("Fee: \(uploadedPost.fee, specifier: "%.2f")")
+                    Text("Gender: \(uploadedPost.gender)")
+                    Text("Pet Type: \(uploadedPost.petType)")
+                    Text("Breed: \(uploadedPost.petBreed)")
+                    Text("Birthday: \(uploadedPost.birthday)")
+                    Text("Description: \(uploadedPost.description)")
+                    Text("Location: \(uploadedPost.location)")
+                    
+                }
+                .padding()
+                              .background(Color.white)
+                              .cornerRadius(10)
+                              .shadow(radius: 5)
+                              .padding(.horizontal)
+            }
 
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
@@ -41,18 +69,24 @@ struct MainView: View {
                 .padding(.horizontal)
             }
             Spacer()
-        }
-        .background(Color.white)
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarItems(
-            leading: locationSearchBar,
-            trailing: HStack(spacing: 16) {
-                profileView
-                logoutButton
+            
+            // CustomTabBar integration
+            CustomTabBar(selectedTab: $selectedTab, showPostPetView: $showPostPetView)
+                    }
+                    .background(Color.white)
+                    .navigationBarTitle("", displayMode: .inline)
+                    .navigationBarItems(
+                        leading: locationSearchBar,
+                        trailing: HStack(spacing: 16) {
+                            profileView
+                            logoutButton
+                        }
+                    )
+                    .fullScreenCover(isPresented: $showPostPetView) {
+                        PostPetView()
+                    }
+                }
             }
-        )
-    }
-}
 
 extension MainView {
     var profileView: some View {
@@ -95,6 +129,60 @@ extension MainView {
     }
 }
 
+/*struct CustomTabBar: View {
+    @Binding var selectedTab: Tab
+
+    enum Tab: CaseIterable {
+        case home, favorite, addPost, message, profile
+        
+        var iconName: String {
+            switch self {
+            case .home: return "house.fill"
+            case .favorite: return "heart.fill"
+            case .addPost: return "plus.circle.fill"
+            case .message: return "envelope.fill"
+            case .profile: return "person.fill"
+            }
+        }
+    }
+    
+    var body: some View {
+        HStack {
+            ForEach(Tab.allCases, id: \.self) { tab in
+                Spacer()
+                Button(action: {
+                    selectedTab = tab
+                }) {
+                    ZStack {
+                        if tab == .addPost {
+                            Circle()
+                                .foregroundColor(Color.orange)
+                                .frame(width: 60, height: 60)
+                                .shadow(radius: 4)
+                            Image(systemName: tab.iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.white)
+                        } else {
+                            Image(systemName: tab.iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(selectedTab == tab ? Color.orange : Color.gray)
+                        }
+                    }
+                }
+                Spacer()
+            }
+        }
+        .frame(height: 70)
+        .background(Color.white.shadow(radius: 2))
+        .cornerRadius(20)
+        .padding(.horizontal)
+    }
+}
+*/
 private extension Species {
     var pets: [Pet] {
         switch self {
@@ -199,6 +287,7 @@ struct PetView: View {
                 .padding(.leading)
                 .padding(.bottom, 10)
             }
+                
             .background(RoundedRectangle(cornerRadius: 15).stroke(Color.lightGrey, lineWidth: 1))
             .padding(.leading)
             .padding(.trailing)

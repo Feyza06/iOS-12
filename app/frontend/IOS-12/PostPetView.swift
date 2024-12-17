@@ -37,6 +37,9 @@ struct PostPetView: View {
     @State private var showError = false
     @State private var errorMessage = "Something went wrong"
     
+    
+    @Environment(\.dismiss) var dismiss
+    
     private let geocoder = CLGeocoder()
     
     var body: some View {
@@ -148,14 +151,26 @@ struct PostPetView: View {
                         }
                         .padding(.top, 20)
                     }
+                    
                     .padding()
+                    
                 }
-                .background(Color(hex: "#FFE3C4"))
-                .navigationTitle("Post Pet")
-                .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                    ImagePicker(image: $inputImage)
-                }
-                
+                            .background(Color(hex: "#FFE3C4"))
+                            .navigationTitle("Post Pet")
+                            .navigationBarTitleDisplayMode(.inline)
+                            .navigationBarItems(leading: Button(action: {
+                                dismiss() // Zurück zur vorherigen View
+                            }) {
+                                HStack {
+                                    Image(systemName: "chevron.left") // Pfeil-Symbol
+                                        .foregroundColor(.blue)
+                                    Text("Back")
+                                        .foregroundColor(.blue)
+                                }
+                            })
+                            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                                ImagePicker(image: $inputImage)
+                            }
                 // Error Overlay
                 ErrorOverlay(isVisible: $showError, message: errorMessage)
             }
@@ -191,6 +206,7 @@ struct PostPetView: View {
         }
     }
 }
+
     
 struct PostPetView_Previews: PreviewProvider {
     static var previews: some View {

@@ -16,9 +16,10 @@ struct LoginView: View {
     @State private var password = ""
     @State private var errorMessage: String? = nil
     @State private var isLoading = false  // For activity indicator
+   
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Background and UI elements
                 Color(red: 0.55, green: 0.27, blue: 0.07)
@@ -85,12 +86,16 @@ struct LoginView: View {
 
                     Button("Login") {
                         loginUser()
+                      
                     }
                     .foregroundColor(.white)
                     .frame(width: 300, height: 50)
                     .background(Color(red: 0.55, green: 0.27, blue: 0.07))
                     .cornerRadius(10)
                     .padding(.top, 5)
+                    
+                    
+                   
 
                     Button("Back", action: onBack)
                         .padding()
@@ -107,10 +112,19 @@ struct LoginView: View {
                         }
                     }
                     .padding(.top, 10)
+                    .navigationDestination(isPresented: $appState.isLoggedIn){
+                        MainView()
+                    }
+                    
+                    // Navigation destination
+                   
+
                 }
                 .onTapGesture {
                     hideKeyboard()
                 }
+                
+               
             }
             .navigationBarHidden(true)
         }
