@@ -7,16 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-<<<<<<< HEAD
 		6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950F972D07355A00CFDB3D /* PetInformationView.swift */; };
-<<<<<<< Updated upstream
 		6D950FAB2D0C7DA900CFDB3D /* ErrorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950FAA2D0C7D9500CFDB3D /* ErrorOverlay.swift */; };
-=======
->>>>>>> Stashed changes
 		6D9510042D0C87CB00CFDB3D /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 6D9510032D0C87CB00CFDB3D /* JWTDecode */; };
-=======
-		DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = DE85E1482CFF68DE00DB4787 /* JWTDecode */; };
->>>>>>> images
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,11 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
 				6D9510042D0C87CB00CFDB3D /* JWTDecode in Frameworks */,
-=======
-				DE85E1492CFF68DE00DB4787 /* JWTDecode in Frameworks */,
->>>>>>> images
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +82,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-<<<<<<< Updated upstream
 		6D950FA62D0C767900CFDB3D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,8 +90,6 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-=======
->>>>>>> Stashed changes
 		6D9510022D0C87C400CFDB3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,11 +141,7 @@
 			);
 			name = "IOS-12";
 			packageProductDependencies = (
-<<<<<<< HEAD
 				6D9510032D0C87CB00CFDB3D /* JWTDecode */,
-=======
-				DE85E1482CFF68DE00DB4787 /* JWTDecode */,
->>>>>>> images
 			);
 			productName = "IOS-12";
 			productReference = 6DF94EF32CD1006800CF6393 /* IOS-12.app */;
@@ -618,15 +600,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-<<<<<<< HEAD
 		6D9510032D0C87CB00CFDB3D /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6D950FB22D0C804C00CFDB3D /* XCRemoteSwiftPackageReference "JWTDecode" */;
-=======
-		DE85E1482CFF68DE00DB4787 /* JWTDecode */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DE85E1462CFF68B300DB4787 /* XCRemoteSwiftPackageReference "JWTDecode" */;
->>>>>>> images
 			productName = JWTDecode;
 		};
 /* End XCSwiftPackageProductDependency section */

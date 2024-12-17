@@ -12,16 +12,25 @@ struct ProfileEndpoint: APIEndpointType {
     var path: String = ""
     var method: HTTPMethod = .GET
     var bpdy: Encodable? = nil
-    var headers: [String: String]? { ["Content-Type" : "application/json"]}
     
-    static func fetchProfile(userID: Int) -> ProfileEndpoint {
+    var headers: [String: String]? {
+        // Token dynamisch aus dem Keychain abrufen
+        if let tokenData = KeychainHelper.standard.read(service: "com.yourapp.service", account: "authToken"),
+           let token = String(data: tokenData, encoding: .utf8) {
+            return ["Authorization": "Bearer \(token)"] // Header mit Token
+        } else {
+            print("Error: No token found in Keychain.")
+            return nil
+        }
+        
+        static  fetchProfile(userID: Int) -> ProfileEndpoint {
             return ProfileEndpoint(
                 path: "/users/\(userID)",
                 method: .GET
             )
         }
-
-    
-    
-    
+        
+        
+        
+    }
 }
