@@ -98,6 +98,7 @@ class APIService {
                 let decoder = JSONDecoder()
                 let loginResponse = try decoder.decode(LoginResponse.self, from: data)
                 completion(.success((loginResponse.token, loginResponse.user)))
+                print(loginResponse.token)
             } catch {
                 completion(.failure(error))
             }

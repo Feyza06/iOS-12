@@ -9,11 +9,13 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var appState: AppState
+    @StateObject private var postViewModel = PostViewModel()
     
     @State private var searchText: String = ""
     @State private var locationSearchText: String = "Düsseldorf"
     @State private var selectedSpecies: Species = .dog
     @State private var selectedTab: CustomTabBar.Tab = .home
+    @State private var showPostPetView: Bool = false
     
     var body: some View {
         VStack {
@@ -33,6 +35,30 @@ struct MainView: View {
             .padding()
             
             PetTypeView(selectedSpecies: $selectedSpecies)
+            
+            if let uploadedPost = postViewModel.uploadedPost {
+                VStack{
+                    Text("Uploaded Post")
+                        .font(.headline)
+                        .padding()
+                    
+                    
+                    Text("Pet Name: \(uploadedPost.petName)")
+                    Text("Fee: \(uploadedPost.fee, specifier: "%.2f")")
+                    Text("Gender: \(uploadedPost.gender)")
+                    Text("Pet Type: \(uploadedPost.petType)")
+                    Text("Breed: \(uploadedPost.petBreed)")
+                    Text("Birthday: \(uploadedPost.birthday)")
+                    Text("Description: \(uploadedPost.description)")
+                    Text("Location: \(uploadedPost.location)")
+                    
+                }
+                .padding()
+                              .background(Color.white)
+                              .cornerRadius(10)
+                              .shadow(radius: 5)
+                              .padding(.horizontal)
+            }
 
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
@@ -45,19 +71,22 @@ struct MainView: View {
             Spacer()
             
             // CustomTabBar integration
-            CustomTabBar(selectedTab: $selectedTab)
-        }
-        .background(Color.white)
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarItems(
-            leading: locationSearchBar,
-            trailing: HStack(spacing: 16) {
-                profileView
-                logoutButton
+            CustomTabBar(selectedTab: $selectedTab, showPostPetView: $showPostPetView)
+                    }
+                    .background(Color.white)
+                    .navigationBarTitle("", displayMode: .inline)
+                    .navigationBarItems(
+                        leading: locationSearchBar,
+                        trailing: HStack(spacing: 16) {
+                            profileView
+                            logoutButton
+                        }
+                    )
+                    .fullScreenCover(isPresented: $showPostPetView) {
+                        PostPetView()
+                    }
+                }
             }
-        )
-    }
-}
 
 extension MainView {
     var profileView: some View {
@@ -100,7 +129,7 @@ extension MainView {
     }
 }
 
-struct CustomTabBar: View {
+/*struct CustomTabBar: View {
     @Binding var selectedTab: Tab
 
     enum Tab: CaseIterable {
@@ -153,7 +182,7 @@ struct CustomTabBar: View {
         .padding(.horizontal)
     }
 }
-
+*/
 private extension Species {
     var pets: [Pet] {
         switch self {
@@ -258,6 +287,7 @@ struct PetView: View {
                 .padding(.leading)
                 .padding(.bottom, 10)
             }
+                
             .background(RoundedRectangle(cornerRadius: 15).stroke(Color.lightGrey, lineWidth: 1))
             .padding(.leading)
             .padding(.trailing)
