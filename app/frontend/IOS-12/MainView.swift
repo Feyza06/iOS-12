@@ -82,9 +82,10 @@ struct MainView: View {
                             logoutButton
                         }
                     )
-                    .fullScreenCover(isPresented: $showPostPetView) {
+                   .fullScreenCover(isPresented: $showPostPetView) {
                         PostPetView()
                     }
+
                 }
             }
 
