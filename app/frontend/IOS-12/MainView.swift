@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var appState: AppState
+    @StateObject private var postViewModel = PostViewModel()
     
     @State private var searchText: String = ""
     @State private var locationSearchText: String = "Düsseldorf"
@@ -33,6 +34,30 @@ struct MainView: View {
             .padding()
             
             PetTypeView(selectedSpecies: $selectedSpecies)
+            
+            if let uploadedPost = postViewModel.uploadedPost {
+                VStack{
+                    Text("Uploaded Post")
+                        .font(.headline)
+                        .padding()
+                    
+                    
+                    Text("Pet Name: \(uploadedPost.petName)")
+                    Text("Fee: \(uploadedPost.fee, specifier: "%.2f")")
+                    Text("Gender: \(uploadedPost.gender)")
+                    Text("Pet Type: \(uploadedPost.petType)")
+                    Text("Breed: \(uploadedPost.petBreed)")
+                    Text("Birthday: \(uploadedPost.birthday)")
+                    Text("Description: \(uploadedPost.description)")
+                    Text("Location: \(uploadedPost.location)")
+                    
+                }
+                .padding()
+                              .background(Color.white)
+                              .cornerRadius(10)
+                              .shadow(radius: 5)
+                              .padding(.horizontal)
+            }
 
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
