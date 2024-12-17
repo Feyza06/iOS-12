@@ -13,7 +13,8 @@ struct MainView: View {
     @State private var searchText: String = ""
     @State private var locationSearchText: String = "Düsseldorf"
     @State private var selectedSpecies: Species = .dog
-
+    @State private var selectedTab: CustomTabBar.Tab = .home
+    
     var body: some View {
         VStack {
             HStack {
@@ -30,6 +31,7 @@ struct MainView: View {
             .frame(height: 40)
             .background(RoundedRectangle(cornerRadius: 10).stroke(Color.lightGrey, lineWidth: 1))
             .padding()
+            
             PetTypeView(selectedSpecies: $selectedSpecies)
 
             ScrollView {
@@ -41,6 +43,9 @@ struct MainView: View {
                 .padding(.horizontal)
             }
             Spacer()
+            
+            // CustomTabBar integration
+            CustomTabBar(selectedTab: $selectedTab)
         }
         .background(Color.white)
         .navigationBarTitle("", displayMode: .inline)
@@ -92,6 +97,60 @@ extension MainView {
         .frame(height: 36)
         .background(Color.primaryLight)
         .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+}
+
+struct CustomTabBar: View {
+    @Binding var selectedTab: Tab
+
+    enum Tab: CaseIterable {
+        case home, favorite, addPost, message, profile
+        
+        var iconName: String {
+            switch self {
+            case .home: return "house.fill"
+            case .favorite: return "heart.fill"
+            case .addPost: return "plus.circle.fill"
+            case .message: return "envelope.fill"
+            case .profile: return "person.fill"
+            }
+        }
+    }
+    
+    var body: some View {
+        HStack {
+            ForEach(Tab.allCases, id: \.self) { tab in
+                Spacer()
+                Button(action: {
+                    selectedTab = tab
+                }) {
+                    ZStack {
+                        if tab == .addPost {
+                            Circle()
+                                .foregroundColor(Color.orange)
+                                .frame(width: 60, height: 60)
+                                .shadow(radius: 4)
+                            Image(systemName: tab.iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.white)
+                        } else {
+                            Image(systemName: tab.iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(selectedTab == tab ? Color.orange : Color.gray)
+                        }
+                    }
+                }
+                Spacer()
+            }
+        }
+        .frame(height: 70)
+        .background(Color.white.shadow(radius: 2))
+        .cornerRadius(20)
+        .padding(.horizontal)
     }
 }
 
