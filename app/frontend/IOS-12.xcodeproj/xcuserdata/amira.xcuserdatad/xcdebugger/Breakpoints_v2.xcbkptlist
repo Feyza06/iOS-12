@@ -20,8 +20,6 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
-
-
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
@@ -54,7 +52,6 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
-
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
@@ -65,10 +62,10 @@
             filePath = "IOS-12/ModelViews/PostViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
-            landmarkName = "uploadPost(postRequest:completion:)"
-            landmarkType = "7">
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "PostViewModel"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -103,6 +100,5 @@
             landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
-
    </Breakpoints>
 </Bucket>

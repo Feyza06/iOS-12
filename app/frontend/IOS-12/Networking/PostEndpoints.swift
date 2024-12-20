@@ -12,10 +12,7 @@ struct UploadPostEndpoint: APIEndpointType {
     var method: HTTPMethod {.POST}
     var body: Encodable? {postRequest}
 
-    var headers: [String: String]? { ["Content-Type": "application/json"] }
-    
-
-
+    //var headers: [String: String]? { ["Content-Type": "application/json"] }
     
     var headers: [String: String]? {
           var defaultHeaders = ["Content-Type": "application/json"]

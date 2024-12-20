@@ -17,8 +17,10 @@ class ResponseHandler {
         do{
             let decodedResponse = try JSONDecoder().decode(modelType, from:data)
             completionHandler(.success(decodedResponse))
-        } catch{
-            completionHandler(.failure(.decoding(error)))
+        } catch let decodingError as DecodingError{
+            completionHandler(.failure(.decoding(decodingError)))
+        } catch {
+            completionHandler(.failure(.invalidData)) 
         }
     }
 }

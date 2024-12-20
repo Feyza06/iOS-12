@@ -28,11 +28,11 @@ struct IOS_12App: App {
 
 //            ContentView()
 //                .environmentObject(appState) // Injects the global state into the app's view hierarchy.
-            PostPetView()
-                .environmentObject(appState)
+//            PostPetView()
+//                .environmentObject(appState)
 
-            ContentView()
-                .environmentObject(appState) // Injects the global state into the app's view hierarchy.
+//            ContentView()
+//                .environmentObject(appState) // Injects the global state into the app's view hierarchy.
 
 
             AuthenticationView()

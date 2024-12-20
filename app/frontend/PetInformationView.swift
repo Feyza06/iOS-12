@@ -16,6 +16,10 @@ struct PetInformationView: View {
     @Binding var breed: String
     @Binding var birthday: Date
     @Binding var description: String
+    
+    // Local state for fee validation
+        @State private var feeValue: Double = 0.0
+        @State private var feeInput: String = ""
 
     var body: some View {
         Section(header: Text("Pet Information")
@@ -40,13 +44,22 @@ struct PetInformationView: View {
             HStack(spacing: 20) {
                 // Fee with € symbol
                 HStack {
-                    TextField("Fee", text: $fee)
+                    TextField("Fee", text: $feeInput)
                         .keyboardType(.decimalPad)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
-                        .frame(width: 120) // Adjust width as needed
+                        .onChange(of: feeInput) { newValue in
+                        if let doubleValue = Double(newValue) {
+                                feeValue = doubleValue
+                                fee = String(format: "%.2f", feeValue) // Sync back to parent
+                        } else {
+                                feeValue = 0.0
+                                fee = "0.0"
+                        }
+                            }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                                .frame(width: 120) // Adjust width as needed
                     Text("€")
                         .foregroundColor(.gray)
                         .padding(.trailing, 10)

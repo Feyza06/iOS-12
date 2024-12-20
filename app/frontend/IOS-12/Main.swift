@@ -140,14 +140,7 @@ struct Main: View {
 struct Main_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = PostViewModel()
-        let samplePosts: [PostResponse] = [
-            PostResponse(id: 1, petName: "Buddy", fee: 20, gender: "Male", petType: "Dog", petBreed: "Golden Retriever", birthday: "2020-01-01", description: "A friendly dog", location: "New York", photo: true, status: "available", createdAt: "2024-12-12", userId: "1"),
-            PostResponse(id: 2, petName: "Mittens", fee: 15, gender: "Female", petType: "Cat", petBreed: "Siamese", birthday: "2021-06-01", description: "A playful cat", location: "Los Angeles", photo: true, status: "available", createdAt: "2024-12-12", userId: "2"),
-            PostResponse(id: 3, petName: "Tweety", fee: 5, gender: "Male", petType: "Bird", petBreed: "Canary", birthday: "2022-03-05", description: "A chirpy bird", location: "Chicago", photo: true, status: "available", createdAt: "2024-12-12", userId: "3"),
-            PostResponse(id: 4, petName: "Thumper", fee: 10, gender: "Female", petType: "Rabbit", petBreed: "Bunny", birthday: "2020-12-02", description: "A cute rabbit", location: "San Francisco", photo: true, status: "available", createdAt: "2024-12-12", userId: "4")
-        ]
-        viewModel.posts = samplePosts
-        viewModel.filteredPosts = samplePosts // Initially show all posts
+     
         
         return Main()
             .environmentObject(viewModel)

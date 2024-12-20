@@ -44,7 +44,7 @@ export class Post extends Entity {
     type: 'date',
     required: true,
   })
-  birthday: string;
+  birthday: Date;
 
   @property({
     type: 'string',

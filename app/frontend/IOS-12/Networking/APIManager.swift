@@ -35,12 +35,23 @@ final class APIManager {
         var request = URLRequest(url: url)
         request.httpMethod = type.method.rawValue
         request.allHTTPHeaderFields = type.headers
+        
+        
 
         if let parameters = type.body {
             do{
-                request.httpBody = try JSONEncoder().encode(parameters)
+                let encoder = JSONEncoder()
+                //encoder.dateEncodingStrategy = .iso8601 // Set date encoding to ISO 8601
+                
+                
+                let dateFormatter = DateFormatter()
+                       dateFormatter.dateFormat = "yyyy-MM-dd" // Matches the "date" format
+                       encoder.dateEncodingStrategy = .formatted(dateFormatter)
+                       
+                    
+                request.httpBody = try encoder.encode(parameters)
             } catch {
-                completion(.failure(.decoding(error)))
+                completion(.failure(.decoding(error as? DecodingError)))
                 return
             }
         }
@@ -57,8 +68,9 @@ final class APIManager {
                             completionHandler: completion
                         )
                     case .failure(let error):
-                        // pass any errors 
-                        completion(.failure(error))
+                   
+                    // pass the mapped error to the completion handler
+                    completion(.failure(error))
                     }
                 }
     }
