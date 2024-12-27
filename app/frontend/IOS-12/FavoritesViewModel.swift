@@ -1,14 +1,7 @@
-//
-//  FavoritesViewModel.swift
-//  IOS-12
-//
-//  Created by Lisa Mustafa on 17.12.24.
-//
 import Foundation
 import SwiftUI
 
 class FavoritesViewModel: ObservableObject {
-    
     @Published var favorites: [Favourite] = []  // Liste der Favoriten
     @Published var isLoading: Bool = false      // Ladeanzeige
     @Published var error: Error? = nil          // Fehlerzustand
@@ -76,14 +69,7 @@ class FavoritesViewModel: ObservableObject {
                 case .failure(let apiError):
                     self.error = apiError
                 }
-                
             }
-            
-            
         }
     }
-    
-    
-        
-        }
-    
+}

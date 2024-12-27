@@ -1,63 +1,53 @@
 import SwiftUI
 
 struct FavoriteAnimalView: View {
-    // MARK: - Properties
-    @State private var favorites: [String] = ["British Shorthair", "Golden Retriever", "Maine Coon", "Persian Cat"]
-    
-    @StateObject var viewModel = FavoritesViewModel()
-    
+    @StateObject var viewModel = FavoritesViewModel()  // Verwenden von @StateObject
+
     var body: some View {
         NavigationView {
             VStack {
-                // MARK: - Favoritenliste
-                if favorites.isEmpty {
-                    // Anzeige, wenn keine Favoriten vorhanden sind
+                // Ladeanzeige, wenn Favoriten geladen werden
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                }
+                else if viewModel.favorites.isEmpty {
                     Text("No favorites yet.")
                         .foregroundColor(.gray)
                         .font(.title3)
                         .padding()
                 } else {
                     List {
-                        ForEach(favorites, id: \.self) { favorite in
+                        ForEach(viewModel.favorites) { favorite in
                             HStack {
-                                // Kreis-Icon als Bildplatzhalter
-                                Circle()
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(.brown.opacity(0.5))
-                                
-                                Text(favorite)
+                                Text(favorite.name)
                                     .font(.headline)
                                     .foregroundColor(.brown)
-                                
                                 Spacer()
                                 
-                                // Löschen-Button
                                 Button(action: {
-                                    removeFavorite(favorite)
+                                    viewModel.removeFavorite(withId: favorite.id)
                                 }) {
                                     Image(systemName: "trash")
                                         .foregroundColor(.red)
                                 }
                             }
-                            .padding(.vertical, 5)
                         }
                     }
                     .listStyle(PlainListStyle())
                 }
             }
             .navigationTitle("Favorites")
-        }
-    }
-    
-    // MARK: - Funktion zum Entfernen eines Favoriten
-    private func removeFavorite(_ favorite: String) {
-        if let index = favorites.firstIndex(of: favorite) {
-            favorites.remove(at: index)
+            .onAppear {
+                viewModel.fetchFavorites()  // Abrufen der Favoriten
+            }
         }
     }
 }
 
-// MARK: - Vorschau
-#Preview {
-    FavoriteAnimalView()
+struct FavoriteAnimalView_Previews: PreviewProvider {
+    static var previews: some View {
+        FavoriteAnimalView()
+    }
 }
