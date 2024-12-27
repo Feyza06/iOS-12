@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-  
+
     @State private var showEditProfile = false
     @State private var profileData = UserProfileData(
         username: "Username",
@@ -16,6 +16,9 @@ struct ProfileView: View {
         lastname: "Lastname",
         profileImage: nil
     )
+
+    @State private var isLoading = false  // Zum Verwalten des Ladezustands
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -129,6 +132,59 @@ struct ProfileView: View {
             }
         }
     }
+    /*private func fetchUserProfile(){
+        guard let userID = getUserID() else{
+            print("Fehler konnte nicht abgerufen werden")
+            return 
+        }
+    }*/
+    private func getUserID() -> Int? {
+        // Abrufen der Benutzer-ID aus dem Keychain
+        if let userIDData = KeychainHelper.standard.read(service: "com.yourapp.service", account: "userID") {
+            // Konvertiere die Daten in einen String
+            if let userIDString = String(data: userIDData, encoding: .utf8) {
+                // Konvertiere den String in eine Integer ID
+                if let userID = Int(userIDString) {
+                    return userID
+                } else {
+                    print("Fehler: Benutzer-ID kann nicht in eine Integer umgewandelt werden.")
+                    return nil
+                }
+            } else {
+                print("Fehler: Benutzer-ID kann nicht als String gelesen werden.")
+                return nil
+            }
+        } else {
+            print("Fehler: Keine Benutzer-ID im Keychain gefunden.")
+            return nil
+        }
+    }
+  
+ /*   private func fetchUserProfile() {
+        guard let userID = getUserID() else {
+            print ("Fehler id konnte nicht abgerufen werden")
+            return
+        }
+        isLoading = true
+        let endpoint = ProfileEndpoint.fetchProfile(userID: userID)
+       // APIClient.shared.request(endpoint) { (result: Result<UserProfileData, Error>) in
+            switch result {
+            case .success(let profile):
+                DispatchQueue.main.async {
+                    self.profileData = profile
+                    self.isLoading = false
+                }
+            case .failure(let error):
+                print("Error loading profile: \(error)")
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                }
+            }
+
+        }
+    }
+  */
+   
 }
 #Preview {
     ProfileView()
