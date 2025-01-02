@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 class FavoritesViewModel: ObservableObject {
     @Published var favorites: [Favourite] = []  // Liste der Favoriten
@@ -8,6 +7,12 @@ class FavoritesViewModel: ObservableObject {
     
     // API-Manager verwenden
     private let apiManager = APIManager.shared
+    
+    
+    func isFavorite(_ id: String) -> Bool {
+        return favorites.contains(where: { $0.id == id })
+    }
+    
     
     // Abrufen der Favoriten
     func fetchFavorites() {
@@ -30,45 +35,20 @@ class FavoritesViewModel: ObservableObject {
         }
     }
     
-    // Hinzufügen eines Favoriten
-    func addFavorite(_ favorite: Favourite) {
-        isLoading = true
-        error = nil
-        
-        // Endpunkt für das Hinzufügen eines Favoriten
-        let endpoint = AddFavoritesEndpoint(favourite: favorite)
-        
-        apiManager.request(modelType: Favourite.self, type: endpoint) { result in
-            DispatchQueue.main.async {
-                self.isLoading = false
-                switch result {
-                case .success(let addedFavorite):
-                    self.favorites.append(addedFavorite) // Neuer Favorit zur Liste hinzufügen
-                case .failure(let apiError):
-                    self.error = apiError
-                }
-            }
+    func addFavorite(_ favorite: Favourite, completion: @escaping (Result<Void, Error>) -> Void) {
+        DispatchQueue.main.async {
+            self.favorites.append(favorite)
+            completion(.success(()))
         }
     }
     
-    // Entfernen eines Favoriten
-    func removeFavorite(withId favoriteID: String) {
-        isLoading = true
-        error = nil
-        
-        // Endpunkt für das Entfernen eines Favoriten
-        let endpoint = RemoveFavoritesEndpoint(favoriteID: favoriteID)
-        
-        apiManager.request(modelType: Favourite.self, type: endpoint) { result in
-            DispatchQueue.main.async {
-                self.isLoading = false
-                switch result {
-                case .success:
-                    // Entferne den Favoriten aus der Liste
-                    self.favorites.removeAll { $0.id == favoriteID }
-                case .failure(let apiError):
-                    self.error = apiError
-                }
+    func removeFavorite(withId id: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        DispatchQueue.main.async {
+            if let index = self.favorites.firstIndex(where: { $0.id == id }) {
+                self.favorites.remove(at: index)
+                completion(.success(()))
+            } else {
+                completion(.failure(NSError(domain: "Not Found", code: 404, userInfo: nil)))
             }
         }
     }

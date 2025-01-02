@@ -14,19 +14,62 @@ struct PetDetailView: View {
     
     @State private var isFullScreen: Bool = false
     @State private var selectedImage: String = ""
+    @State private var showToast: Bool = false // Toast-Status hinzufügen
+
     
+    @ObservedObject var favoritesViewModel = FavoritesViewModel()
+
+    
+   
     let pet: Pet
     
-    private var trailingView: some View {
-        Image(systemName: isFavorite ? "heart.fill" : "heart")
-            .foregroundColor(.primaryColor)
-            .frame(width: 36, height: 36)
-            .background(Color.white)
-            .cornerRadius(18)
-            .onTapGesture {
-                isFavorite.toggle()
+    init(pet: Pet, favoritesViewModel: FavoritesViewModel = FavoritesViewModel()) {
+            self.pet = pet
+            self.favoritesViewModel = favoritesViewModel
+            _isFavorite = State(initialValue: favoritesViewModel.isFavorite(pet.id.uuidString))
+        }
+    
+    
+    private func toggleFavorite() {
+        print("ToggleFavorite tapped. Current isFavorite: \(isFavorite)") // Debug-Ausgabe
+        if isFavorite {
+            favoritesViewModel.removeFavorite(withId: pet.id.uuidString) { result in
+                if case .success = result {
+                    isFavorite = false
+                    showToast = true
+                    print("Removed from favorites") // Debug-Ausgabe
+                } else {
+                    print("Failed to remove from favorites") // Fehlerausgabe
+                }
             }
+        } else {
+            
+            let favorite = Favourite(id: pet.id.uuidString, name: pet.name, type: pet.species.rawValue)
+            favoritesViewModel.addFavorite(favorite) { result in
+                if case .success = result {
+                    isFavorite = true
+                    showToast = true
+                    print("Added to favorites") // Debug-Ausgabe
+                } else {
+                    print("Failed to add to favorites") // Fehlerausgabe
+                }
+            }
+        }
     }
+
+    
+    private var trailingView: some View {
+        Button(action: {
+            toggleFavorite()
+        }) {
+            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                .foregroundColor(.primaryColor)
+                .frame(width: 36, height: 36)
+                .background(Color.white)
+                .cornerRadius(18)
+        }
+    }
+
     
     var body: some View {
         VStack {
@@ -121,6 +164,8 @@ struct PetDetailView: View {
         .fullScreenCover(isPresented: $isFullScreen) {
             FullScreenImageView(imageName: selectedImage, isPresented: $isFullScreen)
         }
+        .toast(isPresented: $showToast, message: isFavorite ? "Removed from Favorites" : "Added to Favorites")
+
     }
     
     
@@ -155,4 +200,10 @@ struct PetDetailPreview: PreviewProvider {
             }
         }
     }
+    
+    
 }
+
+
+
+

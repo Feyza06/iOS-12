@@ -11,8 +11,7 @@ struct FavoriteAnimalView: View {
                     ProgressView("Loading...")
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
-                }
-                else if viewModel.favorites.isEmpty {
+                } else if viewModel.favorites.isEmpty {
                     Text("No favorites yet.")
                         .foregroundColor(.gray)
                         .font(.title3)
@@ -25,9 +24,18 @@ struct FavoriteAnimalView: View {
                                     .font(.headline)
                                     .foregroundColor(.brown)
                                 Spacer()
-                                
+
                                 Button(action: {
-                                    viewModel.removeFavorite(withId: favorite.id)
+                                    viewModel.removeFavorite(
+                                        withId: favorite.id
+                                    ) { result in
+                                        switch result {
+                                        case .success:
+                                            print("Favorite removed successfully")
+                                        case .failure(let error):
+                                            print("Failed to remove favorite: \(error.localizedDescription)")
+                                        }
+                                    }
                                 }) {
                                     Image(systemName: "trash")
                                         .foregroundColor(.red)
