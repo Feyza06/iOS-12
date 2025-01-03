@@ -6,215 +6,120 @@
 //
 
 import Foundation
+import UIKit
 import JWTDecode
-
 
 class APIService {
     static let shared = APIService()
     private init() {}
-
-    let baseURL = "http://127.0.0.1:3000"
-
-    // MARK: - Registration
-
-    func register(user: [String: Any], completion: @escaping (Result<User, Error>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/users") else { return }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: user)
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Handle response
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                let dataError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data returned"])
-                completion(.failure(dataError))
-                return
-            }
-
-            // Handle HTTP errors
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                let serverError = NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Server error: \(httpResponse.statusCode)"])
-                completion(.failure(serverError))
-                return
-            }
-
-            do {
-                let user = try JSONDecoder().decode(User.self, from: data)
-                completion(.success(user))
-            } catch {
-                completion(.failure(error))
+    
+    // MARK: - Register (Multipart)
+    func registerUserWithImage(
+        firstName: String,
+        lastName: String,
+        username: String,
+        email: String,
+        password: String,
+        image: UIImage?,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        // Construct the endpoint
+        let endpoint = RegisterUserWithImageEndpoint(
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            email: email,
+            password: password,
+            image: image
+        )
+        
+        // Call APIManager
+        APIManager.shared.requestDataVoid(endpoint: endpoint) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let networkError):
+                    // Convert `NetworkError` to an NSError (optional)
+                    let nsError = NSError(
+                        domain: "",
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: networkError.localizedDescription]
+                    )
+                    completion(.failure(nsError))
+                }
             }
         }
-        task.resume()
     }
     
     // MARK: - Login
-
     func login(email: String, password: String, completion: @escaping (Result<(String, User), Error>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/login") else { return }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let body: [String: Any] = ["email": email, "password": password]
-
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: body)
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Handle response
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                let dataError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data returned"])
-                completion(.failure(dataError))
-                return
-            }
-
-            do {
-                let decoder = JSONDecoder()
-                let loginResponse = try decoder.decode(LoginResponse.self, from: data)
+        let endpoint = LoginEndpoint(email: email, password: password)
+        
+        APIManager.shared.request(modelType: LoginResponse.self, type: endpoint) { result in
+            switch result {
+            case .success(let loginResponse):
                 completion(.success((loginResponse.token, loginResponse.user)))
-            } catch {
-                completion(.failure(error))
+            case .failure(let networkError):
+                completion(.failure(networkError))
             }
         }
-        task.resume()
     }
-
-    // MARK: - Fetch User Data (Protected Route)
-
+    
+    // MARK: - Fetch User Data
     func fetchUserData(userId: Int, completion: @escaping (Result<User, Error>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/users/\(userId)") else { return }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-
-        // Retrieve the token from Keychain
-        if let tokenData = KeychainHelper.standard.read(service: KeychainKeys.service, account: KeychainKeys.authToken),
-           let token = String(data: tokenData, encoding: .utf8) {
-            // Set the Authorization header
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        } else {
-            // Handle missing token
-            let authError = NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
-            completion(.failure(authError))
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Handle response
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
-                // Token is invalid or expired
-                DispatchQueue.main.async {
-                    // Delete the token and update app state
-                    KeychainHelper.standard.delete(service: KeychainKeys.service, account: KeychainKeys.authToken)
-                    // You may also want to notify the app to update UI
-                }
-                let authError = NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Session expired. Please log in again."])
-                completion(.failure(authError))
-                return
-            }
-
-            guard let data = data else {
-                let dataError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data returned"])
-                completion(.failure(dataError))
-                return
-            }
-
-            do {
-                let user = try JSONDecoder().decode(User.self, from: data)
+        let endpoint = FetchUserEndpoint(userId: userId)
+        
+        APIManager.shared.request(modelType: User.self, type: endpoint) { result in
+            switch result {
+            case .success(let user):
                 completion(.success(user))
-            } catch {
-                completion(.failure(error))
+            case .failure(let networkError):
+                completion(.failure(networkError))
             }
         }
-        task.resume()
     }
+    
+    // MARK: - Current User
     func getCurrentUser(completion: @escaping (Result<User, Error>) -> Void) {
-        guard let tokenData = KeychainHelper.standard.read(service: KeychainKeys.service, account: KeychainKeys.authToken),
+        // Read token from Keychain
+        guard let tokenData = KeychainHelper.standard.read(
+                service: KeychainKeys.service,
+                account: KeychainKeys.authToken
+              ),
               let token = String(data: tokenData, encoding: .utf8) else {
-            let authError = NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
+            let authError = NSError(
+                domain: "",
+                code: 401,
+                userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]
+            )
             completion(.failure(authError))
             return
         }
-
-        // Decode the token to extract user ID (optional)
+        
         let userId = decodeUserIdFromToken(token: token)
-
-        guard let url = URL(string: "\(baseURL)/users/\(userId)") else { return }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Handle response
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
-                // Handle unauthorized error
-                completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Unauthorized"])))
-                return
-            }
-
-            guard let data = data else {
-                let dataError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data returned"])
-                completion(.failure(dataError))
-                return
-            }
-
-            do {
-                let user = try JSONDecoder().decode(User.self, from: data)
+        let endpoint = FetchUserEndpoint(userId: userId)
+        
+        APIManager.shared.request(modelType: User.self, type: endpoint) { result in
+            switch result {
+            case .success(let user):
                 completion(.success(user))
-            } catch {
+            case .failure(let error):
                 completion(.failure(error))
             }
         }
-        task.resume()
     }
-
-    // Helper function to decode user ID from JWT token
+    
+    // Helper to decode the user ID from the JWT
     func decodeUserIdFromToken(token: String) -> Int {
         do {
-                let jwt = try decode(jwt: token)
-                if let id = jwt.claim(name: "id").integer {
-                    return id
-                }
-            } catch {
-                print("Failed to decode JWT: \(error)")
+            let jwt = try decode(jwt: token)
+            if let id = jwt.claim(name: "id").integer {
+                return id
             }
-            return 0 // Handle default case or error appropriately
+        } catch {
+            print("Failed to decode JWT: \(error)")
+        }
+        return 0 // or handle error
     }
 }

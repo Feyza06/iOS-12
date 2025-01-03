@@ -24,20 +24,10 @@ struct IOS_12App: App {
         WindowGroup {
             // The root view of the app, which dynamically displays
             // either the authentication flow or the main content based on the user's login status.
-<<<<<<< HEAD
 
             ContentView()
                 .environmentObject(appState) // Injects the global state into the app's view hierarchy.
-
-//            ContentView()
-//                .environmentObject(appState) // Injects the global state into the app's view hierarchy.
-            AuthenticationView()
-                .environmentObject(appState)
-
-=======
-            ContentView()
-                .environmentObject(appState) // Injects the global state into the app's view hierarchy.
->>>>>>> parent of 3a1160b (merge feature/post-uploading branch to main)
         }
     }
 }
+
