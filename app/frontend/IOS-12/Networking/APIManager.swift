@@ -9,58 +9,51 @@ import Foundation
 
 final class APIManager {
     
-    static let shared = APIManager() // singleton instance
+    static let shared = APIManager() // Singleton instance
     
     private let networkHandler: NetworkHandler
     private let responseHandler: ResponseHandler
     
-    private init(networkHandler: NetworkHandler = NetworkHandler(),
-                 responseHandler: ResponseHandler = ResponseHandler()){
+    private init(
+        networkHandler: NetworkHandler = NetworkHandler(),
+        responseHandler: ResponseHandler = ResponseHandler()
+    ) {
         self.networkHandler = networkHandler
         self.responseHandler = responseHandler
     }
     
+    /// For requests that expect a JSON-decoded response (e.g. returns a model).
     func request<T: Decodable>(
         modelType: T.Type,
         type: APIEndpointType,
         completion: @escaping ResultHandler<T>
     ) {
-        // Validate the URL
-        guard let url = type.url else {
-                completion(.failure(.invalidURL))
-                return
-        }
-
-        // Build a URLRequest
-        var request = URLRequest(url: url)
-        request.httpMethod = type.method.rawValue
-
-        if let parameters = type.body {
-            do{
-                request.httpBody = try JSONEncoder().encode(parameters)
-            } catch {
-                completion(.failure(.decoding(error)))
+        networkHandler.requestDataAPI(endpoint: type) { result in
+            switch result {
+            case .success(let data):
+                self.responseHandler.parseResponseDecode(
+                    data: data,
+                    modelType: modelType,
+                    completionHandler: completion
+                )
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
-        
-        // add headers to the request
-        request.allHTTPHeaderFields = type.headers
-
-        // perform network request
-        networkHandler.requestDataAPI(url: request) { result in
-                switch result {
-                case .success(let data):
-                    // parse the response data
-                        self.responseHandler.parseResponseDecode(
-                            data: data,
-                            modelType: modelType,
-                            completionHandler: completion
-                        )
-                    case .failure(let error):
-                        // pass any errors 
-                        completion(.failure(error))
-                    }
-                }
+    }
+    
+    /// For requests that don't return a JSON object (just success/failure).
+    func requestDataVoid(
+        endpoint: APIEndpointType,
+        completion: @escaping (Result<Void, NetworkError>) -> Void
+    ) {
+        networkHandler.requestDataAPI(endpoint: endpoint) { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }
-
