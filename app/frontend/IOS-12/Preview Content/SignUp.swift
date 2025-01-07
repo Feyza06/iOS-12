@@ -239,67 +239,30 @@ struct SignUpView: View {
             return
         }
         
-        guard let url = URL(string: "http://127.0.0.1:3000/users") else {
-            errorMessage = "Invalid URL"
-            isLoading = false
-            return
-        }
-        
-        // Prepare fields
-        let fields: [String: String] = [
-            "firstName": firstName,
-            "lastName": lastName,
-            "username": username,
-            "email": email,
-            "password": password
-        ]
-        
-        // Create request using the helper
-        let request = MultipartFormDataHelper.createRequest(
-            url: url,
-            fields: fields,
-            image: image, // Pass the UIImage if available, otherwise nil
-            imageFieldName: "photo"
-        )
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        // Use the new APIService method
+        APIService.shared.registerUserWithImage(
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            email: email,
+            password: password,
+            image: image
+        ) { result in
             DispatchQueue.main.async {
                 self.isLoading = false
-            }
-            
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Network error: \(error.localizedDescription)"
-                }
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Invalid response."
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                if httpResponse.statusCode == 200 {
+                switch result {
+                case .success:
                     self.registrationSuccess = true
                     self.errorMessage = nil
+                    // Optionally navigate to Login
                     self.onLogin()
-                } else {
-                    if let data = data,
-                       let responseMessage = try? JSONDecoder().decode([String: String].self, from: data),
-                       let serverMessage = responseMessage["message"] {
-                        self.errorMessage = "Registration failed: \(serverMessage)"
-                    } else {
-                        self.errorMessage = "Registration failed. Server responded with status code: \(httpResponse.statusCode)"
-                    }
+                case .failure(let error):
+                    self.registrationSuccess = false
+                    self.errorMessage = "Registration failed: \(error.localizedDescription)"
                 }
             }
-        }.resume()
+        }
     }
-    
-    
     
     // Email validation function
     private func isValidEmail(_ email: String) -> Bool {

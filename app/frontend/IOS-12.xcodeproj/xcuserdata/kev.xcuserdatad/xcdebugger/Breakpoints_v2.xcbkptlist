@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "D5BF883F-B74C-4902-8AD4-614BC36911EF"
+   uuid = "EDDC3BFE-3A61-40C2-9C19-B578D2F674BA"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E9B12745-D6B7-425B-B428-42DEAC1CFCA7"
-            shouldBeEnabled = "Yes"
+            uuid = "0821EF81-0D70-45FD-92B4-D4453B564B75"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IOS-12/Model/Pet.swift"
+            filePath = "IOS-12/Preview Content/SignUp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "description"
-            landmarkType = "24">
+            startingLineNumber = "213"
+            endingLineNumber = "213"
+            landmarkName = "registerUser()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

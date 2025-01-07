@@ -7,92 +7,91 @@
 
 import Foundation
 
+/// For endpoints that need to build their own URLRequest (e.g., multipart uploads).
+protocol CustomURLRequestConvertible {
+    func asURLRequest() throws -> URLRequest
+}
+
 class NetworkHandler {
-    
     func requestDataAPI(
-        url: URLRequest,
+        endpoint: APIEndpointType,
         completionHandler: @escaping (Result<Data, NetworkError>) -> Void
     ) {
-        // Log the request details
-              print("Request URL: \(url.url?.absoluteString ?? "Invalid URL")")
-              print("Request Headers: \(url.allHTTPHeaderFields ?? [:])")
-              
-              if let body = url.httpBody, let bodyString = String(data: body, encoding: .utf8) {
-                  print("Request Body: \(bodyString)")
-              } else {
-                  print("Request Body: None")
-              }
-
-        
-        
-        let session = URLSession.shared.dataTask(with: url) { data, response, error in
+        if let customEndpoint = endpoint as? CustomURLRequestConvertible {
+            do {
+                let customRequest = try customEndpoint.asURLRequest()
+                makeDataTask(request: customRequest, completionHandler: completionHandler)
+            } catch {
+                completionHandler(.failure(.network(error)))
+            }
+        } else {
+            // Fallback: build a standard JSON-based request
+            guard let url = endpoint.url else {
+                completionHandler(.failure(.invalidURL))
+                return
+            }
+            var request = URLRequest(url: url)
+            request.httpMethod = endpoint.method.rawValue
             
-            // check for URLSession error
+            if let parameters = endpoint.body {
+                do {
+                    request.httpBody = try JSONEncoder().encode(parameters)
+                } catch {
+                    completionHandler(.failure(.decoding(error)))
+                    return
+                }
+            }
+            
+            request.allHTTPHeaderFields = endpoint.headers
+            
+            makeDataTask(request: request, completionHandler: completionHandler)
+        }
+    }
+    
+    /// Shared logic to create and run the data task, handle status codes, etc.
+    private func makeDataTask(
+        request: URLRequest,
+        completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+    ) {
+        let session = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            // Check for a lower-level network/transport error
             if let error = error {
-                print("Network Error: \(error.localizedDescription)")
-                completionHandler(.failure(self.mapError(error)))
+                completionHandler(.failure(.network(error)))
                 return
             }
             
-            //validate HTTP response
-            guard let httpResponse = response as? HTTPURLResponse else{
-                print("Invalid response: No HTTPURLResponse received.")
+            // Validate the response
+            guard let httpResponse = response as? HTTPURLResponse else {
                 completionHandler(.failure(.invalidResponse))
                 return
             }
             
-            // Log HTTP status code
-            print("HTTP Status Code: \(httpResponse.statusCode)")
-                       
-            
-            // handle status code
+            // Check status code
             switch httpResponse.statusCode {
             case 200...299:
-                break // successful response
+                break // success
             case 400..<500:
-                completionHandler(.failure(.network(nil))) // client-side error
+                completionHandler(.failure(.network(nil))) // client error
                 return
             case 500...599:
-                completionHandler(.failure(.serverError(statusCode: httpResponse.statusCode))) // server-side error
+                completionHandler(.failure(.serverError)) // server error
                 return
             default:
-                completionHandler(.failure(.invalidResponse)) // default case 
+                completionHandler(.failure(.invalidResponse))
                 return
             }
             
-            
-            // check for valid data
+            // Check that we have data
             guard let data = data else {
-                print("No data received from server.")
                 completionHandler(.failure(.invalidData))
                 return
             }
             
-            // Log response body
-                       if let responseBody = String(data: data, encoding: .utf8) {
-                           print("Response Body: \(responseBody)")
-                       } else {
-                           print("Unable to decode response body.")
-                       }
-            
-            // return successful result
+            // Return the data
             completionHandler(.success(data))
-            
         }
         session.resume()
-        
-    }
-    
-    private func mapError(_ error: Error) -> NetworkError {
-        if let urlError = error as? URLError {
-            print("Mapped Network Error: \(urlError.localizedDescription)")
-            return .network(urlError)
-        } else if let decodingError = error as? DecodingError {
-            print("Mapped Decoding Error: \(decodingError.localizedDescription)")
-            return .decoding(decodingError)
-        } else {
-            print("Mapped to Invalid Response Error")
-            return .invalidResponse
-        }
     }
 }
+
