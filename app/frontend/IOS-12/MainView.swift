@@ -19,7 +19,6 @@ struct MainView: View {
     @State private var showPostPetView: Bool = false
     
     // New state for MessagesView
-    @State private var showMessagesView: Bool = false
     @State private var showConversationsView: Bool = false
     
     var body: some View {
@@ -56,7 +55,7 @@ struct MainView: View {
             CustomTabBar(
                 selectedTab: $selectedTab,
                 showPostPetView: $showPostPetView,
-                showMessagesView: $showConversationsView
+                showConversationsView: $showConversationsView
             )
         }
         .background(Color.white)
@@ -73,7 +72,7 @@ struct MainView: View {
             PostPetView()
         }
         // Present the new MessagesView
-        .fullScreenCover(isPresented: $showMessagesView) {
+        .fullScreenCover(isPresented: $showConversationsView) {
             ConversationsView()
         }
     }

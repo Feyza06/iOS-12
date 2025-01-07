@@ -33,40 +33,49 @@ struct ConversationsView: View {
 
                 // Conversations List
                 List(viewModel.conversations) { convo in
-                    HStack(spacing: 16) {
-                        AsyncImage(url: buildImageURL(from: convo.photo)) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                                    .frame(width: 50, height: 50)
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
-                            case .failure:
-                                Image("person.fill")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                    NavigationLink(
+                        destination: ChatView(
+                            currentUserId: appState.userId ?? 0,
+                            otherUserId: convo.userId,
+                            otherUsername: convo.username,
+                            postId: convo.postId
+                        )
+                    ) {
+                        HStack(spacing: 16) {
+                            AsyncImage(url: buildImageURL(from: convo.photo)) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                        .frame(width: 50, height: 50)
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                                case .failure:
+                                    Image(systemName: "person")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                                }
                             }
-                        }
 
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(convo.username) // Shows the other user's username
-                                .font(.headline)
-                            Text(convo.lastMessage)
-                                .font(.subheadline)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(convo.username)
+                                    .font(.headline)
+                                Text(convo.lastMessage)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                            Text(formatDate(convo.createdAt))
+                                .font(.footnote)
                                 .foregroundColor(.gray)
                         }
-                        Spacer()
-                        Text(formatDate(convo.createdAt))
-                            .font(.footnote)
-                            .foregroundColor(.gray)
                     }
                 }
                 .listStyle(PlainListStyle())

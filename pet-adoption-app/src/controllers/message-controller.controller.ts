@@ -49,6 +49,7 @@ export class MessageControllerController {
     lastMessage: string;
     createdAt: string;
     photo: string | null;
+    postId: string | number | undefined;
   }>> {
     // 1) Fetch all messages where this user is either sender or recipient
     const messages = await this.messageRepository.find({
@@ -90,6 +91,7 @@ export class MessageControllerController {
           lastMessage: lastMessage.content,
           createdAt: lastMessage.createdAt,
           photo: otherUser.photo,
+          postId: lastMessage.postId,
         });
       } catch (error) {
         // If the user can't be found, skip or handle accordingly
@@ -159,29 +161,24 @@ export class MessageControllerController {
 
   // Fetch messages between two users (dynamic user ID handling)
   @get('/messages/between')
-  @response(200, {
-    description: 'Array of messages exchanged between two users',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'array',
-          items: getModelSchemaRef(Message),
-        },
-      },
-    },
-  })
-  async findMessagesBetweenUsers(
-    @param.query.string('senderId') senderId: string,
-    @param.query.string('recipientId') recipientId: string,
+  async findMessagesBetween(
+      @param.query.string('senderId') senderId: string,
+      @param.query.string('recipientId') recipientId: string,
+      @param.query.string('postId') postId: string, // new param
   ): Promise<Message[]> {
     return this.messageRepository.find({
       where: {
-        or: [
-          {and: [{senderId: senderId}, {recipientId: recipientId}]},
-          {and: [{senderId: recipientId}, {recipientId: senderId}]},
-        ],
+        and: [
+          {postId: postId},
+          {
+            or: [
+              {and: [{senderId: senderId}, {recipientId: recipientId}]},
+              {and: [{senderId: recipientId}, {recipientId: senderId}]}
+            ]
+          }
+        ]
       },
-      order: ['createdAt ASC'], // Sort messages by timestamp
+      order: ['createdAt ASC'], // Show oldest to newest
     });
   }
 

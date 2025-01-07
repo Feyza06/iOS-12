@@ -13,7 +13,8 @@ struct Conversation: Identifiable, Codable {
     let username: String
     let lastMessage: String
     let createdAt: String
-    let photo: String? 
+    let photo: String?
+    let postId: Int 
 }
 
 class ConversationsViewModel: ObservableObject {

@@ -26,7 +26,7 @@ export class Message extends Entity {
     type: 'string',
     required: true,
   })
-  postId: string;
+  postId: number;
 
   @property({
     type: 'string',

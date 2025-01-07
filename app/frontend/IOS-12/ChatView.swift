@@ -1,59 +1,78 @@
 import SwiftUI
+
 struct ChatView: View {
     @StateObject var viewModel = ChatViewModel()
-    let currentUserId = "user1"
+    let currentUserId: Int
+    let otherUserId: Int
+    let otherUsername: String
+    let postId: Int
+    
+    @Environment(\.presentationMode) var presentationMode // Environment for navigation handling
+
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Color(red: 1.0, green: 0.89, blue: 0.77)
-                    .ignoresSafeArea()
-                
-                VStack {
-                    if let firstMessage = viewModel.messages.first {
-                        let isCurrentUserSender = (firstMessage.senderId == currentUserId)
-                        
-                        Profile(senderId: isCurrentUserSender ? firstMessage.recipientId : firstMessage.senderId,
-                                imageUrl: URL(string: isCurrentUserSender ?  "https://drive.google.com/uc?export=view&id=1K2_vBti-gyPMracSZHa7uZylxwHwlslz" : ""),
-                                name: isCurrentUserSender ? "adele" : "sender")
-                        
-                        ScrollView {
-                            ForEach(viewModel.messages) { message in
-                                MessageView(message: message)
-                            }
-                        }
-                        
-                        Button(action: {
-                            viewModel.fetchMessages()
-                        }) {
-                            Text("Refresh Chat")
-                                .font(.system(size: 10))
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color(red: 0.55, green: 0.27, blue: 0.07))
-                                .cornerRadius(50)
-                                .padding(.bottom, -15)
-                        }
-                        
-                        MessageField(onSend: { message in
-                            if !message.trimmingCharacters(in: .whitespaces).isEmpty {
-                                viewModel.sendMessage(message: message)
-                            }
-                            
-                        })
-                        .padding()
+        VStack {
+            // Chat Messages
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(viewModel.messages) { message in
+                        MessageView(message: message, currentUserId: String(currentUserId))
+                            .id(message.id) // Allows scrolling to specific messages
                     }
                 }
-                .onAppear {
-                    viewModel.fetchMessages()
+                .onChange(of: viewModel.messages.count) { _ in
+                    // Scroll to the newest message
+                    if let lastMessage = viewModel.messages.last {
+                        proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                    }
                 }
             }
+
+            // Refresh button
+            Button("Refresh") {
+                viewModel.fetchMessages(
+                    currentUserId: currentUserId,
+                    otherUserId: otherUserId,
+                    postId: postId
+                )
+            }
+            .padding()
+
+            MessageField { text in
+                viewModel.sendMessage(
+                    message: text,
+                    currentUserId: currentUserId,
+                    recipientId: otherUserId,
+                    postId: postId
+                )
+            }
         }
+        .onAppear {
+            viewModel.fetchMessages(
+                currentUserId: currentUserId,
+                otherUserId: otherUserId,
+                postId: postId
+            )
+        }
+        .navigationBarTitle(otherUsername, displayMode: .inline)
+        .navigationBarItems(
+            leading: Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Image(systemName: "arrow.backward")
+                    .foregroundColor(.primaryColor)
+            }
+        )
     }
 }
     
-    struct ChatView_Previews: PreviewProvider {
-        static var previews: some View {
-            ChatView()
-        }
+struct ChatView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatView(
+            currentUserId: 2,
+            otherUserId: 3,
+            otherUsername: "TimoMacher",
+            postId: 1
+        )
     }
+}
 

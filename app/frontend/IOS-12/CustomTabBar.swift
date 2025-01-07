@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomTabBar: View {
     @Binding var selectedTab: Tab
     @Binding var showPostPetView: Bool
-    @Binding var showMessagesView: Bool
+    @Binding var showConversationsView: Bool
 
     enum Tab: CaseIterable {
         case home, favorite, addPost, message, profile
@@ -37,7 +37,7 @@ struct CustomTabBar: View {
                         showPostPetView = true
                     case .message:
                         // Show the MessagesView
-                        showMessagesView = true
+                        showConversationsView = true
                     default:
                         // Switch the selected tab
                         selectedTab = tab
