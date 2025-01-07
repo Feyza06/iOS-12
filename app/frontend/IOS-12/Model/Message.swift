@@ -6,8 +6,5 @@ struct Message: Identifiable, Codable {
     let recipientId: String
     let content: String
     let createdAt: String
-    
-   
-    
 }
 

@@ -1,9 +1,14 @@
 import {ApplicationConfig, PetAdoptionAppApplication} from './application';
+import path from 'path';
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new PetAdoptionAppApplication(options);
+
+  // Serve static files from the "uploads" folder
+  app.static('/uploads', path.join(__dirname, '../uploads'));
+
   await app.boot();
   await app.start();
 

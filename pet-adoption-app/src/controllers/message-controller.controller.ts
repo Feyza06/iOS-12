@@ -19,13 +19,89 @@ import {
 import {Message} from '../models';
 import {MessageRepository} from '../repositories';
 import {getModelSchemaRef} from '@loopback/rest';
+import {UserRepository} from '../repositories'; // We need to fetch "other user" info
+import {User} from '../models';
 
 
 export class MessageControllerController {
   constructor(
     @repository(MessageRepository)
     public messageRepository: MessageRepository,
+
+    @repository(UserRepository)
+    public userRepository: UserRepository,
   ) {}
+
+  // ---------------------------------------
+// Get a list of unique conversation partners
+// for the given user, along with the last message
+// ---------------------------------------
+  @get('/messages/conversations/{userId}')
+  @response(200, {
+    description: 'Unique conversation partners for the specified user, plus last message',
+    content: {'application/json': {schema: {type: 'array'}}},
+  })
+  async getConversations(
+      @param.path.number('userId') userId: number
+  ): Promise<Array<{
+    userId: number;
+    username: string;
+    lastMessage: string;
+    createdAt: string;
+    photo: string | null;
+  }>> {
+    // 1) Fetch all messages where this user is either sender or recipient
+    const messages = await this.messageRepository.find({
+      where: {
+        or: [{senderId: userId}, {recipientId: userId}],
+      },
+      order: ['createdAt DESC'], // Most recent messages first
+    });
+
+    // 2) Group them by "other user" (the person we chatted with)
+    //    - If current user is the sender, then "other user" = recipientId
+    //    - If current user is the recipient, then "other user" = senderId
+    const conversationMap = new Map<number, Message>();
+    for (const msg of messages) {
+      // The other person's ID:
+      const otherId =
+          msg.senderId === String(userId)
+              ? parseInt(msg.recipientId, 10)
+              : parseInt(msg.senderId, 10);
+
+      // We only store the first message we see (which is the latest, due to sorting)
+      // so it becomes the "last message" in the conversation
+      if (!conversationMap.has(otherId)) {
+        conversationMap.set(otherId, msg);
+      }
+    }
+
+    // 3) Now conversationMap has unique user -> last message
+    //    Let's assemble an array with user details
+    const results = [];
+    for (const [otherUserId, lastMessage] of conversationMap.entries()) {
+      try {
+        // Attempt to find the "other user" in the user repository
+        const otherUser = await this.userRepository.findById(otherUserId);
+
+        results.push({
+          userId: otherUserId,
+          username: otherUser.username,
+          lastMessage: lastMessage.content,
+          createdAt: lastMessage.createdAt,
+          photo: otherUser.photo,
+        });
+      } catch (error) {
+        // If the user can't be found, skip or handle accordingly
+        // Here we skip that conversation
+        console.error(
+            `Could not find user with ID ${otherUserId} in conversation: ${error}`
+        );
+      }
+    }
+
+    return results;
+  }
 
   // Create a new message
   @post('/messages')

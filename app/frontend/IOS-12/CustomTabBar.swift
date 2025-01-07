@@ -4,15 +4,17 @@
 //
 //  Created by Feyza Serin on 17.12.24.
 //
+
 import SwiftUI
 
-struct CustomTabBar: SwiftUI.View {
+struct CustomTabBar: View {
     @Binding var selectedTab: Tab
-    @Binding var showPostPetView: Bool // Bindung für die Navigation
+    @Binding var showPostPetView: Bool
+    @Binding var showMessagesView: Bool
 
     enum Tab: CaseIterable {
         case home, favorite, addPost, message, profile
-        
+
         var iconName: String {
             switch self {
             case .home: return "house.fill"
@@ -23,15 +25,21 @@ struct CustomTabBar: SwiftUI.View {
             }
         }
     }
-    
+
     var body: some View {
         HStack {
             ForEach(Tab.allCases, id: \.self) { tab in
                 Spacer()
                 Button(action: {
-                    if tab == .addPost {
-                        showPostPetView = true // Aktiviert den Vollbildmodus
-                    } else {
+                    switch tab {
+                    case .addPost:
+                        // Show the post pet view
+                        showPostPetView = true
+                    case .message:
+                        // Show the MessagesView
+                        showMessagesView = true
+                    default:
+                        // Switch the selected tab
                         selectedTab = tab
                     }
                 }) {
