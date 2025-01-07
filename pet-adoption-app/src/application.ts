@@ -1,17 +1,20 @@
+import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
+import {RepositoryMixin} from '@loopback/repository';
+import {RestApplication} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
-import path from 'path';
-import {MySequence} from './sequence';
-import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
-import {JWTAuthenticationStrategy} from './authentication-strategies/jwt-strategy';
 import * as dotenv from 'dotenv';
+import path from 'path';
+import {JWTAuthenticationStrategy} from './authentication-strategies/jwt-strategy';
+import {MySequence} from './sequence';
+
+//import { PostService } from './services/post-service';
+
 dotenv.config();
 
 export {ApplicationConfig};
@@ -46,6 +49,8 @@ export class PetAdoptionAppApplication extends BootMixin(
 
     // Bind JWT secret key
     this.bind('authentication.jwt.secret').to(process.env.JWT_SECRET || 'best_pet_adoption_app_secret');
+
+   // this.bind('services.PostService').to(PostService);
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

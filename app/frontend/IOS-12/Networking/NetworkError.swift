@@ -28,6 +28,7 @@ enum NetworkError: LocalizedError {
             message = "The data received from the server is invalid."
         case .network(let underlyingError):
             if let urlError = underlyingError {
+                print("Network Error: \(urlError.localizedDescription) (\(urlError.code.rawValue))")
                            message = "A network error occurred: \(urlError.localizedDescription) (\(urlError.code.rawValue))"
                            switch urlError.code {
                            case .notConnectedToInternet:

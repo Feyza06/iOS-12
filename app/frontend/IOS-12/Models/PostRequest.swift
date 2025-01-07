@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 struct PostRequest: Codable {
     let petName: String
     let fee: Double
@@ -16,6 +17,6 @@ struct PostRequest: Codable {
     let birthday: Date
     let description: String
     let location: String
-    let photo: Bool
+    let hasPhoto: Bool
 }
 

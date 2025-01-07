@@ -22,7 +22,8 @@ class NetworkHandler {
                 let customRequest = try customEndpoint.asURLRequest()
                 makeDataTask(request: customRequest, completionHandler: completionHandler)
             } catch {
-                completionHandler(.failure(.network(error)))
+                print("Error converting endpoint to URLRequest: \(error)")
+                completionHandler(.failure(.network(error as! URLError)))
             }
         } else {
             // Fallback: build a standard JSON-based request
@@ -37,7 +38,8 @@ class NetworkHandler {
                 do {
                     request.httpBody = try JSONEncoder().encode(parameters)
                 } catch {
-                    completionHandler(.failure(.decoding(error)))
+                    print("Error encoding parameters: \(error)")
+                    completionHandler(.failure(.decoding(error as! DecodingError)))
                     return
                 }
             }
@@ -57,15 +59,19 @@ class NetworkHandler {
             
             // Check for a lower-level network/transport error
             if let error = error {
-                completionHandler(.failure(.network(error)))
+                print("Network error occurred: \(error.localizedDescription)")
+                completionHandler(.failure(.network(error as! URLError)))
                 return
             }
             
             // Validate the response
+            print("Invalid response received.")
             guard let httpResponse = response as? HTTPURLResponse else {
                 completionHandler(.failure(.invalidResponse))
                 return
             }
+            
+            print("HTTP Status Code: \(httpResponse.statusCode)")
             
             // Check status code
             switch httpResponse.statusCode {
@@ -75,7 +81,7 @@ class NetworkHandler {
                 completionHandler(.failure(.network(nil))) // client error
                 return
             case 500...599:
-                completionHandler(.failure(.serverError)) // server error
+                completionHandler(.failure(.serverError(statusCode: httpResponse.statusCode))) // server error
                 return
             default:
                 completionHandler(.failure(.invalidResponse))

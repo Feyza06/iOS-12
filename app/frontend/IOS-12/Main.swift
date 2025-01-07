@@ -27,7 +27,7 @@ struct Main: View {
                     VStack {
                         Button(action: {
                             viewModel.selectedPetType = "Dog"
-                            viewModel.filterPosts()
+                           
                             
                         }) {
                             Circle()
@@ -48,7 +48,7 @@ struct Main: View {
                     VStack {
                         Button(action: {
                             viewModel.selectedPetType = "Cat"
-                            viewModel.filterPosts()
+                            //viewModel.filterPosts()
                         }) {
                             Circle()
                                 .fill(Color.green)
@@ -68,7 +68,7 @@ struct Main: View {
                     VStack {
                         Button(action: {
                             viewModel.selectedPetType = "Bird"
-                            viewModel.filterPosts()
+                           //viewModel.filterPosts()
                         }) {
                             Circle()
                                 .fill(Color.yellow)
@@ -88,7 +88,7 @@ struct Main: View {
                     VStack {
                         Button(action: {
                             viewModel.selectedPetType = "Rabbit"
-                            viewModel.filterPosts()
+                            //viewModel.filterPosts()
                         }) {
                             Circle()
                                 .fill(Color.orange)
@@ -127,7 +127,7 @@ struct Main: View {
             
             .navigationBarTitle("Pet Selector", displayMode: .inline)
             .onAppear {
-                    viewModel.fetchPosts() // Fetch posts when the view appears
+                    //viewModel.fetchPosts() // Fetch posts when the view appears
             }
         }
         

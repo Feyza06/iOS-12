@@ -83,26 +83,26 @@ struct PostSquareView: View {
     }
 }
 
-struct PostSquareView_Previews: PreviewProvider {
-    static var previews: some View {
-        let samplePost = PostResponse(
-            id: 1,
-            petName: "Buddy",
-            fee: 20,
-            gender: "Male",
-            petType: "Dog",
-            petBreed: "Golden Retriever",
-            birthday: "2012-12-12", // Use string representation
-            description: "A friendly dog",
-            location: "New York",
-            photo: false,
-            status: "available",
-            createdAt: "2012-12-12", // Use string representation
-            userId: "1"
-        )
-
-        PostSquareView(post: samplePost)
-            .previewLayout(.sizeThatFits)
-            .padding()
-    }
-}
+//struct PostSquareView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let samplePost = PostResponse(
+//            id: 1,
+//            petName: "Buddy",
+//            fee: 20,
+//            gender: "Male",
+//            petType: "Dog",
+//            petBreed: "Golden Retriever",
+//            birthday: "2012-12-12", // Use string representation
+//            description: "A friendly dog",
+//            location: "New York",
+//            photo: false,
+//            status: "available",
+//            createdAt: "2012-12-12", // Use string representation
+//            userId: "1"
+//        )
+//
+//        PostSquareView(post: samplePost)
+//            .previewLayout(.sizeThatFits)
+//            .padding()
+//    }
+//}

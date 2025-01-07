@@ -22,6 +22,7 @@ struct PostResponse: Codable, Identifiable {
     let birthday: String // date
     let description: String
     let location: String
+    let hasPhoto: String?
     let photo: Bool
     let status: String
     let createdAt: String // date

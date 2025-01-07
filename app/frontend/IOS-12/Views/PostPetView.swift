@@ -141,17 +141,21 @@ struct PostPetView: View {
                     
                     // Post Button
                     Button(action: {
-                        viewModel.uploadPost(postRequest: PostRequest(
-                            petName: petName,
+                        viewModel.uploadPost(
+                            postRequest: PostRequest(
+                                   petName: petName,
                                    fee: Double(fee) ?? 0.0,
-                            gender: gender ? "Male" : "Female",
+                                   gender: gender ? "Male" : "Female",
                                    petType: selectedPetType,
                                    petBreed: breed,
                                    birthday: birthday,
                                    description: description,
                                    location: addressString,
-                                   photo: picture != nil
-                        )){ result in
+                                   hasPhoto: inputImage != nil
+                                  ),
+                            photo: inputImage
+                        
+                        ){ result in
                             switch result {
                             case .success:
                                 print("Post uploaded successfully.")

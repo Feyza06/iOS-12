@@ -19,15 +19,20 @@ class PostViewModel: ObservableObject {
     @Published var filteredPosts: [PostResponse] = []
     @Published var selectedPetType: String? = nil
     
+    
     // Image Handling States
     //@Published var image: UIImage?
     //@Published var isImagePickerPresented = false
     //@Published var showActionSheet = false
     //@Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
-    func uploadPost(postRequest: PostRequest, completion: @escaping (Result<PostResponse, NetworkError>) -> Void) {
+    func uploadPost(
+        postRequest: PostRequest,
+        photo: UIImage?,
+        completion: @escaping (Result<PostResponse, NetworkError>) -> Void
+    ) {
         // Initialize the endpoint
-        let endpoint = UploadPostEndpoint(postRequest: postRequest)
+        let endpoint = UploadPostEndpoint(postRequest: postRequest, photo: photo)
         
         
         // Begin uploading
@@ -48,59 +53,15 @@ class PostViewModel: ObservableObject {
                 case .success(let response):
                     print("Upload successful: \(response)")
                     self?.uploadSuccess = true
-                    
-                    
                     self?.uploadedPost = response
-                    
-                    
                     self?.uploadedPost = response
-                    
                     completion(.success(response))
                 case .failure(let error):
                     // Use NetworkError's errorDescription for logging and setting the error message
                                    self?.errorMessage = error.errorDescription
                                    completion(.failure(error))
-                    
-                
-                    
-                }
+               }
             }
-        }
-    }
-    
-    
-    func fetchPosts(){
-        isLoading = true
-        errorMessage = nil
-        
-        let endpoint = FetchPostsEndpoint()
-        
-        APIManager.shared.request(modelType: [PostResponse].self, type: endpoint
-        ) { [weak self] result in
-            DispatchQueue.main.async {
-                self?.isLoading = false
-                
-                switch result {
-                case .success(let posts):
-                    print("Posts fetched successfully: \(posts)")
-                    self?.posts = posts // Save posts to the state
-                    self?.filteredPosts = posts // Initially, show all posts
-                case .failure(let error):
-                    print("Error fetching posts: \(error)")
-                    self?.errorMessage = error.localizedDescription // Show error message
-                }
-            }
-        }
-    }
-    
-    
-    
-    
-    func filterPosts(){
-        if let selectedPetType = selectedPetType{
-            filteredPosts = posts.filter { $0.petType == selectedPetType}
-        } else{
-            filteredPosts = posts
         }
     }
 }
