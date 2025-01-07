@@ -31,6 +31,9 @@ struct PostPetView: View {
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     
+    @State private var showingImageSourceActionSheet = false
+    @State private var imageSource: UIImagePickerController.SourceType = .photoLibrary
+    
     // Map handling
     @State private var addressString = ""
     @State private var region = MKCoordinateRegion(
@@ -88,12 +91,28 @@ struct PostPetView: View {
                                 Text("Upload a picture")
                                     .foregroundColor(.gray)
                                     .onTapGesture {
-                                        showingImagePicker = true
+                                        //showingImagePicker = true
+                                        showingImageSourceActionSheet = true // Correct
                                     }
                             }
                         }
                         .padding()
                     }
+                    .confirmationDialog("Select Image Source", isPresented: $showingImageSourceActionSheet){
+                        Button("Take a photo"){
+                            imageSource = .camera
+                            showingImagePicker = true
+                        }
+                        Button("Choose from Library") {
+                            imageSource = .photoLibrary
+                            showingImagePicker = true
+                        }
+                        Button("Cancel", role: .cancel) {}
+                    }
+                    .sheet(isPresented: $showingImagePicker, onDismiss: loadImage ){
+                        ImagePicker(image: $inputImage, sourceType: imageSource)
+                    }
+                    
                     
                     // Map Section
                     Section(header: Text("Enter Address").font(.headline)) {

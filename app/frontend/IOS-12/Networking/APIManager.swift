@@ -76,3 +76,17 @@ final class APIManager {
     }
 }
 
+
+// Handle Multipart form data
+//
+//extension APIManager {
+//    func upload<T: Decodable> (
+//        modelType: T.Type,
+//        type: APIEndpointType,
+//        parameters: [String: String] = [:],
+//        files: [String: Data] = [:],
+//        completion: @escaping ResultHandler<T>
+//    ){
+//        
+//    }
+//}
