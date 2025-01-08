@@ -83,6 +83,8 @@ try{
         uploadFolder: '../../uploads',
         filenamePrefix: 'postphoto',
       });
+      
+      console.log('Uploaded photo URL:', photoUrl);
 
       const { petName, fee, gender, petType, petBreed, birthday, description, location, hasPhoto } = request.body;
 
@@ -92,6 +94,7 @@ try{
       }
 
       const finalPhotoUrl = photoUrl || '';
+      console.log('Final photo URL:', finalPhotoUrl);
 
 // Now use PostService to create the post and save the photo URL
   // Create the post using PostRepository directly

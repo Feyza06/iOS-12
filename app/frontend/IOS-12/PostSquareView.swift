@@ -14,18 +14,18 @@ struct PostSquareView: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .topTrailing) {
                 // Placeholder image or dynamic content
-                if post.photo {
+                if post.hasPhoto {
                     Image("petPlaceholder") // Replace with actual image handling if available
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 120, height: 120)
+                        .frame(width: 150, height: 140)
                         .clipped()
                         .cornerRadius(15)
                 } else {
                     ZStack {
                         Rectangle()
                             .fill(Color.gray.opacity(0.3))
-                            .frame(width: 150, height: 160)
+                            .frame(width: 150, height: 140)
                             .cornerRadius(15)
 
                         // Inner light gray rectangle
@@ -39,7 +39,7 @@ struct PostSquareView: View {
                 // Heart button
                 Circle()
                     .fill(Color.white)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 30, height: 30)
                     .overlay(
                         Image(systemName: isLiked ? "heart.fill" : "heart")
                             .foregroundColor(.red)
@@ -57,7 +57,7 @@ struct PostSquareView: View {
                 .foregroundColor(.white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(Color.red)
+                .background(Color.orange)
                 .cornerRadius(10)
                 .padding(.top, 5)
                 .padding(.leading, 10)
@@ -65,7 +65,7 @@ struct PostSquareView: View {
             // Pet Name
             Text(post.petName)
                 .font(.headline)
-                .foregroundColor(.black)
+                .foregroundColor(.primaryColor)
                 .padding(.top, 5)
                 .padding(.leading, 10)
 
@@ -74,7 +74,7 @@ struct PostSquareView: View {
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .padding(.leading, 10)
-                .padding(.bottom, 10)
+                .padding(.bottom, 30)
         }
         .frame(width: 170, height: 260)
         .background(Color.white)
@@ -95,10 +95,11 @@ struct PostSquareView: View {
 //            birthday: "2012-12-12", // Use string representation
 //            description: "A friendly dog",
 //            location: "New York",
-//            photo: false,
+//            hasPhoto: false,
+//            photo: "x",
 //            status: "available",
-//            createdAt: "2012-12-12", // Use string representation
-//            userId: "1"
+//            createdAt: "2012-12-12" // Use string representation
+//           // userId: "1"
 //        )
 //
 //        PostSquareView(post: samplePost)
@@ -106,3 +107,94 @@ struct PostSquareView: View {
 //            .padding()
 //    }
 //}
+
+
+struct PostsGridView: View {
+    let posts: [PostResponse] // Array of posts to display
+
+    var body: some View {
+        let columns = [
+            GridItem(.flexible(), spacing: 16),
+            GridItem(.flexible(), spacing: 16)
+        ]
+
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(posts, id: \.id) { post in
+                    PostSquareView(post: post)
+                }
+            }
+            .padding(16) // Add padding around the grid
+        }
+    }
+}
+
+struct PostsGridView_Previews: PreviewProvider {
+    static var previews: some View {
+        let samplePosts = [
+            PostResponse(
+                id: 1,
+                petName: "Buddy",
+                fee: 20,
+                gender: "Male",
+                petType: "Dog",
+                petBreed: "Golden Retriever",
+                birthday: "2012-12-12",
+                description: "A friendly dog",
+                location: "New York",
+                hasPhoto: false,
+                photo: "x",
+                status: "available",
+                createdAt: "2012-12-12"
+            ),
+            PostResponse(
+                id: 2,
+                petName: "Mittens",
+                fee: 10,
+                gender: "Female",
+                petType: "Cat",
+                petBreed: "Siamese",
+                birthday: "2015-05-01",
+                description: "A cuddly cat",
+                location: "Los Angeles",
+                hasPhoto: false,
+                photo: "x",
+                status: "available",
+                createdAt: "2015-05-01"
+            ),
+            PostResponse(
+                id: 3,
+                petName: "Mittens",
+                fee: 10,
+                gender: "Female",
+                petType: "Cat",
+                petBreed: "Siamese",
+                birthday: "2015-05-01",
+                description: "A cuddly cat",
+                location: "Los Angeles",
+                hasPhoto: false,
+                photo: "x",
+                status: "available",
+                createdAt: "2015-05-01"
+            ),
+            PostResponse(
+                id: 4,
+                petName: "Mittens",
+                fee: 10,
+                gender: "Female",
+                petType: "Cat",
+                petBreed: "Siamese",
+                birthday: "2015-05-01",
+                description: "A cuddly cat",
+                location: "Los Angeles",
+                hasPhoto: false,
+                photo: "x",
+                status: "available",
+                createdAt: "2015-05-01"
+            )
+        ]
+
+        PostsGridView(posts: samplePosts)
+            .previewLayout(.sizeThatFits)
+    }
+}

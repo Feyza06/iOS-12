@@ -7,19 +7,25 @@
 
 import SwiftUI
 
-struct ErrorOverlay: View {
+struct MessageOverlay: View {
     @Binding var isVisible: Bool
     var message: String
+    var type: OverlayType
+    
+    enum OverlayType {
+        case success
+        case error
+    }
 
     var body: some View {
         if isVisible {
             VStack {
                 Spacer()
                 VStack(spacing: 16) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .font(.largeTitle)
-                        .foregroundColor(.yellow)
-                    
+                    Image(systemName: type == .success ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                                            .font(.largeTitle)
+                                            .foregroundColor(type == .success ? .green : .yellow)
+                                        
                     Text(message)
                         .font(.body)
                         .foregroundColor(.black)
@@ -30,12 +36,12 @@ struct ErrorOverlay: View {
                             isVisible = false
                         }
                     }) {
-                        Text("Dismiss")
+                        Text(type == .success ? "OK" : "Dismiss")
                             .font(.headline)
                             .foregroundColor(.white)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.red)
+                            .background(type == .success ? Color.green : Color.red)
                             .cornerRadius(10)
                     }
                 }
@@ -53,11 +59,17 @@ struct ErrorOverlay: View {
     }
     
 }
-struct ErrorOverlay_Previews: PreviewProvider {
+struct MessageOverlay_Previews: PreviewProvider {
     static var previews: some View {
         
-        ErrorOverlay(isVisible: .constant(true), message: "An Error occured, please try again!")
-            .previewLayout(.sizeThatFits)
-            .padding()
+         //Error Example
+                    MessageOverlay(isVisible: .constant(true), message: "An Error occurred, please try again!", type: .error)
+                        .previewLayout(.sizeThatFits)
+                        .padding()
+                    
+                    // Success Example
+                    MessageOverlay(isVisible: .constant(true), message: "Operation completed successfully!", type: .success)
+                        .previewLayout(.sizeThatFits)
+                        .padding()
     }
 }

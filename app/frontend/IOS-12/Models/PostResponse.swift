@@ -22,10 +22,10 @@ struct PostResponse: Codable, Identifiable {
     let birthday: String // date
     let description: String
     let location: String
-    let hasPhoto: String?
-    let photo: Bool
+    let hasPhoto: Bool
+    let photo: String?
     let status: String
     let createdAt: String // date
-    let userId: String
+   // let userId: String
     
 }

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950F972D07355A00CFDB3D /* PetInformationView.swift */; };
-		6D950FAB2D0C7DA900CFDB3D /* ErrorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D950FAA2D0C7D9500CFDB3D /* ErrorOverlay.swift */; };
 		6D9510042D0C87CB00CFDB3D /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 6D9510032D0C87CB00CFDB3D /* JWTDecode */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 /* Begin PBXFileReference section */
 		6D950F972D07355A00CFDB3D /* PetInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetInformationView.swift; sourceTree = "<group>"; };
 		6D950FA72D0C768100CFDB3D /* DistanceCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceCalculator.swift; sourceTree = "<group>"; };
-		6D950FAA2D0C7D9500CFDB3D /* ErrorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorOverlay.swift; sourceTree = "<group>"; };
 		6DF94EF32CD1006800CF6393 /* IOS-12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-12.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F032CD1006B00CF6393 /* IOS-12Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF94F0D2CD1006B00CF6393 /* IOS-12UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IOS-12UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,7 +98,6 @@
 		6DF94EEA2CD1006800CF6393 = {
 			isa = PBXGroup;
 			children = (
-				6D950FAA2D0C7D9500CFDB3D /* ErrorOverlay.swift */,
 				6D950FA62D0C767900CFDB3D /* Helpers */,
 				6D950F972D07355A00CFDB3D /* PetInformationView.swift */,
 				6DF94EF52CD1006800CF6393 /* IOS-12 */,
@@ -269,7 +266,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D950FAB2D0C7DA900CFDB3D /* ErrorOverlay.swift in Sources */,
 				6D950F982D07356200CFDB3D /* PetInformationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -43,7 +43,7 @@ export class Post extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
     default: null
   })
   photo?: string | null;;
@@ -63,13 +63,15 @@ export class Post extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
+    default: 'active',
   })
   status: string;
 
   @property({
     type: 'date',
-    required: true,
+    required: false,
+
   })
   createdAt: string;
 
