@@ -14,13 +14,18 @@ struct PostSquareView: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .topTrailing) {
                 // Placeholder image or dynamic content
-                if post.hasPhoto {
-                    Image("petPlaceholder") // Replace with actual image handling if available
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 150, height: 140)
-                        .clipped()
-                        .cornerRadius(15)
+                if let photoPath = post.photo,
+                   let imageUrl = URL(string: "http://127.0.0.1:3000" + photoPath),
+                   post.hasPhoto{
+                    AsyncImage(url: imageUrl) { image in image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Color.gray.opacity(0.3)
+                    }
+                    .frame(width: 150, height: 140)
+                    .clipped()
+                    .cornerRadius(15)
                 } else {
                     ZStack {
                         Rectangle()

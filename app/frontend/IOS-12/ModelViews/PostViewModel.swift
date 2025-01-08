@@ -16,15 +16,10 @@ class PostViewModel: ObservableObject {
     @Published var uploadedPost: PostResponse?
     @Published var isLoading = false
     @Published var posts: [PostResponse] = []
-    @Published var filteredPosts: [PostResponse] = []
-    @Published var selectedPetType: String? = nil
+    @Published var filteredPosts: [PostResponse] = [] 
+   // @Published var filteredPosts: [PostResponse] = []
+    //@Published var selectedPetType: String? = nil
     
-    
-    // Image Handling States
-    //@Published var image: UIImage?
-    //@Published var isImagePickerPresented = false
-    //@Published var showActionSheet = false
-    //@Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
     func uploadPost(
         postRequest: PostRequest,
@@ -64,4 +59,41 @@ class PostViewModel: ObservableObject {
             }
         }
     }
+    
+    
+    func getPosts(){
+        
+        let endpoint = GetPostsEndpoint()
+        
+        isUploading = true
+        errorMessage = nil
+        
+        APIManager.shared.request(
+            modelType: [PostResponse].self,
+            type: endpoint)
+        {[weak self] result in
+            DispatchQueue.main.async {
+                self?.isUploading = false
+                switch result{
+                case .success(let posts):
+                    print("Fetched posts: \(posts)")
+                    self?.posts = posts
+                case.failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                    print("Error fetching posts: \(error.localizedDescription)")
+                }
+            
+            }
+            
+        }
+        
+        
+        
+        
+    }
+
+    
 }
+
+
+

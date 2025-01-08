@@ -18,7 +18,8 @@ struct MainView: View {
     
     @State private var showPostPetView: Bool = false
     
-    @State private var filteredPosts: [PostResponse] = []
+   // @State private var filteredPosts: [PostResponse] = []
+    
     
     let mockPosts = [
         PostResponse(
@@ -70,91 +71,39 @@ struct MainView: View {
     
     var body: some View {
         VStack {
-            // Title
-            HStack {
-                Image(systemName: "house.fill") // House icon
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 28, height: 28)
-                    .foregroundColor(.primaryColor)
-                
-                Text("Pet Adoption")
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(.primaryColor)
-                    .padding(.leading, 8)
-                
-                Spacer()
-            }
-            .padding(.top, 10)
-            .padding(.leading, 16)
-            .padding(.bottom, 10)
+            titleView()
             
             
-            // Scrollable row
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 16) {
-                    Button(action: {
-                        selectedPetType = "All"
-                        filteredPosts = mockPosts // Show all posts
-                    }) {
-                       Text("All")
-                           .font(.system(size: 16, weight: .medium))
-                           .foregroundColor(selectedPetType == "All" ? .white : .orange)
-                           .padding(.horizontal, 16)
-                           .padding(.vertical, 8)
-                           .background(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(selectedPetType == "All" ? Color.orange : Color.white)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 20)
-                                                    .stroke(Color.orange, lineWidth: 2)))
-                        }
-
-                    
-                    // Pet type buttons
-                    ForEach(["Dog", "Cat", "Rabbit", "Bird", "Other"], id: \.self) { petType in
-                        Button(action: {
-                            selectedPetType = petType
-                            filteredPosts = mockPosts.filter { $0.petType.lowercased() == petType.lowercased() }
-                        }) {
-                            Text(petType)
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(selectedPetType == petType ? .white : .orange)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(selectedPetType == petType ? Color.orange : Color.white)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .stroke(Color.orange, lineWidth: 2)
-                                        )
-                                )
-                        }
-                    }
-                }
-                .padding(.horizontal, 16)
-            }
-            .padding(.top, 10)
-            // Divider
+           petTypeScrollView()
+           
             Divider()
                 .background(Color.gray) // Line color
                 .padding(.horizontal, 16)
             
-            // Posts Grid View
-            ScrollView {
-                VStack{
-                    PostsGridView(posts: filteredPosts)
-                        .padding(.horizontal, 16)
-                    
-                }
-                .padding(.top, 5)
-                .padding(.bottom, 10)
+            
+            if postViewModel.isUploading {
+                ProgressView("Loading posts...")
+                    .padding(.top, 20)
+            } else if !postViewModel.posts.isEmpty{
+                ScrollView {
+                                  VStack {
+                                      PostsGridView(posts: postViewModel.filteredPosts)
+                                          .padding(.horizontal, 16)
+                                  }
+                                  .padding(.top, 5)
+                                  .padding(.bottom, 10)
+                              }
+            } else if let errorMessage = postViewModel.errorMessage {
+                Text("Error: \(errorMessage)")
+                    .foregroundColor(.red)
+                    .padding()
+            } else {
+                Text("No posts available")
+                    .padding()
             }
+
+            Spacer()
             
-            Spacer() // Placeholder for remaining content
-            
-            // CustomTabBar
             CustomTabBar(selectedTab: $selectedTab, showPostPetView: $showPostPetView)
         }
         .background(Color.white)
@@ -165,8 +114,7 @@ struct MainView: View {
             }
         )
         .onAppear {
-            // Set initial filtered posts to all
-            filteredPosts = mockPosts
+            postViewModel.getPosts()
         }
         .fullScreenCover(isPresented: $showPostPetView) {
             PostPetView()
@@ -174,7 +122,80 @@ struct MainView: View {
         
     }
     
+    @ViewBuilder
+    private func titleView() -> some View {
+        HStack {
+            Image(systemName: "house.fill") // House icon
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28, height: 28)
+                .foregroundColor(.primaryColor)
+            
+            Text("Pet Adoption")
+                .font(.system(size: 28, weight: .bold))
+                .foregroundColor(.primaryColor)
+                .padding(.leading, 8)
+            
+            Spacer()
+        }
+        .padding(.top, 10)
+        .padding(.leading, 16)
+        .padding(.bottom, 10)
+    }
+    
+    
+    // Extracted Scrollable Row View
+    @ViewBuilder
+    private func petTypeScrollView() -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                Button(action: {
+                    selectedPetType = "All"
+                    postViewModel.filteredPosts = postViewModel.posts // Show all posts
+                }) {
+                   Text("All")
+                       .font(.system(size: 16, weight: .medium))
+                       .foregroundColor(selectedPetType == "All" ? .white : .orange)
+                       .padding(.horizontal, 16)
+                       .padding(.vertical, 8)
+                       .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(selectedPetType == "All" ? Color.orange : Color.white)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                                .stroke(Color.orange, lineWidth: 2)))
+                }
+
+                // Pet type buttons
+                ForEach(["Dog", "Cat", "Rabbit", "Birds", "Other"], id: \.self) { petType in
+                    Button(action: {
+                        selectedPetType = petType
+                        postViewModel.filteredPosts = postViewModel.posts.filter { $0.petType.lowercased() == petType.lowercased() }
+                    }) {
+                        Text(petType)
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(selectedPetType == petType ? .white : .orange)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(selectedPetType == petType ? Color.orange : Color.white)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.orange, lineWidth: 2)
+                                    )
+                            )
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+        }
+        .padding(.top, 10)
+    }
+    
 }
+
+
 
 extension MainView {
     var logoutButton: some View {
