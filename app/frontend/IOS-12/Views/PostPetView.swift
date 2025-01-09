@@ -16,6 +16,8 @@ import CoreLocation
 struct PostPetView: View {
     @StateObject private var appState = AppState()
     
+    @State private var showMapSection = false
+    
     // Pet details
     @State private var petName = ""
     @State private var gender = true // true = Male, false = Female
@@ -115,30 +117,58 @@ struct PostPetView: View {
                         }
                         
                         
+//                        // Map Section
+//                        Section(header: Text("Enter Address").font(.headline)) {
+//                            VStack {
+//                                TextField("Enter address", text: $addressString)
+//                                    .onChange(of: addressString) { newValue in
+//                                        lookupAddress(for: newValue)
+//                                    }
+//                                    .padding()
+//                                    .background(Color.white)
+//                                    .cornerRadius(10)
+//                                    .shadow(radius: 5)
+//                                
+//                                ZStack {
+//                                    Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
+//                                        .frame(height: 300)
+//                                        .cornerRadius(15)
+//                                        .shadow(radius: 5)
+//                                    Image(systemName: "mappin.circle.fill")
+//                                        .foregroundColor(.red)
+//                                        .font(.largeTitle)
+//                                        .offset(y: -15)
+//                                }
+//                            }
+//                        }
+                        
                         // Map Section
-                        Section(header: Text("Enter Address").font(.headline)) {
-                            VStack {
-                                TextField("Enter address", text: $addressString)
-                                    .onChange(of: addressString) { newValue in
-                                        lookupAddress(for: newValue)
-                                    }
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 5)
-                                
-                                ZStack {
-                                    Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
-                                        .frame(height: 300)
-                                        .cornerRadius(15)
-                                        .shadow(radius: 5)
-                                    Image(systemName: "mappin.circle.fill")
-                                        .foregroundColor(.red)
-                                        .font(.largeTitle)
-                                        .offset(y: -15)
-                                }
-                            }
+                        
+                        VStack {
+                                 
+                        Button(action: { showMapSection.toggle()
+                        }) { Text("Enter Address")
+                                .fontWeight(.bold)
+                                .padding()
+                                .frame(width: 300)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
+                        .padding()
+
+                        if showMapSection {
+                            Section() { MapViewContainer()
+                                              .frame(height: 300)
+                                              .cornerRadius(15)
+                                              .shadow(radius: 5)
+                                              .padding()
+                        }}
+                            
+                        Spacer()
+                            
+                        }
+                        .padding()
                         
                         // Post Button
                         Button(action: {

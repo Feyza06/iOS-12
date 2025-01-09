@@ -92,6 +92,7 @@ struct GetPostsEndpoint: APIEndpointType {
              let token = String(data: tokenData, encoding: .utf8) {
               defaultHeaders["Authorization"] = "Bearer \(token)"
               print("tokenData: \(tokenData)")
+              print("token: \(token)")
           }
        // defaultHeaders["Content-Type"] = "application/json"
 
