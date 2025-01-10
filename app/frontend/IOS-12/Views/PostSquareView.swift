@@ -127,7 +127,9 @@ struct PostsGridView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(posts, id: \.id) { post in
-                    PostSquareView(post: post)
+                    NavigationLink(destination:  PetDetailView(post: post)){
+                        PostSquareView(post: post)
+                    }
                 }
             }
             .padding(16) // Add padding around the grid

@@ -40,6 +40,7 @@ struct MapView: UIViewRepresentable {
 struct MapViewContainer: View {
     
     @StateObject private var locationManager = LocationManager()
+    @Binding var addressString: String
     
     var body: some View {
        
@@ -54,6 +55,7 @@ struct MapViewContainer: View {
                               .background(Color.white)
                               .cornerRadius(8)
                               .shadow(radius: 2)
+                             .frame(width: 200)
                           
                           Button(action: {
                               locationManager.geocodeAddress() // Geocode and update map
@@ -64,6 +66,24 @@ struct MapViewContainer: View {
                                      .foregroundColor(.white)
                                      .cornerRadius(8)
                           }
+                          
+                          Button(action: {
+                              // saveAddress() // Save the address
+                              addressString = locationManager.enteredAddress
+                          }) {
+                              HStack {
+                                  Image(systemName: "checkmark") // SF Symbol for a "done" checkmark icon
+                                      .font(.system(size: 18)) // Adjust size if needed
+                                 
+                              }
+                              .padding()
+                              //.frame(height: 44)
+                              .background(Color.primaryColor)
+                              .foregroundColor(.white)
+                              .cornerRadius(8)
+                          }
+                          
+                       
                       }
                       .padding()
             
@@ -113,8 +133,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 }
 
 
-struct MapView_Previews: PreviewProvider {
-    static var previews: some View {
-        MapViewContainer()
-    }
-}
+//struct MapView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MapViewContainer()
+//    }
+//}

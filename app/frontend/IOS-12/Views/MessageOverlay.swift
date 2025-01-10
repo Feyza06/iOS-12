@@ -11,6 +11,7 @@ struct MessageOverlay: View {
     @Binding var isVisible: Bool
     var message: String
     var type: OverlayType
+    var onSuccess: (() -> Void)? // closure to handle success navigation
     
     enum OverlayType {
         case success
@@ -34,6 +35,9 @@ struct MessageOverlay: View {
                     Button(action: {
                         withAnimation {
                             isVisible = false
+                            if type == .success{
+                                onSuccess?()
+                            }
                         }
                     }) {
                         Text(type == .success ? "OK" : "Dismiss")
@@ -63,13 +67,13 @@ struct MessageOverlay_Previews: PreviewProvider {
     static var previews: some View {
         
          //Error Example
-                    MessageOverlay(isVisible: .constant(true), message: "An Error occurred, please try again!", type: .error)
-                        .previewLayout(.sizeThatFits)
-                        .padding()
+//                    MessageOverlay(isVisible: .constant(true), message: "An Error occurred, please try again!", type: .error)
+//                       // .previewLayout(.sizeThatFits)
+//                        .padding()
                     
                     // Success Example
                     MessageOverlay(isVisible: .constant(true), message: "Operation completed successfully!", type: .success)
-                        .previewLayout(.sizeThatFits)
+                        //.previewLayout(.sizeThatFits)
                         .padding()
     }
 }

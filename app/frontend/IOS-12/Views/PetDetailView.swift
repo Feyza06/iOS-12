@@ -15,7 +15,8 @@ struct PetDetailView: View {
     @State private var isFullScreen: Bool = false
     @State private var selectedImage: String = ""
     
-    let pet: Pet
+    //let pet: Pet
+    let post: PostResponse
     
     private var trailingView: some View {
         Image(systemName: isFavorite ? "heart.fill" : "heart")
@@ -31,39 +32,39 @@ struct PetDetailView: View {
     var body: some View {
         VStack {
             ScrollView(.vertical) {
-                ZStack(alignment: Alignment.bottom) {
-                    // Image Carousel with Tap to View Full-Screen
-                    TabView(selection: $currentIndex) {
-                        ForEach(0..<pet.images.count, id: \.self) { index in
-                            Image(pet.images[index])
-                                .resizable()
-                                .scaledToFill()
-                                .onTapGesture {
-                                    selectedImage = pet.images[index]
-                                    isFullScreen = true
-                                }
-                                .tag(index)
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-                    .frame(height: 355)
-                }
-                .frame(height: 355, alignment: .center)
+//                ZStack(alignment: Alignment.bottom) {
+//                    // Image Carousel with Tap to View Full-Screen
+//                    TabView(selection: $currentIndex) {
+//                        ForEach(0..<post.images.count, id: \.self) { index in
+//                            Image(post.images[index])
+//                                .resizable()
+//                                .scaledToFill()
+//                                .onTapGesture {
+//                                    selectedImage = post.images[index]
+//                                    isFullScreen = true
+//                                }
+//                                .tag(index)
+//                        }
+//                    }
+//                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+//                    .frame(height: 355)
+//                }
+//                .frame(height: 355, alignment: .center)
                 
                 // Pet Details Section
                 HStack(spacing: 20) {
-                    BoxDetailView(title: "Age", description: "\(pet.age) Months")
-                    BoxDetailView(title: "Weight", description: String(format: "%.1f kg", pet.weight))
-                    BoxDetailView(title: "Sex", description: pet.gender.rawValue.capitalized)
+                    BoxDetailView(title: "Age", description: " x Months")
+                    BoxDetailView(title: "Weight", description: String(format: "%.1f kg"))
+                    BoxDetailView(title: "Sex", description: "gen")
                 }
                 .padding(.top, 10)
                 
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
-                        Text(pet.name)
+                        Text("Name")
                             .font(.system(size: 18, weight: .medium))
                         Spacer()
-                        Text(pet.breed.name)
+                        Text("Breed")
                             .font(.system(size: 18, weight: .regular))
                     }
                     .padding(.top)
@@ -81,7 +82,7 @@ struct PetDetailView: View {
                         .font(.system(size: 18, weight: .medium))
                         .padding(.top, 10)
                     
-                    Text(pet.description)
+                    Text(post.description)
                         .font(.system(size: 16, weight: .regular))
                         .lineSpacing(5)
                 }
@@ -144,15 +145,39 @@ struct BoxDetailView: View {
     }
 }
 
-struct PetDetailPreview: PreviewProvider {
-    
+//struct PetDetailPreview: PreviewProvider {
+//    
+//    static var previews: some View {
+//        NavigationView {
+//            if let pet = PetData.dogs.first {
+//                PetDetailView(post: PostResponse)
+//            } else {
+//                Text("No pets available")
+//            }
+//        }
+//    }
+//}
+
+struct PetDetailView_Previews: PreviewProvider {
     static var previews: some View {
+        let samplePost = PostResponse(
+            id: 1,
+            petName: "Buddy",
+            fee: 20,
+            gender: "Male",
+            petType: "Dog",
+            petBreed: "Golden Retriever",
+            birthday: "2012-12-12",
+            description: "A friendly dog looking for a home.",
+            location: "New York",
+            hasPhoto: false,
+            photo: nil,
+            status: "available",
+            createdAt: "2022-12-12"
+        )
+        
         NavigationView {
-            if let pet = PetData.dogs.first {
-                PetDetailView(pet: pet)
-            } else {
-                Text("No pets available")
-            }
+            PetDetailView(post: samplePost)
         }
     }
 }

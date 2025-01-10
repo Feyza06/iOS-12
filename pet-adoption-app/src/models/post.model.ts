@@ -87,6 +87,9 @@ export class Post extends Entity {
   })
   fee: number;
 
+  
+
+
   @belongsTo(() => User) // This indicates that each Post belongs to a User
   userId: string;
 
