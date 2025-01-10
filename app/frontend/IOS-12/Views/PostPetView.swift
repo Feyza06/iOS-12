@@ -234,6 +234,13 @@ struct PostPetView: View {
                                 return
                             }
                             
+                            // Fetch the userId from Keychain
+                            guard let userIdData = KeychainHelper.standard.read(service: "userService", account: "userId"),
+                                  let userId = String(data: userIdData, encoding: .utf8) else {
+                                print("Error: userId not found in Keychain")
+                                return
+                            }
+                            
                             viewModel.uploadPost(
                                 postRequest: PostRequest(
                                     petName: petName,
@@ -244,7 +251,8 @@ struct PostPetView: View {
                                     birthday: birthday,
                                     description: description,
                                     location: addressString,
-                                    hasPhoto: inputImage != nil
+                                    hasPhoto: inputImage != nil,
+                                    userId: userId 
                                 ),
                                 photo: inputImage
                                 

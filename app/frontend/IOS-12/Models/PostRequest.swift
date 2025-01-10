@@ -18,5 +18,6 @@ struct PostRequest: Codable {
     let description: String
     let location: String
     let hasPhoto: Bool
+    let userId: String 
 }
 

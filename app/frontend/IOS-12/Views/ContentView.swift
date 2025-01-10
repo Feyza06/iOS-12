@@ -21,7 +21,7 @@ struct ContentView: View {
             if appState.isLoggedIn {
                 // User is logged in; show the main content of the app.
                 NavigationView {
-                    MainView()
+                    Home()
                         .environmentObject(appState) // Pass down the app state to child views.
                 }
             } else {

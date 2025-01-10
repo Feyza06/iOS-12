@@ -26,6 +26,6 @@ struct PostResponse: Codable, Identifiable {
     let photo: String?
     let status: String
     let createdAt: String // date
-   // let userId: String
+    let userId: String
     
 }
