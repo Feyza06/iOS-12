@@ -12,37 +12,27 @@ struct FavoritesView: View {
     @EnvironmentObject var appState: AppState
     
     
-    @State private var selectedTab: CustomTabBar.Tab = .favorite
-    @State private var showPostPetView: Bool = false
+    @Binding  var selectedTab: CustomTabBar.Tab
+    @Binding  var showPostPetView: Bool
     
     var body: some View {
-        VStack {
-            
-            
-            Spacer()
-            
-            CustomTabBar(selectedTab: $selectedTab, showPostPetView: $showPostPetView)
-            
-        }
-        
-        
-        
+        Text("Favorties View")
         
         
     }
     
     
-    
 }
+    
     
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
-            
-            
-    NavigationView {
-        FavoritesView()
-            .environmentObject(AppState())
+        
+        
+        NavigationView {
+            FavoritesView(selectedTab: .constant(.favorite), showPostPetView: .constant(false))
+               }
     }
-        }
 }
+    
 

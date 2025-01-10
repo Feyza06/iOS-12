@@ -104,15 +104,10 @@ struct MainView: View {
 
             Spacer()
             
-            CustomTabBar(selectedTab: $selectedTab, showPostPetView: $showPostPetView)
+//            CustomTabBar(selectedTab: $selectedTab, showPostPetView: $showPostPetView)
         }
         .background(Color.white)
         .navigationBarTitle("", displayMode: .inline)
-        .navigationBarItems(
-            trailing: HStack(spacing: 16) {
-                logoutButton
-            }
-        )
         .onAppear {
             postViewModel.getPosts()
         }
@@ -197,18 +192,7 @@ struct MainView: View {
 
 
 
-extension MainView {
-    var logoutButton: some View {
-        Button(action: {
-            // Logout action
-            appState.isLoggedIn = false
-            KeychainHelper.standard.delete(service: KeychainKeys.service, account: KeychainKeys.authToken)
-        }) {
-            Image(systemName: "power")
-                .foregroundColor(.red)
-        }
-    }
-}
+
 
 
 struct MainView_Previews: PreviewProvider {
