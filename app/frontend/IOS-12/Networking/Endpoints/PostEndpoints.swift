@@ -57,7 +57,8 @@ struct UploadPostEndpoint: APIEndpointType, CustomURLRequestConvertible {
                     "birthday": ISO8601DateFormatter().string(from: postRequest.birthday),
                     "description": postRequest.description,
                     "location": postRequest.location,
-                    "hasPhoto": photo != nil ? "true" : "false"
+                    "hasPhoto": photo != nil ? "true" : "false",
+                    "userId": postRequest.userId
                 ]
         
         // create the multipart request

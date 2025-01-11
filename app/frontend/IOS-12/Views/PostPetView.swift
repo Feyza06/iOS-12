@@ -14,7 +14,7 @@ import CoreLocation
 
 
 struct PostPetView: View {
-    @StateObject private var appState = AppState()
+    @EnvironmentObject var appState: AppState
     
     // MARK: - Pet Details
     @State private var petName = ""
@@ -234,12 +234,15 @@ struct PostPetView: View {
                                 return
                             }
                             
-                            // Fetch the userId from Keychain
-                            guard let userIdData = KeychainHelper.standard.read(service: "userService", account: "userId"),
-                                  let userId = String(data: userIdData, encoding: .utf8) else {
-                                print("Error: userId not found in Keychain")
+                            // Fetch the userId from appState
+                            guard let userId = appState.userId else {
+                                print("Error: userId not found in AppState")
                                 return
                             }
+                            
+                            // Print the userId to the console
+                                print("Fetched userId: \(userId)")
+
                             
                             viewModel.uploadPost(
                                 postRequest: PostRequest(
@@ -252,7 +255,7 @@ struct PostPetView: View {
                                     description: description,
                                     location: addressString,
                                     hasPhoto: inputImage != nil,
-                                    userId: userId 
+                                    userId: String(userId)
                                 ),
                                 photo: inputImage
                                 

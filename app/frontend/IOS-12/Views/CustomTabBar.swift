@@ -12,8 +12,6 @@ struct CustomTabBar: View {
     @Binding var showPostPetView: Bool
     @Binding var showConversationsView: Bool
 
-    @Binding var showPostPetView: Bool
-
     enum Tab: CaseIterable {
         case home, favorite, addPost, message, profile
 

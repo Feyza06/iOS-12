@@ -15,6 +15,8 @@ struct PetDetailView: View {
     @State private var isFullScreen: Bool = false
     @State private var selectedImage: String = ""
     
+    @EnvironmentObject var appState: AppState
+    
     //let pet: Pet
     let post: PostResponse
     
@@ -90,8 +92,16 @@ struct PetDetailView: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+            // Action buttons
             HStack {
-                Button(action: {}) {
+                NavigationLink(
+                    destination: ChatView(
+                        currentUserId: appState.userId ?? 0, // Current user
+                        otherUserId: Int(post.userId) ?? 0,  // Post owner
+                        otherUsername: post.petName,         // Display name in chat
+                        postId: post.id                      // Pass post ID for context
+                    )
+                ) {
                     HStack {
                         Image("paw")
                         Text("Adopt")
@@ -103,8 +113,10 @@ struct PetDetailView: View {
                     .background(Color.primaryColor)
                     .cornerRadius(15)
                 }
-                
-                Button(action: {}) {
+
+                Button(action: {
+                    // Optional: Phone action for contacting directly
+                }) {
                     Image(systemName: "phone.fill")
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
