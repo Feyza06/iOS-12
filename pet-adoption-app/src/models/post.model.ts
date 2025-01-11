@@ -32,13 +32,21 @@ export class Post extends Entity {
     type: 'string',
     required: true,
   })
-  gender: boolean;
+  gender: string;
 
   @property({
     type: 'boolean',
     required: true,
+    default: false,
   })
-  photo: string;
+  hasPhoto: boolean;
+
+  @property({
+    type: 'string',
+    required: false,
+    default: null
+  })
+  photo?: string | null;;
 
   @property({
     type: 'string',
@@ -50,19 +58,37 @@ export class Post extends Entity {
     type: 'string',
     required: true,
   })
-  preferredHome: string;
+  location: string;
+
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
+    default: 'active',
   })
   status: string;
 
   @property({
     type: 'date',
-    required: true,
+    required: false,
+
   })
   createdAt: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  birthday: string;
+
+  @property({
+    type: 'number',
+    required: true, // Assuming fee is required for the post
+  })
+  fee: number;
+
+  
+
 
   @belongsTo(() => User) // This indicates that each Post belongs to a User
   userId: string;

@@ -1,3 +1,4 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -7,45 +8,123 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
+  Request,
   requestBody,
   response,
+  Response,
+  RestBindings
 } from '@loopback/rest';
+import fs from 'fs/promises';
+import {promisify} from 'util';
 import {Post} from '../models';
 import {PostRepository} from '../repositories';
+//import {PostService} from '../services/post-service';
+import {processSingleFileUpload} from '../utils/file-upload.helper';
+
+
+const writeFile = promisify(fs.writeFile);
+
 
 export class PostControllerController {
   constructor(
     @repository(PostRepository)
     public postRepository : PostRepository,
+    // @inject('services.PostService') //
+    // private postService: PostService,
   ) {}
 
+  // file uplaod and post creation
   @post('/posts')
   @response(200, {
-    description: 'Post model instance',
+    description: 'Post model instance with image',
     content: {'application/json': {schema: getModelSchemaRef(Post)}},
   })
   async create(
     @requestBody({
       content: {
-        'application/json': {
-          schema: getModelSchemaRef(Post, {
-            title: 'NewPost',
-            exclude: ['id'],
-          }),
+        'multipart/form-data': {
+          'x-parser': 'stream',
+         schema: {
+          type: 'object',
+          properties: {
+            petName: {type:'string'},
+            fee: {type: 'number'},
+            gender: {type: 'string'},
+            petType: {type: 'string'},
+            petBreed: {type: 'string'},
+            birthday: {type: 'string', format: 'date'},
+            description: {type: 'string'},
+            location: {type: 'string'},
+            hasPhoto: {type: 'boolean'},
+            photo: {type: 'string', format: 'binary'},
+            userId: {type: 'string'}
+          }
+         }
         },
       },
     })
-    post: Omit<Post, 'id'>,
+    request: Request,
+    @inject(RestBindings.Http.RESPONSE) response: Response,
+   // @inject(RestBindings.Http.REQUEST) httpRequest: Request
   ): Promise<Post> {
-    return this.postRepository.create(post);
+
+    //const userId = httpRequest.user.id;
+
+try{
+       // Process file upload (if any)
+       const photoUrl = await processSingleFileUpload(request, response, {
+        fieldName: 'photo',
+        uploadFolder: '../../uploads',
+        filenamePrefix: 'postphoto',
+      });
+
+      console.log('Uploaded photo URL:', photoUrl);
+
+      const { petName, fee, gender, petType, petBreed, birthday, description, location, hasPhoto, userId } = request.body;
+
+      // Validate required fields
+      if (!petName || !fee || !gender || !petType || !petBreed || !birthday || !description || !location) {
+        throw new Error('Missing required fields');
+      }
+
+      const finalPhotoUrl = photoUrl || '';
+      console.log('Final photo URL:', finalPhotoUrl);
+
+// Now use PostService to create the post and save the photo URL
+  // Create the post using PostRepository directly
+  const newPost = await this.postRepository.create({
+    petName,
+    fee,
+    gender,
+    petType,
+    petBreed,
+    birthday,
+    description,
+    location,
+    hasPhoto: hasPhoto === 'true', // Ensure boolean conversion
+    photo: finalPhotoUrl, // Pass the photo URL here
+    status: 'active', // Default status
+    createdAt: new Date().toISOString(),
+    userId // Automatically set createdAt to current date
+  });
+
+
+
+
+      return newPost;
+    } catch (error) {
+      // Handle errors as appropriate
+      throw error;
+    }
   }
+
 
   @get('/posts/count')
   @response(200, {

@@ -8,6 +8,18 @@
 import SwiftUI
 
 extension Color {
+    static let primaryColor = Color(hex: "#5B220D") ?? .black
+    static let primaryLight = Color(hex: "#FFB977") ?? .orange
+    static let darkText = Color.black
+    static let lightGrey = Color.gray
+    static let secondaryColor = Color.orange
+    static let secondaryDark = Color.brown
+    static let primaryYellow = Color.yellow
+    static let secondaryYellow = Color.orange
+}
+
+
+extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
@@ -33,3 +45,14 @@ extension Color {
     }
     
 }
+
+//extension Color {
+//    static let primaryColor = Color(hex: "#5B220D") ?? .black
+//    static let primaryLight = Color(hex: "#FFB977") ?? .orange
+//    static let darkText = Color.black
+//    static let lightGrey = Color.gray
+//    static let secondaryColor = Color.orange
+//    static let secondaryDark = Color.brown
+//    static let primaryYellow = Color.yellow
+//    static let secondaryYellow = Color.orange
+//}
