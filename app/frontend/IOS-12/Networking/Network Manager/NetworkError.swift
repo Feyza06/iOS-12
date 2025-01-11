@@ -15,6 +15,7 @@ enum NetworkError: LocalizedError {
     case network(URLError?)
     case decoding(DecodingError?)
     case serverError(statusCode: Int)
+    case unknown
     
     // Centralized user-friendly error description
     var errorDescription: String? {
@@ -49,7 +50,11 @@ enum NetworkError: LocalizedError {
             message = underlyingError?.localizedDescription ?? "Failed to decode the response."
         case .serverError(let statusCode):
             message = "A server error occurred with status code \(statusCode)."
+        case .unknown:
+            message = "An unknown error occured."
         }
+   
+        
         
         // Log the error message for debugging
         print("Error: \(message)")

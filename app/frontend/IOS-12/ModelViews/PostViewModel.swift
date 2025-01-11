@@ -25,7 +25,7 @@ class PostViewModel: ObservableObject {
         postRequest: PostRequest,
         photo: UIImage?,
         completion: @escaping (Result<PostResponse, NetworkError>) -> Void
-    ) {
+    )  {
         // Initialize the endpoint
         let endpoint = UploadPostEndpoint(postRequest: postRequest, photo: photo)
         
