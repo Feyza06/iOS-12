@@ -21,53 +21,53 @@ struct MainView: View {
    // @State private var filteredPosts: [PostResponse] = []
     
     
-    let mockPosts = [
-        PostResponse(
-            id: 1,
-            petName: "Buddy",
-            fee: 20,
-            gender: "Male",
-            petType: "Dog",
-            petBreed: "Golden Retriever",
-            birthday: "2012-12-12",
-            description: "A friendly dog",
-            location: "New York",
-            hasPhoto: false,
-            photo: "x",
-            status: "available",
-            createdAt: "2022-12-12"
-        ),
-        PostResponse(
-            id: 2,
-            petName: "Mittens",
-            fee: 10,
-            gender: "Female",
-            petType: "Cat",
-            petBreed: "Siamese",
-            birthday: "2015-05-01",
-            description: "A cuddly cat",
-            location: "Los Angeles",
-            hasPhoto: false,
-            photo: "x",
-            status: "available",
-            createdAt: "2023-05-01"
-        ),
-        PostResponse(
-            id: 3,
-            petName: "Fluffy",
-            fee: 15,
-            gender: "Female",
-            petType: "Rabbit",
-            petBreed: "Holland Lop",
-            birthday: "2018-01-01",
-            description: "A sweet rabbit",
-            location: "Chicago",
-            hasPhoto: false,
-            photo: "x",
-            status: "adopted",
-            createdAt: "2024-01-01"
-        )
-    ]
+//    let mockPosts = [
+//        PostResponse(
+//            id: 1,
+//            petName: "Buddy",
+//            fee: 20,
+//            gender: "Male",
+//            petType: "Dog",
+//            petBreed: "Golden Retriever",
+//            birthday: "2012-12-12",
+//            description: "A friendly dog",
+//            location: "New York",
+//            hasPhoto: false,
+//            photo: "x",
+//            status: "available",
+//            createdAt: "2022-12-12"
+//        ),
+//        PostResponse(
+//            id: 2,
+//            petName: "Mittens",
+//            fee: 10,
+//            gender: "Female",
+//            petType: "Cat",
+//            petBreed: "Siamese",
+//            birthday: "2015-05-01",
+//            description: "A cuddly cat",
+//            location: "Los Angeles",
+//            hasPhoto: false,
+//            photo: "x",
+//            status: "available",
+//            createdAt: "2023-05-01"
+//        ),
+//        PostResponse(
+//            id: 3,
+//            petName: "Fluffy",
+//            fee: 15,
+//            gender: "Female",
+//            petType: "Rabbit",
+//            petBreed: "Holland Lop",
+//            birthday: "2018-01-01",
+//            description: "A sweet rabbit",
+//            location: "Chicago",
+//            hasPhoto: false,
+//            photo: "x",
+//            status: "adopted",
+//            createdAt: "2024-01-01"
+//        )
+//    ]
     
     var body: some View {
         VStack {

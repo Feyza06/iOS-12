@@ -137,76 +137,76 @@ struct PostsGridView: View {
     }
 }
 
-struct PostsGridView_Previews: PreviewProvider {
-    static var previews: some View {
-        let samplePosts = [
-            PostResponse(
-                id: 1,
-                petName: "Buddy",
-                fee: 20,
-                gender: "Male",
-                petType: "Dog",
-                petBreed: "Golden Retriever",
-                birthday: "2012-12-12",
-                description: "A friendly dog",
-                location: "New York",
-                hasPhoto: false,
-                photo: "x",
-                status: "available",
-                createdAt: "2012-12-12"
-             //   userId:"1"
-            ),
-            PostResponse(
-                id: 2,
-                petName: "Mittens",
-                fee: 10,
-                gender: "Female",
-                petType: "Cat",
-                petBreed: "Siamese",
-                birthday: "2015-05-01",
-                description: "A cuddly cat",
-                location: "Los Angeles",
-                hasPhoto: false,
-                photo: "x",
-                status: "available",
-                createdAt: "2015-05-01"
-              //  userId:"1"
-            ),
-            PostResponse(
-                id: 3,
-                petName: "Mittens",
-                fee: 10,
-                gender: "Female",
-                petType: "Cat",
-                petBreed: "Siamese",
-                birthday: "2015-05-01",
-                description: "A cuddly cat",
-                location: "Los Angeles",
-                hasPhoto: false,
-                photo: "x",
-                status: "available",
-                createdAt: "2015-05-01"
-              //  userId:"1"
-            ),
-            PostResponse(
-                id: 4,
-                petName: "Mittens",
-                fee: 10,
-                gender: "Female",
-                petType: "Cat",
-                petBreed: "Siamese",
-                birthday: "2015-05-01",
-                description: "A cuddly cat",
-                location: "Los Angeles",
-                hasPhoto: false,
-                photo: "x",
-                status: "available",
-                createdAt: "2015-05-01"
-                //userId:"1"
-            )
-        ]
-
-        PostsGridView(posts: samplePosts)
-            .previewLayout(.sizeThatFits)
-    }
-}
+//struct PostsGridView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let samplePosts = [
+//            PostResponse(
+//                id: 1,
+//                petName: "Buddy",
+//                fee: 20,
+//                gender: "Male",
+//                petType: "Dog",
+//                petBreed: "Golden Retriever",
+//                birthday: "2012-12-12",
+//                description: "A friendly dog",
+//                location: "New York",
+//                hasPhoto: false,
+//                photo: "x",
+//                status: "available",
+//                createdAt: "2012-12-12"
+//             //   userId:"1"
+//            ),
+//            PostResponse(
+//                id: 2,
+//                petName: "Mittens",
+//                fee: 10,
+//                gender: "Female",
+//                petType: "Cat",
+//                petBreed: "Siamese",
+//                birthday: "2015-05-01",
+//                description: "A cuddly cat",
+//                location: "Los Angeles",
+//                hasPhoto: false,
+//                photo: "x",
+//                status: "available",
+//                createdAt: "2015-05-01"
+//              //  userId:"1"
+//            ),
+//            PostResponse(
+//                id: 3,
+//                petName: "Mittens",
+//                fee: 10,
+//                gender: "Female",
+//                petType: "Cat",
+//                petBreed: "Siamese",
+//                birthday: "2015-05-01",
+//                description: "A cuddly cat",
+//                location: "Los Angeles",
+//                hasPhoto: false,
+//                photo: "x",
+//                status: "available",
+//                createdAt: "2015-05-01"
+//              //  userId:"1"
+//            ),
+//            PostResponse(
+//                id: 4,
+//                petName: "Mittens",
+//                fee: 10,
+//                gender: "Female",
+//                petType: "Cat",
+//                petBreed: "Siamese",
+//                birthday: "2015-05-01",
+//                description: "A cuddly cat",
+//                location: "Los Angeles",
+//                hasPhoto: false,
+//                photo: "x",
+//                status: "available",
+//                createdAt: "2015-05-01"
+//                //userId:"1"
+//            )
+//        ]
+//
+//        PostsGridView(posts: samplePosts)
+//            .previewLayout(.sizeThatFits)
+//    }
+//}

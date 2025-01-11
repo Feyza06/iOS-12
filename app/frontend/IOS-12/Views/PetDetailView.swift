@@ -158,26 +158,26 @@ struct BoxDetailView: View {
 //    }
 //}
 
-struct PetDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        let samplePost = PostResponse(
-            id: 1,
-            petName: "Buddy",
-            fee: 20,
-            gender: "Male",
-            petType: "Dog",
-            petBreed: "Golden Retriever",
-            birthday: "2012-12-12",
-            description: "A friendly dog looking for a home.",
-            location: "New York",
-            hasPhoto: false,
-            photo: nil,
-            status: "available",
-            createdAt: "2022-12-12"
-        )
-        
-        NavigationView {
-            PetDetailView(post: samplePost)
-        }
-    }
-}
+//struct PetDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let samplePost = PostResponse(
+//            id: 1,
+//            petName: "Buddy",
+//            fee: 20,
+//            gender: "Male",
+//            petType: "Dog",
+//            petBreed: "Golden Retriever",
+//            birthday: "2012-12-12",
+//            description: "A friendly dog looking for a home.",
+//            location: "New York",
+//            hasPhoto: false,
+//            photo: nil,
+//            status: "available",
+//            createdAt: "2022-12-12"
+//        )
+//        
+//        NavigationView {
+//            PetDetailView(post: samplePost)
+//        }
+//    }
+//}

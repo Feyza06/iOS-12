@@ -64,6 +64,7 @@ export class PostControllerController {
             location: {type: 'string'},
             hasPhoto: {type: 'boolean'},
             photo: {type: 'string', format: 'binary'},
+            userId: {type: 'string'}
           }
          }
         },
@@ -83,10 +84,10 @@ try{
         uploadFolder: '../../uploads',
         filenamePrefix: 'postphoto',
       });
-      
+
       console.log('Uploaded photo URL:', photoUrl);
 
-      const { petName, fee, gender, petType, petBreed, birthday, description, location, hasPhoto } = request.body;
+      const { petName, fee, gender, petType, petBreed, birthday, description, location, hasPhoto, userId } = request.body;
 
       // Validate required fields
       if (!petName || !fee || !gender || !petType || !petBreed || !birthday || !description || !location) {
@@ -110,7 +111,8 @@ try{
     hasPhoto: hasPhoto === 'true', // Ensure boolean conversion
     photo: finalPhotoUrl, // Pass the photo URL here
     status: 'active', // Default status
-    createdAt: new Date().toISOString(), // Automatically set createdAt to current date
+    createdAt: new Date().toISOString(),
+    userId // Automatically set createdAt to current date
   });
 
 
