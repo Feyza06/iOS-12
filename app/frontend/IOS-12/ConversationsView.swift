@@ -38,7 +38,7 @@ struct ConversationsView: View {
                             currentUserId: appState.userId ?? 0,
                             otherUserId: convo.userId,
                             otherUsername: convo.username,
-                            postId: convo.postId
+                            postId: Int(convo.postId) ?? 0
                         )
                     ) {
                         HStack(spacing: 16) {

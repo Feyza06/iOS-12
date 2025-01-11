@@ -14,7 +14,7 @@ struct Conversation: Identifiable, Codable {
     let lastMessage: String
     let createdAt: String
     let photo: String?
-    let postId: Int 
+    let postId: String
 }
 
 class ConversationsViewModel: ObservableObject {
