@@ -45,9 +45,9 @@ struct MapViewContainer: View {
     var body: some View {
        
         VStack {
-            Text("Address")
-                .font(.headline)
-                .padding()
+//            Text("Address")
+//                .font(.headline)
+//                .padding()
           
                       HStack {
                           TextField("Enter Address", text: $locationManager.enteredAddress)
