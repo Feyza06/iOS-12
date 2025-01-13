@@ -132,7 +132,8 @@ struct PetDetailView: View {
                         Button(action: {
                             // Action to calculate or map the distance
                             showDistanceView = true
-                            print("Map Distance button tapped")
+                            print("Location passed to DistanceView: \(post.location)")
+
                         }) {
                             HStack {
                                 Image(systemName: "location.fill")
@@ -141,7 +142,7 @@ struct PetDetailView: View {
                                     .frame(width: 20, height: 20) // Adjust size
                                     .foregroundColor(.primaryColor) // Set color for the icon
                                 
-                                Text("Map Distance")
+                                Text("Route")
                                     .font(.system(size: 16, weight: .medium)) // Adjust font size and weight
                                     .foregroundColor(.primaryColor) // Set color for the text
                             }
@@ -150,9 +151,10 @@ struct PetDetailView: View {
                         .background(RoundedRectangle(cornerRadius: 10).fill(Color.white)) // Add rounded corners and background
                         .shadow(radius: 3)
                         .sheet(isPresented: $showDistanceView) {
-                            DistanceView()
+                            DistanceView(petName: post.petName, petType: post.petType, location: post.location)
                                 .environmentObject(AppState())
                         }
+
                         
                     }
                     .foregroundColor(.darkText)
@@ -170,6 +172,8 @@ struct PetDetailView: View {
                             postId: post.id                      // Pass post ID for context
                         )
                     ) {
+                        
+        
                         HStack {
                             Image("paw")
                             Text("Adopt")
@@ -266,7 +270,7 @@ struct PetDetailView: View {
                 petBreed: "Golden Retriever",
                 birthday: "2020-01-01",
                 description: "Buddy is a friendly and playful Golden Retriever looking for a loving home.",
-                location: "New York, USA",
+                location: "37.7749,-122.4194",
                 hasPhoto: true,
                 photo: "/uploads/1736588036486-postphoto.jpg", // Replace with actual image URL or nil
                 status: "Available",
