@@ -1,3 +1,4 @@
+
 //
 //  MapView.swift
 //  IOS-12
@@ -101,7 +102,8 @@ struct MapViewContainer: View {
 }
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    @Published var userLocation: CLLocationCoordinate2D?
+    @Published var currentLocation: CLLocation? // Fügt die fehlende Eigenschaft hinzu
+    @Published var userLocation: CLLocationCoordinate2D? // Bereits vorhanden
     @Published var enteredAddress: String = ""
     
     private let locationManager = CLLocationManager()
@@ -110,7 +112,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
     
@@ -130,7 +132,26 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
         }
     }
+    
+    func requestLocation() {
+           locationManager.requestLocation()
+       }
+    
+    
+    // CLLocationManagerDelegate
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else { return }
+        DispatchQueue.main.async {
+            self.currentLocation = location // Aktualisiert `currentLocation`
+            self.userLocation = location.coordinate // Aktualisiert `userLocation`
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to update location: \(error.localizedDescription)")
+    }
 }
+
 
 
 //struct MapView_Previews: PreviewProvider {
