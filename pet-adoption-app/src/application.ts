@@ -50,6 +50,9 @@ export class PetAdoptionAppApplication extends BootMixin(
     // Bind JWT secret key
     this.bind('authentication.jwt.secret').to(process.env.JWT_SECRET || 'best_pet_adoption_app_secret');
 
+    const host = process.env.HOST || '0.0.0.0';  // Default to '0.0.0.0' for external access
+    const port = process.env.PORT || 3000;
+
    // this.bind('services.PostService').to(PostService);
 
     this.projectRoot = __dirname;
