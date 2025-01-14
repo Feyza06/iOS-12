@@ -25,6 +25,10 @@ export class PetAdoptionAppApplication extends BootMixin(
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
+     // Bind host and port from environment variables
+     this.bind('rest.host').to(process.env.HOST || '0.0.0.0');
+     this.bind('rest.port').to(parseInt(process.env.PORT ?? '3000', 10));
+
     // Set up the custom sequence
     this.sequence(MySequence);
 
@@ -50,8 +54,14 @@ export class PetAdoptionAppApplication extends BootMixin(
     // Bind JWT secret key
     this.bind('authentication.jwt.secret').to(process.env.JWT_SECRET || 'best_pet_adoption_app_secret');
 
-    const host = process.env.HOST || '0.0.0.0';  // Default to '0.0.0.0' for external access
-    const port = process.env.PORT || 3000;
+    // const host = process.env.HOST || '0.0.0.0';  // Default to '0.0.0.0' for external access
+    // const port = process.env.PORT || 3000;
+
+    // console.log(`App is starting at http://${host}:${port}`);
+
+
+
+
 
    // this.bind('services.PostService').to(PostService);
 
