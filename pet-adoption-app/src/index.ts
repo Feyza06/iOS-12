@@ -19,10 +19,7 @@ export async function main(options: ApplicationConfig = {}) {
 
 
 
-
-
-  //const url = app.restServer.url;
-  const url = `http://${host}:${port}`;
+  const url = app.restServer.url;
   console.log(`Server is running at ${url}`);
   console.log(`Try ${url}/ping`);
 
