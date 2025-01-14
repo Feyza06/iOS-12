@@ -9,15 +9,8 @@ export async function main(options: ApplicationConfig = {}) {
   // Serve static files from the "uploads" folder
   app.static('/uploads', path.join(__dirname, '../uploads'));
 
-  const host =  '0.0.0.0';
-  const port = process.env.PORT || 3000;
-
-  console.log(`App is starting at http://${host}:${port}`);
-
   await app.boot();
   await app.start();
-
-
 
   const url = app.restServer.url;
   console.log(`Server is running at ${url}`);
@@ -31,7 +24,7 @@ if (require.main === module) {
   const config = {
     rest: {
       port: +(process.env.PORT ?? 3000),
-      host: '0.0.0.0',
+      host: process.env.HOST !== undefined ? process.env.HOST : '0.0.0.0',
       // The `gracePeriodForClose` provides a graceful close for http/https
       // servers with keep-alive clients. The default value is `Infinity`
       // (don't force-close). If you want to immediately destroy all sockets
